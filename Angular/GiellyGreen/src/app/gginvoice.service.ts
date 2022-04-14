@@ -13,8 +13,8 @@ export class GGInvoiceService {
   constructor(private http: HttpClient) { }
 
   getLoginStatus(username: any, password: any): Observable<unknown>{
-    let user = {username : username, password:password}
-    return this.http.post<unknown>(`http://3fb2-106-201-236-89.ngrok.io/api/Login`, user);
+    let user = {"Email" : username, "password":password}
+    return this.http.post<unknown>(`http://7cd1-106-201-236-89.ngrok.io/api/Login`, user);
   }
 
   getToken(username: any, password: any): Observable<unknown> {
@@ -26,6 +26,6 @@ export class GGInvoiceService {
     let RequestOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
-    return this.http.post<unknown>(`http://3fb2-106-201-236-89.ngrok.io/token`, body, RequestOptions);
+    return this.http.post<unknown>(`http://7cd1-106-201-236-89.ngrok.io/token`, body, RequestOptions);
   }
 }

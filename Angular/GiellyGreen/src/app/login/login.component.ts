@@ -13,39 +13,39 @@ import Swal from 'sweetalert2'
 })
 export class LoginComponent implements OnInit {
 
-  loginStatus:any;
+  loginStatus: any;
 
-  constructor(private fb: FormBuilder, private router: Router, private _gs: GGInvoiceService) {}
+  constructor(private fb: FormBuilder, private router: Router, private _gs: GGInvoiceService) { }
   validateForm!: FormGroup;
 
-  submitForm(): void{
+  submitForm(): void {
     if (this.validateForm.valid) {
-      this._gs.getLoginStatus(this.validateForm.value.userName,this.validateForm.value.password).subscribe(
-        (response: any)=> {
-          debugger
-          if(response.Message == 'Success.'){
-            this._gs.getToken(this.validateForm.value.userName,this.validateForm.value.password).subscribe(
-              (response: any)=>{
+      this._gs.getLoginStatus(this.validateForm.value.userName, this.validateForm.value.password).subscribe(
+        (response: any) => {
+          console.log(response)
+          if (response.Message == 'Success.') {
+            this._gs.getToken(this.validateForm.value.userName, this.validateForm.value.password).subscribe(
+              (response: any) => {
                 console.log(response.access_token)
-                if(response.access_token){
+                if (response.access_token) {
                   this.router.navigate(['/monthly-invoice']);
                   sessionStorage.setItem("User", response.access_token);
                 }
               },
-              (error)=>{
+              (error) => {
                 Swal.fire({
                   title: error.error.error_description,
                   icon: 'error',
                   confirmButtonText: 'Okay'
                 })
               }
-              );
-          }else{
+            );
+          } else {
             Swal.fire({
-                  title: "Username or Password is Incorrect!",
-                  icon: 'error',
-                  confirmButtonText: 'Okay'
-                })
+              title: "Username or Password is Incorrect!",
+              icon: 'error',
+              confirmButtonText: 'Okay'
+            })
           }
         },
         // (error)=>{
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  
+
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
