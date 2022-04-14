@@ -14,8 +14,6 @@ using System.Web.Http.Cors;
 
 namespace GiellyGreenApi.Controllers
 {
-    [EnableCors(origins: "http://3fb2-106-201-236-89.ngrok.io/", headers: "*", methods: "*")]
-
     public class LoginController : ApiController
     {
         public JsonResponse LoginPost(LoginModel model)

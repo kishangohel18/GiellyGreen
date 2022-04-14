@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
@@ -14,6 +15,7 @@ using GiellyGreenApi.Models;
 
 namespace GiellyGreenApi.Controllers
 {
+    [Authorize]
     public class SuppliersController : ApiController
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();

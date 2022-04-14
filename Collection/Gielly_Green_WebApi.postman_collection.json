@@ -20,12 +20,13 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:44341/api/Account/Register",
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Account/Register",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
 					],
-					"port": "44341",
 					"path": [
 						"api",
 						"Account",
@@ -61,12 +62,13 @@
 					]
 				},
 				"url": {
-					"raw": "https://localhost:44341/token",
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/token",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
 					],
-					"port": "44341",
 					"path": [
 						"token"
 					]
@@ -89,16 +91,71 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:44341/api/Account/Login",
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Login",
 					"protocol": "https",
 					"host": [
-						"localhost"
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
 					],
-					"port": "44341",
 					"path": [
 						"api",
-						"Account",
 						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Supplier",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Suppliers",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Supplier",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Suppliers/1",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers",
+						"1"
 					]
 				}
 			},
