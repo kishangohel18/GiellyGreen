@@ -1,18 +1,18 @@
 <nz-layout class="layout">
     <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
-        <div class="logo"><img src="/assets/innerLogoGolden.png" /></div>
+        <div class="logo"><img src="/assets/innerLogoGolden.png" width="250"/></div>
         <ul nz-menu nzTheme="dark" nzMode="inline">
             <li nz-menu-item>
-                <span class="menuItem">MONTHLY INVOICE</span>
+                <span class="menuItem"><a routerLink="/monthly-invoice">MONTHLY INVOICE</a></span>
             </li>
             <li nz-menu-item>
-                <span class="menuItem">SUPPLIERS LIST</span>
+                <span class="menuItem"><a routerLink="/supplier"></a>SUPPLIERS LIST</span>
             </li>
         </ul>
     </nz-sider>
     <nz-layout>
         <nz-content>
-            <div class="inner-content">Content</div>
+            <div class="inner-content">Monthly</div>
         </nz-content>
         <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
     </nz-layout>

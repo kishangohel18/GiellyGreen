@@ -29,6 +29,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { LoginComponent } from './login/login.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { MonthlyInvoiceComponent } from './monthly-invoice/monthly-invoice.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 registerLocaleData(en);
 
@@ -37,7 +38,8 @@ registerLocaleData(en);
     AppComponent,
     LoginComponent,
     SupplierComponent,
-    MonthlyInvoiceComponent
+    MonthlyInvoiceComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

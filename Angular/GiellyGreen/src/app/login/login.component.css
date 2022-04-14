@@ -18,10 +18,8 @@
 }
 
 .loginFormContainer {
-    
-    padding: 5%;
+    padding: 10%;
     z-index: 9;
-    
 }
 
 .container-fluid {
@@ -35,14 +33,14 @@
     position: relative;
     top: 0;
     left: 0;
-    object-fit:cover !important;
+    /* object-fit:cover !important; */
     height: 41rem;
 }
 
 .LogoImage {
     position: absolute;
     top: 50%;
-    left: 13%;
+    left: 25%;
 }
 
 .loginPageText {
@@ -62,4 +60,7 @@ body{
 .loginFormParentDiv{
     position: relative;
     padding-top: 5%;
+}
+label{
+    font-weight: 500;
 }
