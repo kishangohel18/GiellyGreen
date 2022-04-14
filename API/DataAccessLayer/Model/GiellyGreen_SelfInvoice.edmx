@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GiellyGreen_SelfInvoiceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Monthly_Invoice">
+          <Key>
+            <PropertyRef Name="MonthlyInvoiceId" />
+          </Key>
+          <Property Name="MonthlyInvoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuplierId" Type="int" />
+          <Property Name="SuplierName" Type="nvarchar" MaxLength="100" />
+          <Property Name="HairService" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BeautyService" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Custom1" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Custom2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Custom3" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Custom4" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Custom5" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Net" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Vat" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Gross" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AdvancePaid" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InvoiceReference" Type="int" />
+          <Property Name="IsApproved" Type="bit" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierId" />
+          </Key>
+          <Property Name="SupplierId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ReferenceNumber" Type="nvarchar" MaxLength="150" />
+          <Property Name="BusinessAddress" Type="nvarchar" MaxLength="150" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+          <Property Name="TaxReference" Type="nvarchar" MaxLength="15" />
+          <Property Name="CompanyRegNumber" Type="nvarchar" MaxLength="15" />
+          <Property Name="CompanyRegAddress" Type="nvarchar" MaxLength="150" />
+          <Property Name="VatNumber" Type="nvarchar" MaxLength="15" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="Logo" Type="varbinary(max)" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <Function Name="DeleteSupplierById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllSupplierByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="GiellyGreen_SelfInvoiceModelStoreContainer">
+          <EntitySet Name="Monthly_Invoice" EntityType="Self.Monthly_Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GiellyGreen_SelfInvoiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GiellyGreen_SelfInvoiceEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
+          <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
+          <FunctionImport Name="DeleteSupplierById">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)" />
+          <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
+        </EntityContainer>
+        <EntityType Name="Monthly_Invoice">
+          <Key>
+            <PropertyRef Name="MonthlyInvoiceId" />
+          </Key>
+          <Property Name="MonthlyInvoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuplierId" Type="Int32" />
+          <Property Name="SuplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HairService" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BeautyService" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Custom1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Custom2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Custom3" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Custom4" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Custom5" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Net" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Vat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gross" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AdvancePaid" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InvoiceReference" Type="Int32" />
+          <Property Name="IsApproved" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierId" />
+          </Key>
+          <Property Name="SupplierId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceNumber" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TaxReference" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyRegNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyRegAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="VatNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="Logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="GetAllSupplier_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="BusinessAddress" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="TaxReference" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="CompanyRegNumber" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="CompanyRegAddress" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Binary" Name="Logo" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetAllSupplierByIsActive_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="BusinessAddress" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="TaxReference" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="CompanyRegNumber" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="CompanyRegAddress" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Binary" Name="Logo" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GiellyGreen_SelfInvoiceModelStoreContainer" CdmEntityContainer="GiellyGreen_SelfInvoiceEntities" >
+          <EntitySetMapping Name="Monthly_Invoice">
+            <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.Monthly_Invoice">
+              <MappingFragment StoreEntitySet="Monthly_Invoice">
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="Vat" ColumnName="Vat" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+                <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+                <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+                <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+                <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+                <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
+                <ScalarProperty Name="HairService" ColumnName="HairService" />
+                <ScalarProperty Name="SuplierName" ColumnName="SuplierName" />
+                <ScalarProperty Name="SuplierId" ColumnName="SuplierId" />
+                <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
+                <ScalarProperty Name="CompanyRegAddress" ColumnName="CompanyRegAddress" />
+                <ScalarProperty Name="CompanyRegNumber" ColumnName="CompanyRegNumber" />
+                <ScalarProperty Name="TaxReference" ColumnName="TaxReference" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteSupplierById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplierById" />
+          <FunctionImportMapping FunctionImportName="GetAllSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplier">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="TaxReference" ColumnName="TaxReference" />
+                <ScalarProperty Name="CompanyRegNumber" ColumnName="CompanyRegNumber" />
+                <ScalarProperty Name="CompanyRegAddress" ColumnName="CompanyRegAddress" />
+                <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllSupplierByIsActive" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplierByIsActive">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="TaxReference" ColumnName="TaxReference" />
+                <ScalarProperty Name="CompanyRegNumber" ColumnName="CompanyRegNumber" />
+                <ScalarProperty Name="CompanyRegAddress" ColumnName="CompanyRegAddress" />
+                <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

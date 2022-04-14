@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GiellyGreen_SelfInvoiceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Monthly_Invoice">
+    <Key>
+      <PropertyRef Name="MonthlyInvoiceId" />
+    </Key>
+    <Property Name="MonthlyInvoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SuplierId" Type="int" />
+    <Property Name="SuplierName" Type="nvarchar" MaxLength="100" />
+    <Property Name="HairService" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BeautyService" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Custom1" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Custom2" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Custom3" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Custom4" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Custom5" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Net" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Vat" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Gross" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="AdvancePaid" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="InvoiceReference" Type="int" />
+    <Property Name="IsApproved" Type="bit" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierId" />
+    </Key>
+    <Property Name="SupplierId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SupplierName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ReferenceNumber" Type="nvarchar" MaxLength="150" />
+    <Property Name="BusinessAddress" Type="nvarchar" MaxLength="150" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+    <Property Name="TaxReference" Type="nvarchar" MaxLength="15" />
+    <Property Name="CompanyRegNumber" Type="nvarchar" MaxLength="15" />
+    <Property Name="CompanyRegAddress" Type="nvarchar" MaxLength="150" />
+    <Property Name="VatNumber" Type="nvarchar" MaxLength="15" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="Logo" Type="varbinary(max)" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <Function Name="DeleteSupplierById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetAllSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetAllSupplierByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="GiellyGreen_SelfInvoiceModelStoreContainer">
+    <EntitySet Name="Monthly_Invoice" EntityType="Self.Monthly_Invoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
