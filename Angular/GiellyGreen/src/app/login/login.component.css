@@ -1,0 +1,65 @@
+.login-form {
+    padding: 5%;
+}
+
+.login-form-margin {
+    margin-bottom: 16px;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+.login-form-button {
+    width: 100%;
+    background-color: #C99D4A;
+    border-radius: 7px;
+    border: none;
+}
+
+.loginFormContainer {
+    
+    padding: 5%;
+    z-index: 9;
+    
+}
+
+.container-fluid {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    overflow: hidden !important;
+    position: relative;
+}
+
+.LoginPageImage {
+    position: relative;
+    top: 0;
+    left: 0;
+    object-fit:cover !important;
+    height: 41rem;
+}
+
+.LogoImage {
+    position: absolute;
+    top: 50%;
+    left: 13%;
+}
+
+.loginPageText {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    /* identical to box height */
+
+    letter-spacing: -0.02em;
+    color: rgba(44, 43, 41, 0.7);
+}
+body{
+    font-family: 'Dax';
+    font-style: normal;
+}
+
+.loginFormParentDiv{
+    position: relative;
+    padding-top: 5%;
+}
