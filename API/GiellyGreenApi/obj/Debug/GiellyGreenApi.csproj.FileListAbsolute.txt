@@ -116,3 +116,6 @@ C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\obj\Debug\Gielly
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\obj\Debug\GiellyGreenApi.pdb
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\Swashbuckle.Core.dll
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\WebActivatorEx.dll
+C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\System.Web.Cors.dll
+C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\System.Web.Http.Cors.dll
+C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\System.Web.Http.Cors.xml
