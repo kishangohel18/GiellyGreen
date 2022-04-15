@@ -30,6 +30,10 @@ import { LoginComponent } from './login/login.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { MonthlyInvoiceComponent } from './monthly-invoice/monthly-invoice.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+
+
 
 registerLocaleData(en);
 
@@ -61,7 +65,9 @@ registerLocaleData(en);
     NzBreadCrumbModule,
     NzMenuModule,
     NzSwitchModule,
-    NzTableModule
+    NzTableModule,
+    NzUploadModule,
+    NzSpaceModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

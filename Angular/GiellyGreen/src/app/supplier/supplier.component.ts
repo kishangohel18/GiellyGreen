@@ -3,6 +3,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GGInvoiceService } from '../gginvoice.service';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-supplier',
@@ -16,24 +20,28 @@ export class SupplierComponent implements OnInit {
   isVisibleTop: any;
   data: any;
   isEdited = false;
-  //sortPriceFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]): number => a.Price - b.Price;
-  userSessionToken = sessionStorage.getItem("User");
+  searchText:any;
+  sortNameFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.SupplierName.localeCompare(b.SupplierName);
+  sortRefFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.ReferenceNumber.localeCompare(b.ReferenceNumber);
+  userSessionToken = sessionStorage.getItem("User");  
 
-  
-
-  constructor(private fb: FormBuilder, private _gs: GGInvoiceService, private router:Router) {
+  constructor(private fb: FormBuilder, private _gs: GGInvoiceService, private router:Router, private http: HttpClient) {
     this.validateForm = this.fb.group({
-      productName: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 ]{1,20}$")]],
-      productPrice: ['', [Validators.required, Validators.pattern("^[0-9]{1,10}.?[0-9]{1,10}$")]],
-      productQuantity: ['', [Validators.required, Validators.pattern("^[0-9]{1,5}$")]],
-      productDescription: ['', [Validators.required, Validators.pattern("^^[A-Za-z0-9]{1,50}[A-Za-z0-9 ]{1,10}[A-Za-z0-9]{1,50}$")]],
-      productStatus: [''],
-      userName:[''],
+      supplierName: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 ]{1,20}$")]],
+      supplierReference: ['', [Validators.required]],
+      businessAddress: ['', [Validators.required]],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      phoneNumber: [''],
+      companyRegisteredNumber:[''],
+      VATNumber:[''],
+      taxReference:[''],
+      companyRegisteredAddress:[''],
+      activeSupplier:[''],
     });
   }
-  onGetProducts() {
+  onGetSuppliers() {
     if (this.userSessionToken) {
-      this._gs.getProducts(this.userSessionToken).subscribe(
+      this._gs.getSuppliers(this.userSessionToken).subscribe(
         (response: any) => this.apiProductsData = response.Result
       );
     }
@@ -49,7 +57,7 @@ export class SupplierComponent implements OnInit {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this._gs.deletetProduct(id, this.userSessionToken).subscribe(
+        this._gs.deletetSupplier(id, this.userSessionToken).subscribe(
           //(response) => this.apiData = response
         );
         Swal.fire('Product Deleted!', '', 'success')
@@ -61,10 +69,7 @@ export class SupplierComponent implements OnInit {
     });
   }
   ngOnInit() {
-    if(!this.userSessionToken){
-      this.router.navigate(['/login'])
-    }
-    this.onGetProducts();
+    this.onGetSuppliers();
   }
   handleCancelTop(): void {
     this.isVisibleTop = false;
@@ -90,22 +95,26 @@ export class SupplierComponent implements OnInit {
     //this.displayEvent.emit(this.isVisibleTop);
   }
   addProduct() {
-    // debugger
-    // const formValue = this.validateForm.value;
-    // this._gs.suppliers.Name = formValue.productName;
-    // this._gs.suppliers.Description = formValue.productDescription;
-    // this._gs.suppliers.Price = formValue.productPrice;
-    // this._gs.suppliers.OnHandQuantity = formValue.productQuantity;
-    // if (formValue.productStatus == null) {
-    //   this._gs.suppliers.Status = false;
-    // } else {
-    //   this._gs.suppliers.Status = formValue.productStatus;
-    // }
-    // console.log(this._gs.suppliers)
-    // this._gs.addProduct(this.userSessionToken).subscribe(
-    //   (response:any) => this.apiProductsData.push(response.Result)
-    // );
-    // this.isVisibleTop = false;
+    const formValue = this.validateForm.value;
+    this._gs.suppliers.SupplierName = formValue.supplierName;
+    this._gs.suppliers.ReferenceNumber = formValue.supplierReference;
+    this._gs.suppliers.BusinessAddress = formValue.businessAddress;
+    this._gs.suppliers.Email = formValue.emailAddress;
+    this._gs.suppliers.Phone = formValue.phoneNumber;
+    this._gs.suppliers.CompanyRegNumber = formValue.companyRegisteredNumber;
+    this._gs.suppliers.VatNumber = formValue.VATNumber;
+    this._gs.suppliers.TaxReference = formValue.taxReference;
+    if (formValue.activeSupplier == null) {
+      this._gs.suppliers.IsActive = false;
+    } else {
+      this._gs.suppliers.IsActive = formValue.activeSupplier;
+
+    }
+    console.log(this._gs.suppliers)
+    this._gs.addSupplier(this.userSessionToken).subscribe(
+      (response:any) => this.apiProductsData.push(response.Result)
+    );
+    this.isVisibleTop = false;
   }
   showModalTop($event: any): void {
     this.isVisibleTop = true;
@@ -125,21 +134,34 @@ export class SupplierComponent implements OnInit {
     }
   }
   editProduct(id: any) {
-    // debugger
-    // const formValue = this.validateForm.value;
-    // this._gs.suppliers.Name = this.data.Name = formValue.productName;
-    // this._gs.suppliers.Description = this.data.Description = formValue.productDescription;
-    // this._gs.suppliers.Price = this.data.Price = formValue.productPrice;
-    // this._gs.suppliers.OnHandQuantity = this.data.OnHandQuantity = formValue.productQuantity;
-    // this._gs.suppliers.Status = this.data.Status = formValue.productStatus;
-    // this._gs.updateProduct(id, this.userSessionToken).subscribe(
-    //   //(response) => this.apiData.data.push(response)
-    // );
-    // this.isEdited = true;
-    // this.isVisibleTop = false;
+    debugger
+    const formValue = this.validateForm.value;
+    this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
+    this._gs.suppliers.ReferenceNumber = this.data.ReferenceNumber = formValue.supplierReference;
+    this._gs.suppliers.BusinessAddress = this.data.BusinessAddress = formValue.businessAddress;
+    this._gs.suppliers.Email =this.data.Email = formValue.emailAddress;
+    this._gs.suppliers.Phone = formValue.phoneNumber;
+    this._gs.suppliers.CompanyRegNumber = formValue.companyRegisteredNumber;
+    this._gs.suppliers.VatNumber = formValue.VATNumber;
+    this._gs.suppliers.TaxReference = formValue.taxReference;
+    
+    this._gs.updateProduct(id, this.userSessionToken).subscribe(
+      //(response) => this.apiData.data.push(response)
+    );
+    this.isEdited = true;
+    this.isVisibleTop = false;
   }
   closeAlert() {
     this.isEdited = false;
   }
   searchData(){}
+  previewFile = (file: NzUploadFile): Observable<string> => {
+    console.log('Your upload file:', file);
+    return this.http
+      .post<{ thumbnail: string }>(`https://next.json-generator.com/api/json/get/4ytyBoLK8`, {
+        method: 'POST',
+        body: file
+      })
+      .pipe(map(res => res.thumbnail));
+  };
 }
