@@ -20,14 +20,7 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
-
-        // GET: api/Suppliers
-        //public IQueryable<Supplier> GetSuppliers()
-        //{
-        //    return db.Suppliers;
-        //}
-
+        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();        
 
         public JsonResponse Get()
         {
@@ -87,7 +80,7 @@ namespace GiellyGreenApi.Controllers
         //        {
         //            var ObjProd = ObjDataAccess.GetAllSupplier(0, model.SupplierName, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.Logo, model.IsActive).FirstOrDefault();
 
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Products.Find(ObjProd.Response));
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Response));
         //        }
         //        else
         //        {

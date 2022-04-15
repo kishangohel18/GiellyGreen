@@ -24,11 +24,12 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeleteSupplierById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplierById" />
     <EntitySetMapping Name="Suppliers">
       <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.Supplier">
         <MappingFragment StoreEntitySet="Supplier">
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
@@ -44,7 +45,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="DeleteSupplierById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplierById" />
+    <FunctionImportMapping FunctionImportName="InsertUpdateSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateSupplier" />
     <FunctionImportMapping FunctionImportName="GetAllSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplier">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result">
@@ -60,7 +61,7 @@
           <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -80,7 +81,7 @@
           <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-          <ScalarProperty Name="Logo" ColumnName="Logo" />
+          <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
         </ComplexTypeMapping>
       </ResultMapping>
