@@ -18,7 +18,7 @@
             Suppliers List
           </div>
           <div class="col-md-5">
-            <form nz-form #ngform (ngSubmit)="searchData()" nzWidth="100%">
+            <form nz-form #ngform (keyup)="searchData()" nzWidth="100%">
               <nz-form-item class="searchBox">
                 <nz-form-control nzErrorTip="Please input your username!">
                   <nz-input-group nzPrefixIcon="search">
@@ -35,8 +35,10 @@
         </div>
         <div class="row">
           <div class="col-md-12">
+            <!-- <div class="scrollableModal"> -->
             <nz-table class="table text-center table-bordered" *ngIf="apiProductsData" #apiProductsDataTable
               [nzData]="apiProductsData">
+              
               <thead>
                 <tr>
                   <th style="border-radius: 6px 0px 0px 0px;" scope="col" [nzSortFn]="sortRefFn">Supplier Reference</th>
@@ -58,6 +60,8 @@
                 </tr>
               </tbody>
             </nz-table>
+            
+          <!-- </div> -->
           </div>
         </div>
         <nz-modal [(nzVisible)]="isVisibleTop" nzTitle="Add New Supplier" (nzOnCancel)="handleCancelTop()"
@@ -115,7 +119,7 @@
                     <nz-form-item>
                       <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="emailAddressError">
                         <label>Email Address</label>
-                        <input nz-input formControlName="emailAddress" name="fname" placeholder="Enter First Name" />
+                        <input nz-input formControlName="emailAddress" name="fname" />
                         <ng-template #emailAddressError let-control>
                           <ng-container *ngIf="control.hasError('required')">Enter Email Address</ng-container>
                           <ng-container *ngIf="control.hasError('pattern')">Enter valid email address!
@@ -128,7 +132,7 @@
                     <nz-form-item>
                       <nz-form-control [nzErrorTip]="phoneNumberError">
                         <label>Phone Number</label>
-                        <input nz-input formControlName="phoneNumber" name="fname" placeholder="Enter First Name" />
+                        <input nz-input formControlName="phoneNumber" name="fname" />
                         <ng-template #phoneNumberError let-control>
                           <ng-container *ngIf="control.hasError('pattern')">
                             Enter valid phone number!
@@ -143,8 +147,7 @@
                     <nz-form-item>
                       <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="companyRegisteredNumberError">
                         <label>Company Registered Number</label>
-                        <input nz-input formControlName="companyRegisteredNumber" name="fname"
-                          placeholder="Enter First Name" />
+                        <input nz-input formControlName="companyRegisteredNumber" name="fname"/>
                         <ng-template #companyRegisteredNumberError let-control>
                           <ng-container *ngIf="control.hasError('pattern')">Number must consist only numbers with the
                             limit of 15!
@@ -157,7 +160,7 @@
                     <nz-form-item>
                       <nz-form-control [nzErrorTip]="VATNumberError">
                         <label>VAT Number</label>
-                        <input nz-input formControlName="VATNumber" name="fname" placeholder="Enter First Name" />
+                        <input nz-input formControlName="VATNumber" name="fname"/>
                         <ng-template #VATNumberError let-control>
                           <ng-container *ngIf="control.hasError('pattern')">Number must consist only numbers with the
                             limit of 15!</ng-container>
@@ -171,8 +174,7 @@
                     <nz-form-item>
                       <nz-form-control [nzErrorTip]="taxReferenceError">
                         <label>Tax Reference</label>
-                        <textarea formControlName="taxReference" nz-input rows="2"
-                          placeholder="Enter Event Description"></textarea>
+                        <input formControlName="taxReference" nz-input/>
                         <ng-template #taxReferenceError let-control>
                           <ng-container *ngIf="control.hasError('pattern')">Reference must consist maximum 15 letters
                           </ng-container>
@@ -186,8 +188,7 @@
                     <nz-form-item>
                       <nz-form-control [nzErrorTip]="companyRegisteredAddressError">
                         <label>Company Registered Address</label>
-                        <textarea formControlName="companyRegisteredAddress" nz-input rows="3"
-                          placeholder="Enter Event Description"></textarea>
+                        <textarea formControlName="companyRegisteredAddress" nz-input rows="3"></textarea>
                         <ng-template #companyRegisteredAddressError let-control>
                           <ng-container *ngIf="control.hasError('pattern')">Address must consist at least 3 and
                             maximum 100 letters</ng-container>
@@ -203,7 +204,7 @@
                         <label>Upload Invoice Logo</label>
                         <div class="clearfix">
                           <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture"
-                            [nzPreviewFile]="previewFile">
+                            [nzFileType]="'image/png,image/jpeg,image/gif'" [nzMultiple]="false">
                             <button nz-button>
                               <i nz-icon nzType="upload"></i>
                               Upload
@@ -215,7 +216,7 @@
                   </div>
                   <div nz-col nzSpan="12">
                     <nz-form-item>
-                      <nz-form-label>Is Active ?</nz-form-label>
+                      <label>Is Active ?</label>
                       <nz-form-control>
                         <nz-switch formControlName="activeSupplier"></nz-switch>
                       </nz-form-control>
