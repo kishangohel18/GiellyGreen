@@ -30,7 +30,7 @@ export class GGInvoiceService {
 
   getLoginStatus(username: any, password: any): Observable<unknown>{
     let user = {"Email" : username, "password":password}
-    return this.http.post<unknown>(`http://7cd1-106-201-236-89.ngrok.io/api/Login`, user);
+    return this.http.post<unknown>(`http://caf7-106-201-236-89.ngrok.io/api/Login`, user);
   }
 
   getToken(username: any, password: any): Observable<unknown> {
@@ -42,23 +42,22 @@ export class GGInvoiceService {
     let RequestOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
-    return this.http.post<unknown>(`http://7cd1-106-201-236-89.ngrok.io/token`, body, RequestOptions);
+    return this.http.post<unknown>(`http://caf7-106-201-236-89.ngrok.io/token`, body, RequestOptions);
   }
-  getProducts(userSessionToken:any): Observable<unknown> {
+  getSuppliers(userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.get<unknown>(`http://7cd1-106-201-236-89.ngrok.io/api/Suppliers`,{headers:header});
+    return this.http.get<unknown>(`http://caf7-106-201-236-89.ngrok.io/api/Suppliers`,{headers:header});
   }
-  addProduct(userSessionToken:any): Observable<unknown> {
-    debugger
+  addSupplier(userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.post<unknown>(`http://2eb2-106-201-236-89.ngrok.io/api/Product`, this.suppliers, {headers:header});
+    return this.http.post<unknown>(`http://caf7-106-201-236-89.ngrok.io/api/Suppliers`, this.suppliers, {headers:header});
   }
   updateProduct(id:any, userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.put<unknown>(`http://2eb2-106-201-236-89.ngrok.io/api/Product/${id}`, this.suppliers, {headers:header});
+    return this.http.put<unknown>(`http://caf7-106-201-236-89.ngrok.io/api/Product/${id}`, this.suppliers, {headers:header});
   }
-  deletetProduct(id: number, userSessionToken:any): Observable<unknown> {
+  deletetSupplier(id: number, userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.delete<unknown>(`http://7cd1-106-201-236-89.ngrok.io/api/Product/${id}`, {headers:header});
+    return this.http.delete<unknown>(`http://caf7-106-201-236-89.ngrok.io/api/Suppliers/${id}`, {headers:header});
   }
 }

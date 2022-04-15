@@ -46,6 +46,5 @@ export class AppComponent {
       password: [null, [Validators.required]],
       remember: [true]
     });
-    sessionStorage.removeItem("User");
   }
 }

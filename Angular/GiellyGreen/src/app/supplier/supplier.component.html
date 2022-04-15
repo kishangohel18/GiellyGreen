@@ -1,135 +1,238 @@
 <nz-layout class="layout">
-    <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
-        <div class="logo"><img src="/assets/innerLogoGolden.png" width="250"/></div>
-        <ul nz-menu nzTheme="dark" nzMode="inline">
-            <li nz-menu-item>
-                <span class="menuItem" style="text-align: center;">MONTHLY INVOICE</span>
-            </li>
-            <li nz-menu-item>
-                <span class="menuItem"><a routerLink="/supplier"></a>SUPPLIERS LIST</span>
-            </li>
-        </ul>
-    </nz-sider>
-    <nz-layout>
-        <nz-content>
-            <div class="inner-content">
-                <div class="row p-2">
-                    <div class="col-md-5 supplierTitle">
-                        Suppliers List
-                    </div>
-                    <div class="col-md-5">
-                        <form nz-form [formGroup]="validateForm" (ngSubmit)="searchData()" nzWidth="100%">
-                            <nz-form-item class="searchBox">
-                              <nz-form-control nzErrorTip="Please input your username!">
-                                <nz-input-group nzPrefixIcon="search">
-                                  <input formControlName="userName" nz-input placeholder="Search here..." />
-                                </nz-input-group>
-                              </nz-form-control>
-                            </nz-form-item>
-                        </form>
-                    </div>
-                    <div class="col-md-2">
-                        <button nz-button class="addButton fw-bold" (click)="showModalTop(null)" nzType="primary"><i nz-icon nzType="plus" class="plusIcon" nzTheme="outline"></i>ADD SUPPLIER</button>
-                    </div>
+  <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
+    <div class="logo"><img src="/assets/innerLogoGolden.png" width="250" /></div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item>
+        <span class="menuItem" style="text-align: center;">MONTHLY INVOICE</span>
+      </li>
+      <li nz-menu-item>
+        <span class="menuItem"><a routerLink="/supplier"></a>SUPPLIERS LIST</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-content>
+      <div class="inner-content">
+        <div class="row p-2">
+          <div class="col-md-5 supplierTitle">
+            Suppliers List
+          </div>
+          <div class="col-md-5">
+            <form nz-form #ngform (ngSubmit)="searchData()" nzWidth="100%">
+              <nz-form-item class="searchBox">
+                <nz-form-control nzErrorTip="Please input your username!">
+                  <nz-input-group nzPrefixIcon="search">
+                    <input [(ngModel)]="searchText" name="searchText" nz-input placeholder="Search here..." />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </form>
+          </div>
+          <div class="col-md-2">
+            <button nz-button class="addButton fw-bold" (click)="showModalTop(null)" nzType="primary"><i nz-icon
+                nzType="plus" class="plusIcon" nzTheme="outline"></i>ADD SUPPLIER</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <nz-table class="table text-center table-bordered" *ngIf="apiProductsData" #apiProductsDataTable
+              [nzData]="apiProductsData">
+              <thead>
+                <tr>
+                  <th style="border-radius: 6px 0px 0px 0px;" scope="col" [nzSortFn]="sortRefFn">Supplier Reference</th>
+                  <th scope="col" [nzSortFn]="sortNameFn">Supplier Name</th>
+                  <th scope="col">Staus</th>
+                  <th style="border-radius: 0px 6px 0px 0px;" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of apiProductsDataTable.data">
+                  <td scope="row">{{data.ReferenceNumber}}</td>
+                  <td>{{data.SupplierName}}</td>
+                  <td><nz-switch [(ngModel)]="data.IsActive"></nz-switch>
+                  </td>
+                  <td>
+                    <i nz-icon nzType="edit" nzTheme="outline" class="p-2" (click)="showModalTop(data)"></i>
+                    <i nz-icon nzType="delete" nzTheme="outline" (click)="onDeleteProduct(data.SupplierId)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+        <nz-modal [(nzVisible)]="isVisibleTop" nzTitle="Add New Supplier" (nzOnCancel)="handleCancelTop()"
+          (nzOnOk)="handleOkTop()" [nzStyle]="{ top: '30px'}" [nzFooter]="modalFooter">
+
+          <ng-container *nzModalContent nzBodyStyle="height:500">
+            <form nz-form [formGroup]="validateForm">
+              <div class="scrollableModal">
+                <div nz-row>
+                  <div nz-col nzSpan="12" class="pr">
+                    <nz-form-item>
+                      <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="supplierNameError">
+                        <label>Supplier Name</label><br>
+                        <input nz-input formControlName="supplierName" name="fname" />
+                        <ng-template #supplierNameError let-control>
+                          <ng-container *ngIf="control.hasError('required')">Enter Supplier Name</ng-container>
+                          <ng-container *ngIf="control.hasError('pattern')">Supplier name must consist only alphabtes!
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzSpan="12">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="supplierReferenceError">
+                        <label>Supplier Reference</label><br>
+                        <input nz-input formControlName="supplierReference" />
+                        <ng-template #supplierReferenceError let-control>
+                          <ng-container *ngIf="control.hasError('required')">Enter Supplier Reference</ng-container>
+                          <ng-container *ngIf="control.hasError('pattern')">Supplier Reference must consist maximum 15
+                            letters!
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                <nz-table class="table text-center table-bordered" *ngIf="apiProductsData" #apiProductsDataTable
-                [nzData]="apiProductsData">
-                <thead>
-                  <tr>
-                    <th scope="col">Supplier Reference</th>
-                    <th scope="col">Supplier Name</th>
-                    <th scope="col">Staus</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr >
-                        <td scope="row">1</td>
-                        <td>Name</td>
-                        <td><nz-switch></nz-switch></td>
-                        <td>
-                            <i nz-icon nzType="edit" nzTheme="outline" class="p-2" (click)="showModalTop(null)"></i>
-                            <i nz-icon nzType="delete" nzTheme="outline" (click)="onDeleteProduct(null)"></i>
-                        </td>
-                      </tr>
-                  <tr *ngFor="let data of apiProductsDataTable.data">
-                    <td scope="row">{{data.SupplierId}}</td>
-                    <td>{{data.SupplierName}}</td>
-                    <td>{{data.IsActive}}</td>
-                    <td>
-                        <i nz-icon nzType="edit" nzTheme="outline" class="p-2" (click)="showModalTop(null)"></i>
-                        <i nz-icon nzType="delete" nzTheme="outline" (click)="onDeleteProduct(data.SupplierId)"></i>
-                    </td>
-                  </tr>
-                </tbody>
-              </nz-table>
-            </div>
-            </div>
-              <nz-modal [(nzVisible)]="isVisibleTop" nzTitle="Add New Supplier" (nzOnCancel)="handleCancelTop()"
-              (nzOnOk)="handleOkTop()">
-              <ng-container *nzModalContent>
-                <form nz-form [formGroup]="validateForm">
-                    <nz-row>
-                  <nz-form-item>
-                    <nz-form-label [nzSpan]="7" nzRequired>Product Name</nz-form-label>
-                    <nz-form-control [nzSpan]="12" nzValidatingTip="Validating..." [nzErrorTip]="productNameError"
-                      nzHasFeedback>
-                      <input nz-input formControlName="productName" name="fname" placeholder="Enter First Name" />
-                      <ng-template #productNameError let-control>
-                        <ng-container *ngIf="control.hasError('required')">Enter your product name</ng-container>
-                        <ng-container *ngIf="control.hasError('pattern')">Your product name must consist maximum 20 letters
-                        </ng-container>
-                      </ng-template>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label [nzSpan]="7" nzRequired>Description</nz-form-label>
-                    <nz-form-control [nzSpan]="12" [nzErrorTip]="descriptionError">
-                      <textarea formControlName="productDescription" nz-input rows="2"
-                        placeholder="Enter Event Description"></textarea>
-                      <ng-template #descriptionError let-control>
-                        <ng-container *ngIf="control.hasError('required')">Enter your product description</ng-container>
-                        <ng-container *ngIf="control.hasError('pattern')">Product description must consist at least 3 and
-                          maximum 100 letters</ng-container>
-                      </ng-template>
-                    </nz-form-control>
-                  </nz-form-item>
-                </nz-row>
-                  <nz-form-item>
-                    <nz-form-label [nzSpan]="7" nzRequired>Price</nz-form-label>
-                    <nz-form-control [nzSpan]="12" [nzErrorTip]="priceError" nzHasFeedback>
-                      <nz-input-number placeholder="Enter Event Priority" formControlName="productPrice"></nz-input-number>
-                      <ng-template #priceError let-control>
-                        <ng-container *ngIf="control.hasError('required')">Enter your product price</ng-container>
-                        <ng-container *ngIf="control.hasError('pattern')">Event priority must be a didgit</ng-container>
-                      </ng-template>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label [nzSpan]="7" nzRequired>Quantity</nz-form-label>
-                    <nz-form-control [nzSpan]="12" [nzErrorTip]="quantityError" nzHasFeedback>
-                      <nz-input-number placeholder="Enter Event Priority" formControlName="productQuantity"></nz-input-number>
-                      <ng-template #quantityError let-control>
-                        <ng-container *ngIf="control.hasError('required')">Enter your product quantity</ng-container>
-                        <ng-container *ngIf="control.hasError('pattern')">product quantity must be entered in digits
-                        </ng-container>
-                      </ng-template>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label [nzSpan]="7" nzRequired>Status</nz-form-label>
-                    <nz-form-control [nzSpan]="12" [nzErrorTip]="quantityError" nzHasFeedback>
-                      <nz-switch formControlName="productStatus"></nz-switch>
-                    </nz-form-control>
-                  </nz-form-item>
-                </form>
-              </ng-container>
-            </nz-modal>
-            
-            </div>
-        </nz-content>
-        <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
-    </nz-layout>
+                <div nz-row>
+                  <div nz-col nzSpan="24">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="businessAddressError">
+                        <label>Business Address</label>
+                        <textarea formControlName="businessAddress" nz-input rows="3"></textarea>
+                        <ng-template #businessAddressError let-control>
+                          <ng-container *ngIf="control.hasError('required')">Enter Business Address</ng-container>
+                          <ng-container *ngIf="control.hasError('pattern')">Business Address must consist at least 3 and
+                            maximum 150 letters!</ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row>
+                  <div nz-col nzSpan="12" class="pr">
+                    <nz-form-item>
+                      <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="emailAddressError">
+                        <label>Email Address</label>
+                        <input nz-input formControlName="emailAddress" name="fname" placeholder="Enter First Name" />
+                        <ng-template #emailAddressError let-control>
+                          <ng-container *ngIf="control.hasError('required')">Enter Email Address</ng-container>
+                          <ng-container *ngIf="control.hasError('pattern')">Enter valid email address!
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzSpan="12">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="phoneNumberError">
+                        <label>Phone Number</label>
+                        <input nz-input formControlName="phoneNumber" name="fname" placeholder="Enter First Name" />
+                        <ng-template #phoneNumberError let-control>
+                          <ng-container *ngIf="control.hasError('pattern')">
+                            Enter valid phone number!
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row>
+                  <div nz-col nzSpan="12" class="pr">
+                    <nz-form-item>
+                      <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="companyRegisteredNumberError">
+                        <label>Company Registered Number</label>
+                        <input nz-input formControlName="companyRegisteredNumber" name="fname"
+                          placeholder="Enter First Name" />
+                        <ng-template #companyRegisteredNumberError let-control>
+                          <ng-container *ngIf="control.hasError('pattern')">Number must consist only numbers with the
+                            limit of 15!
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzSpan="12">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="VATNumberError">
+                        <label>VAT Number</label>
+                        <input nz-input formControlName="VATNumber" name="fname" placeholder="Enter First Name" />
+                        <ng-template #VATNumberError let-control>
+                          <ng-container *ngIf="control.hasError('pattern')">Number must consist only numbers with the
+                            limit of 15!</ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row>
+                  <div nz-col nzSpan="24">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="taxReferenceError">
+                        <label>Tax Reference</label>
+                        <textarea formControlName="taxReference" nz-input rows="2"
+                          placeholder="Enter Event Description"></textarea>
+                        <ng-template #taxReferenceError let-control>
+                          <ng-container *ngIf="control.hasError('pattern')">Reference must consist maximum 15 letters
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row>
+                  <div nz-col nzSpan="24">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="companyRegisteredAddressError">
+                        <label>Company Registered Address</label>
+                        <textarea formControlName="companyRegisteredAddress" nz-input rows="3"
+                          placeholder="Enter Event Description"></textarea>
+                        <ng-template #companyRegisteredAddressError let-control>
+                          <ng-container *ngIf="control.hasError('pattern')">Address must consist at least 3 and
+                            maximum 100 letters</ng-container>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row>
+                  <div nz-col nzSpan="12" class="pr">
+                    <nz-form-item>
+                      <nz-form-control nzValidatingTip="Validating...">
+                        <label>Upload Invoice Logo</label>
+                        <div class="clearfix">
+                          <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture"
+                            [nzPreviewFile]="previewFile">
+                            <button nz-button>
+                              <i nz-icon nzType="upload"></i>
+                              Upload
+                            </button>
+                          </nz-upload>
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzSpan="12">
+                    <nz-form-item>
+                      <nz-form-label>Is Active ?</nz-form-label>
+                      <nz-form-control>
+                        <nz-switch formControlName="activeSupplier"></nz-switch>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </ng-container>
+        </nz-modal>
+
+      </div>
+    </nz-content>
+    <ng-template #modalFooter>
+      <button nz-button class="darkButtonModal" nzType="default" (click)="handleOkTop()">Save</button>
+      <button nz-button nzType="primary" (click)="handleCancelTop()" class="cancelButtonModal">Cancel</button>
+    </ng-template>
+    <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
+  </nz-layout>
 </nz-layout>
