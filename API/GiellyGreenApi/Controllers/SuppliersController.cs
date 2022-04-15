@@ -21,8 +21,8 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();        
-        
+        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
+
         public JsonResponse Get()
         {
             var ObjResponse = new JsonResponse();
@@ -55,7 +55,7 @@ namespace GiellyGreenApi.Controllers
                 if (ModelState.IsValid)
                 {
                     if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber))
-                    {                       
+                    {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
                     }
                     else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email))
@@ -77,7 +77,7 @@ namespace GiellyGreenApi.Controllers
                     }
                 }
                 else
-                {                   
+                {
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
@@ -158,20 +158,22 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
-                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id);                
-                if (ObjSupplier > 0)
-                {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
-                }
-                else if (ObjSupplier == 0)
-                {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not found", null);
-                }
-                else
-                {
-                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
-                }
+                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
+                
+                //if (ObjSupplier > 0)
+                //{
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
+                //}
+                //else if (ObjSupplier == 0)
+                //{
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not found", null);
+                //}
+                //else
+                //{
+                //    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
+                //}
             }
             catch (Exception ex)
             {
