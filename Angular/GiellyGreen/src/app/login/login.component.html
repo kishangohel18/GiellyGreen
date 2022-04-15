@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 text-center">
+            <div><img class="image-fluid LoginPageImage" src="/assets/LoginPageImage.png" width="900"/>
+                <img class="LogoImage" src="/assets/Gielly_Green_Logo.png" width="350" />
+            </div>
+        </div>
+        <div class="col-md-4 loginFormParentDiv">
+            <div class="loginFormContainer loginPageText">
+                <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                    <div class="pb-4">
+                        <img src="/assets/GoldenLogo.png" width="225"/><br>
+                        WELCOME, LET'S GET STARTED
+                    </div>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Please input your username!">
+                            <label class="py-2">EMAIL ADDRESS</label>
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="userName" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="pb-4">
+                        <nz-form-control nzErrorTip="Please input your Password!">
+                            <label class="py-2">PASSWORD</label>
+                            <nz-input-group>
+                                <input autocomplete="" type="password" nz-input formControlName="password" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">LOG IN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
