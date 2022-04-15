@@ -9,30 +9,32 @@ namespace GiellyGreenApi.Models
 {
     public class SupplierViewModel
     {
+        
         public int SupplierId { get; set; }
 
-        //public string SupplierName_ { get; set; }
-
-        [Required]
-        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Suppliername must be alphabet")]
-        [MaxLength(20, ErrorMessage = "Suppliername max length upto 20")]
+        //private string _SupplierName { get; set; }
+        //[Required]
+        //[RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Suppliername must be alphabet")]
+        //[MaxLength(50, ErrorMessage = "Suppliername max length upto 50")]
         //public string SupplierName
         //{
-        //    get { return SupplierName_; }
+        //    get { return _SupplierName ; }
         //    set
         //    {
-        //        //SupplierName_ = value.Trim();
-        //        SupplierName_ = Regex.Replace(SupplierName, @"\s+", " ");
+        //        _SupplierName = value.Trim();
+        //        _SupplierName = Regex.Replace(SupplierName, @"\s+", " ");
         //    }
         //}
-
+        [Required]
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Suppliername must be alphabet")]
+        [MaxLength(50, ErrorMessage = "Suppliername max length upto 50")]
         public string SupplierName { get; set; }
 
         //public string ReferenceNumber_ { get; set; }
 
         [Required]
-        [RegularExpression(@"[0-9]+", ErrorMessage = "ReferenceNumber must be digits")]
-        [MaxLength(15, ErrorMessage = "ReferenceNumber max length upto 15")]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "ReferenceNumber must be digits")]
+        [MaxLength(20, ErrorMessage = "ReferenceNumber max length upto 20")]
 
         public string ReferenceNumber { get; set; }
 
@@ -49,19 +51,19 @@ namespace GiellyGreenApi.Models
         //public string Phone_ { get; set; }
 
         [RegularExpression(@"[0-9]+", ErrorMessage = "Phone Number must be digits")]
-        [MaxLength(15, ErrorMessage = "ReferenceNumber max length upto 15")]
+        [MaxLength(15, ErrorMessage = "Phone Number max length upto 15")]
         public string Phone { get; set; }
 
         //public string TaxReference_ { get; set; }
 
-        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "TaxReference must be alphanumeric")]
-        [MaxLength(15, ErrorMessage = "TaxReference max length upto 15")]
+        [RegularExpression(@"[0-9]{10}", ErrorMessage = "TaxReference must be 10 digit")]
+        [MaxLength(10, ErrorMessage = "TaxReference max length upto 10")]
         public string TaxReference { get; set; }
 
         //public string CompanyRegNumber_ { get; set; }
 
-        [RegularExpression(@"[0-9]+", ErrorMessage = "Company Registered Number should be digits")]
-        [MaxLength(15, ErrorMessage = "TaxReference max length upto 15")]
+        [RegularExpression(@"[0-9]{8}", ErrorMessage = "Company Registered Number should be digits")]
+        [MaxLength(8, ErrorMessage = "CompanyRegNumber max length upto 8")]
         public string CompanyRegNumber { get; set; }
 
         //public string CompanyRegAddress_ { get; set; }
@@ -72,7 +74,7 @@ namespace GiellyGreenApi.Models
         //public string VatNumber_ { get; set; }
 
         //[RegularExpression(@"[GB]([0-9]{9})", ErrorMessage = "VAT number consists of the letters 'GB' followed by nine numbers")]
-        //[RegularExpression(@"^(GB)(?:[0-9]{12}|[0-9]{9})$", ErrorMessage = "VAT number consists of the letters 'GB' followed by nine numbers")]
+        [RegularExpression(@"^(GB)(?:[0-9]{12}|[0-9]{9})$", ErrorMessage = "VAT number consists of the letters 'GB' followed by nine numbers")]
         public string VatNumber { get; set; }
 
         public Nullable<System.DateTime> CreatedDate { get; set; }

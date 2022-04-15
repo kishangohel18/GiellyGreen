@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Http.Description;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
-
 
 namespace GiellyGreenApi.Controllers
 {
@@ -158,26 +150,26 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
-                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id);
+                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id).FirstOrDefault();                
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
-                //ObjSupplier.
-                //if (ObjSupplier.ResponseStatus == 0)
-                //{
-                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
-                //}
-                //else if (ObjSupplier.ResponseStatus == 1)
-                //{
-                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted", null);
-                //}
-                //else if (ObjSupplier.ResponseStatus == 2)
-                //{
-                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not delete. Because invoice present for this supplier.", null);
-                //}
-                //else
-                //{
-                //    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
-                //}
+
+                if (ObjSupplier.ResponseStatus == 0)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
+                }
+                else if (ObjSupplier.ResponseStatus == 1)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted", null);
+                }
+                else if (ObjSupplier.ResponseStatus == 2)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not delete. Because invoice present for this supplier.", null);
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
+                }
             }
             catch (Exception ex)
             {
