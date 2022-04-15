@@ -20,10 +20,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Account/Register",
-					"protocol": "https",
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Account/Register",
+					"protocol": "http",
 					"host": [
-						"7cd1-106-201-236-89",
+						"251d-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -62,10 +62,10 @@
 					]
 				},
 				"url": {
-					"raw": "https://7cd1-106-201-236-89.ngrok.io/token",
-					"protocol": "https",
+					"raw": "http://251d-106-201-236-89.ngrok.io/token",
+					"protocol": "http",
 					"host": [
-						"7cd1-106-201-236-89",
+						"251d-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -91,10 +91,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Login",
-					"protocol": "https",
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Login",
+					"protocol": "http",
 					"host": [
-						"7cd1-106-201-236-89",
+						"251d-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -107,7 +107,7 @@
 			"response": []
 		},
 		{
-			"name": "Get All Supplier",
+			"name": "Get All Supplier (Supplier page)",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -118,10 +118,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Suppliers",
-					"protocol": "https",
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers",
+					"protocol": "http",
 					"host": [
-						"7cd1-106-201-236-89",
+						"251d-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -134,7 +134,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete Supplier",
+			"name": "Delete Supplier (Supplier page)",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -145,17 +145,127 @@
 					}
 				],
 				"url": {
-					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Suppliers/1",
-					"protocol": "https",
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers/11",
+					"protocol": "http",
 					"host": [
-						"7cd1-106-201-236-89",
+						"251d-106-201-236-89",
 						"ngrok",
 						"io"
 					],
 					"path": [
 						"api",
 						"Suppliers",
-						"1"
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Supplier (Supplier page)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SupplierName\": \"string 4\",\r\n    \"ReferenceNumber\": \"string 4\",\r\n    \"BusinessAddress\": \"string\",\r\n    \"Email\": \"string\",\r\n    \"Phone\": \"string\",\r\n    \"TaxReference\": \"string\",\r\n    \"CompanyRegNumber\": \"string\",\r\n    \"CompanyRegAddress\": \"string\",\r\n    \"VatNumber\": \"string\",\r\n    \"CreatedDate\": \"2022-04-15T06:14:03.153\",\r\n    \"ModifiedDate\": \"2022-04-15T06:14:03.153\",\r\n    \"LogoUrl\": \"string\",\r\n    \"IsActive\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers",
+					"protocol": "http",
+					"host": [
+						"251d-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Supplier (Supplier page)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SupplierId\": 14,\r\n    \"SupplierName\": \"string 4 update\",\r\n    \"ReferenceNumber\": \"string 4\",\r\n    \"BusinessAddress\": \"string\",\r\n    \"Email\": \"string\",\r\n    \"Phone\": \"string\",\r\n    \"TaxReference\": \"string\",\r\n    \"CompanyRegNumber\": \"string\",\r\n    \"CompanyRegAddress\": \"string\",\r\n    \"VatNumber\": \"string\",\r\n    \"CreatedDate\": \"2022-04-15T06:14:03.153\",\r\n    \"ModifiedDate\": \"2022-04-15T06:14:03.153\",\r\n    \"LogoUrl\": \"string\",\r\n    \"IsActive\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers/14",
+					"protocol": "http",
+					"host": [
+						"251d-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Supplier (Supplier page)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SupplierId\": 14,    \r\n    \"IsActive\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers/14",
+					"protocol": "http",
+					"host": [
+						"251d-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers",
+						"14"
 					]
 				}
 			},

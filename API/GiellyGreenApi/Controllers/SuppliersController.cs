@@ -20,15 +20,8 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
-
-        // GET: api/Suppliers
-        //public IQueryable<Supplier> GetSuppliers()
-        //{
-        //    return db.Suppliers;
-        //}
-
-
+        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();        
+        
         public JsonResponse Get()
         {
             var ObjResponse = new JsonResponse();
@@ -53,86 +46,92 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
-        // GetAllSupplierByIsActive API
-        //public JsonResponse Get()
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    try
-        //    {
-        //        var ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive().ToList();
+        public JsonResponse Post(SupplierViewModel model)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
 
-        //        if (ObjSupplierList != null && ObjSupplierList.Count > 0)
-        //        {
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + ObjSupplierList.Count + " records found.", ObjSupplierList);
-        //        }
-        //        else
-        //        {
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-        //    }
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
+                }
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
+            }
 
-        //    return ObjResponse;
-        //}
+            return ObjResponse;
+        }
 
-        //public JsonResponse Post(SupplierViewModel model)
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var ObjProd = ObjDataAccess.GetAllSupplier(0, model.SupplierName, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.Logo, model.IsActive).FirstOrDefault();
+        public JsonResponse Put(int id, SupplierViewModel model)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
+                    if (ObjDataAccess.Suppliers.Find(id) == null)
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
+                    }
+                    else
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Suppliers.Find(id));
+                    }
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
+                }
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
+            }
 
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Products.Find(ObjProd.Response));
-        //        }
-        //        else
-        //        {
-        //            var allErrors = ModelState.Values.SelectMany(x => x.Errors);
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
-        //    }
+            return ObjResponse;
+        }
 
-        //    return ObjResponse;
-        //}
+        public JsonResponse Patch(int id, IsActiveUpdateModel model)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var ObjProd = ObjDataAccess.UpdateByIsActive(id, model.IsActive);
+                    if (ObjDataAccess.Suppliers.Find(id) == null)
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
+                    }
+                    else
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Suppliers.Find(id));
+                    }
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
+                }
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
+            }
 
-        //public JsonResponse Put(int id, SupplierViewModel model)
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var ObjProd = ObjDataAccess.spKishanInsertUpdate(id, model.Name, model.Description, model.Price, model.OnHandQuantity, model.Status, User.Identity.GetUserId()).FirstOrDefault();
-        //            if (ObjProd.Response == 0 || ObjDataAccess.Products.Find(id) == null)
-        //            {
-        //                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
-        //            }
-        //            else
-        //            {
-        //                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Products.Find(id));
-        //            }
-        //        }
-        //        else
-        //        {
-        //            var allErrors = ModelState.Values.SelectMany(x => x.Errors);
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
-        //    }
-
-        //    return ObjResponse;
-        //}
+            return ObjResponse;
+        }
 
         public JsonResponse Delete(int id)
         {
@@ -165,97 +164,32 @@ namespace GiellyGreenApi.Controllers
 
 
 
-        // GET: api/Suppliers/5
-        //[ResponseType(typeof(Supplier))]
-        //public IHttpActionResult GetSupplier(int id)
+
+
+        // GetAllSupplierByIsActive API
+        //public JsonResponse Get()
         //{
-        //    Supplier supplier = db.Suppliers.Find(id);
-        //    if (supplier == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(supplier);
-        //}
-
-        // PUT: api/Suppliers/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutSupplier(int id, Supplier supplier)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != supplier.SupplierId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(supplier).State = EntityState.Modified;
-
+        //    var ObjResponse = new JsonResponse();
         //    try
         //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!SupplierExists(id))
+        //        var ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive().ToList();
+
+        //        if (ObjSupplierList != null && ObjSupplierList.Count > 0)
         //        {
-        //            return NotFound();
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + ObjSupplierList.Count + " records found.", ObjSupplierList);
         //        }
         //        else
         //        {
-        //            throw;
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
         //        }
         //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        //POST: api/Suppliers
-       [ResponseType(typeof(Supplier))]
-        public IHttpActionResult PostSupplier(Supplier supplier)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Suppliers.Add(supplier);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = supplier.SupplierId }, supplier);
-        }
-
-        // DELETE: api/Suppliers/5
-        //[ResponseType(typeof(Supplier))]
-        //public IHttpActionResult DeleteSupplier(int id)
-        //{
-        //    Supplier supplier = db.Suppliers.Find(id);
-        //    if (supplier == null)
+        //    catch (Exception ex)
         //    {
-        //        return NotFound();
+        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
         //    }
 
-        //    db.Suppliers.Remove(supplier);
-        //    db.SaveChanges();
-
-        //    return Ok(supplier);
+        //    return ObjResponse;
         //}
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool SupplierExists(int id)
-        //{
-        //    return db.Suppliers.Count(e => e.SupplierId == id) > 0;
-        //}
     }
 }

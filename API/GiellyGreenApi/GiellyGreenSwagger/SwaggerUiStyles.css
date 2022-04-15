@@ -1,0 +1,15 @@
+﻿/*.swagger-section #header {
+  background-color: #75B9E6 !important;
+ 
+}*/
+
+body.swagger-section #header {
+    background-color: white;
+    /*//background: url(your-new-logo.png) no-repeat;*/
+    background-position-x: 250px;
+    height: 50px;
+}
+
+body.swagger-section #header{
+        background-color: #101010 !important;
+}

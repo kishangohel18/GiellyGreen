@@ -71,6 +71,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GiellyGreen_SelfInvoice.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\InsertUpdateSupplier_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Monthly_Invoice.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>

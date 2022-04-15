@@ -39,6 +39,67 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSupplierById", idParameter);
         }
     
+        public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string referenceNumber, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> modifiedDate, string logoUrl, Nullable<bool> isActive)
+        {
+            var supplierIdParameter = supplierId.HasValue ?
+                new ObjectParameter("SupplierId", supplierId) :
+                new ObjectParameter("SupplierId", typeof(int));
+    
+            var supplierNameParameter = supplierName != null ?
+                new ObjectParameter("SupplierName", supplierName) :
+                new ObjectParameter("SupplierName", typeof(string));
+    
+            var referenceNumberParameter = referenceNumber != null ?
+                new ObjectParameter("ReferenceNumber", referenceNumber) :
+                new ObjectParameter("ReferenceNumber", typeof(string));
+    
+            var businessAddressParameter = businessAddress != null ?
+                new ObjectParameter("BusinessAddress", businessAddress) :
+                new ObjectParameter("BusinessAddress", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("Phone", phone) :
+                new ObjectParameter("Phone", typeof(string));
+    
+            var taxReferenceParameter = taxReference != null ?
+                new ObjectParameter("TaxReference", taxReference) :
+                new ObjectParameter("TaxReference", typeof(string));
+    
+            var companyRegNumberParameter = companyRegNumber != null ?
+                new ObjectParameter("CompanyRegNumber", companyRegNumber) :
+                new ObjectParameter("CompanyRegNumber", typeof(string));
+    
+            var companyRegAddressParameter = companyRegAddress != null ?
+                new ObjectParameter("CompanyRegAddress", companyRegAddress) :
+                new ObjectParameter("CompanyRegAddress", typeof(string));
+    
+            var vatNumberParameter = vatNumber != null ?
+                new ObjectParameter("VatNumber", vatNumber) :
+                new ObjectParameter("VatNumber", typeof(string));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("CreatedDate", createdDate) :
+                new ObjectParameter("CreatedDate", typeof(System.DateTime));
+    
+            var modifiedDateParameter = modifiedDate.HasValue ?
+                new ObjectParameter("ModifiedDate", modifiedDate) :
+                new ObjectParameter("ModifiedDate", typeof(System.DateTime));
+    
+            var logoUrlParameter = logoUrl != null ?
+                new ObjectParameter("LogoUrl", logoUrl) :
+                new ObjectParameter("LogoUrl", typeof(string));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateSupplier_Result>("InsertUpdateSupplier", supplierIdParameter, supplierNameParameter, referenceNumberParameter, businessAddressParameter, emailParameter, phoneParameter, taxReferenceParameter, companyRegNumberParameter, companyRegAddressParameter, vatNumberParameter, createdDateParameter, modifiedDateParameter, logoUrlParameter, isActiveParameter);
+        }
+    
         public virtual ObjectResult<GetAllSupplier_Result> GetAllSupplier()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier");
@@ -47,6 +108,19 @@ namespace DataAccessLayer.Model
         public virtual ObjectResult<GetAllSupplierByIsActive_Result> GetAllSupplierByIsActive()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplierByIsActive_Result>("GetAllSupplierByIsActive");
+        }
+    
+        public virtual int UpdateByIsActive(Nullable<int> supplierId, Nullable<bool> isActive)
+        {
+            var supplierIdParameter = supplierId.HasValue ?
+                new ObjectParameter("SupplierId", supplierId) :
+                new ObjectParameter("SupplierId", typeof(int));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateByIsActive", supplierIdParameter, isActiveParameter);
         }
     }
 }

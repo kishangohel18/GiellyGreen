@@ -21,7 +21,7 @@ namespace GiellyGreenApi.Models
         public string VatNumber { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public byte[] Logo { get; set; }
+        public string LogoUrl { get; set; }
         public Nullable<bool> IsActive { get; set; }
 
     }

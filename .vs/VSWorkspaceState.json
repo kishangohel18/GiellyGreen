@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\API"
+    "\\API",
+    "\\API\\GiellyGreenApi"
   ],
+  "SelectedNode": "\\API\\GiellyGreenApi\\GiellyGreenApi.sln",
   "PreviewInSolutionExplorer": false
 }
