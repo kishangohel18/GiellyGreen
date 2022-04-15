@@ -6,7 +6,7 @@
       <Parameter Name="id" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
-    <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(Int32)">
+    <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result)">
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
       <Parameter Name="SupplierName" Mode="In" Type="String" />
       <Parameter Name="ReferenceNumber" Mode="In" Type="String" />
@@ -24,6 +24,10 @@
     </FunctionImport>
     <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)" />
     <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
+    <FunctionImport Name="UpdateByIsActive">
+      <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+      <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Monthly_Invoice">
     <Key>
@@ -97,5 +101,8 @@
     <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
     <Property Type="String" Name="LogoUrl" Nullable="true" MaxLength="100" />
     <Property Type="Boolean" Name="IsActive" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="InsertUpdateSupplier_Result">
+    <Property Type="Int32" Name="Id" Nullable="true" />
   </ComplexType>
 </Schema>

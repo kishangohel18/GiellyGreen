@@ -67,6 +67,10 @@
           <Parameter Name="LogoUrl" Type="nvarchar" Mode="In" />
           <Parameter Name="IsActive" Type="bit" Mode="In" />
         </Function>
+        <Function Name="UpdateByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierId" Type="int" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+        </Function>
         <EntityContainer Name="GiellyGreen_SelfInvoiceModelStoreContainer">
           <EntitySet Name="Monthly_Invoice" EntityType="Self.Monthly_Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
@@ -81,7 +85,7 @@
           <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
-          <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(Int32)">
+          <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result)">
             <Parameter Name="SupplierId" Mode="In" Type="Int32" />
             <Parameter Name="SupplierName" Mode="In" Type="String" />
             <Parameter Name="ReferenceNumber" Mode="In" Type="String" />
@@ -99,6 +103,10 @@
           </FunctionImport>
           <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)" />
           <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
+          <FunctionImport Name="UpdateByIsActive">
+            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Monthly_Invoice">
           <Key>
@@ -173,6 +181,9 @@
           <Property Type="String" Name="LogoUrl" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="IsActive" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="InsertUpdateSupplier_Result">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -223,7 +234,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="InsertUpdateSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateSupplier" />
+          <FunctionImportMapping FunctionImportName="InsertUpdateSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateSupplier" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetAllSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplier">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result">
@@ -264,6 +281,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateByIsActive" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateByIsActive" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

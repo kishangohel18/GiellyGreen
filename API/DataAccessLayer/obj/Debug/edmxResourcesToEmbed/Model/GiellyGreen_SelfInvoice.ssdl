@@ -62,6 +62,10 @@
     <Parameter Name="LogoUrl" Type="nvarchar" Mode="In" />
     <Parameter Name="IsActive" Type="bit" Mode="In" />
   </Function>
+  <Function Name="UpdateByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierId" Type="int" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+  </Function>
   <EntityContainer Name="GiellyGreen_SelfInvoiceModelStoreContainer">
     <EntitySet Name="Monthly_Invoice" EntityType="Self.Monthly_Invoice" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
