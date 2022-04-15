@@ -59,6 +59,6 @@ export class GGInvoiceService {
   }
   deletetProduct(id: number, userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.delete<unknown>(`http://2eb2-106-201-236-89.ngrok.io/api/Product/${id}`, {headers:header});
+    return this.http.delete<unknown>(`http://7cd1-106-201-236-89.ngrok.io/api/Product/${id}`, {headers:header});
   }
 }

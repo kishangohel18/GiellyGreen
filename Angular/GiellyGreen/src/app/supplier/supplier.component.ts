@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GGInvoiceService } from '../gginvoice.service';
 
@@ -18,7 +19,9 @@ export class SupplierComponent implements OnInit {
   //sortPriceFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]): number => a.Price - b.Price;
   userSessionToken = sessionStorage.getItem("User");
 
-  constructor(private fb: FormBuilder, private _gs: GGInvoiceService) {
+  
+
+  constructor(private fb: FormBuilder, private _gs: GGInvoiceService, private router:Router) {
     this.validateForm = this.fb.group({
       productName: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 ]{1,20}$")]],
       productPrice: ['', [Validators.required, Validators.pattern("^[0-9]{1,10}.?[0-9]{1,10}$")]],
@@ -58,6 +61,9 @@ export class SupplierComponent implements OnInit {
     });
   }
   ngOnInit() {
+    if(!this.userSessionToken){
+      this.router.navigate(['/login'])
+    }
     this.onGetProducts();
   }
   handleCancelTop(): void {

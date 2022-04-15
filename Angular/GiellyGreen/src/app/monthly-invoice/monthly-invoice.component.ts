@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-monthly-invoice',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MonthlyInvoiceComponent implements OnInit {
 
-  constructor() { }
+  userSessionToken = sessionStorage.getItem("User");
+  constructor(public router:Router) { }
 
   ngOnInit(): void {
+    if(!this.userSessionToken){
+      this.router.navigate(['/login'])
+    }
   }
 
 }
