@@ -13,6 +13,7 @@ using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 
+
 namespace GiellyGreenApi.Controllers
 {
     [Authorize]
@@ -53,13 +54,31 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
-
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
+                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber))
+                    {                       
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
+                    }
+                    else
+                    {
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
+                    }
                 }
                 else
-                {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                {                   
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
@@ -90,7 +109,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
@@ -121,7 +140,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
@@ -139,7 +158,7 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
-                var ObjSupplier = ObjDataAccess.DeleteSupplierById(id);                
+                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id);                
                 if (ObjSupplier > 0)
                 {
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
@@ -150,7 +169,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
                 }
             }

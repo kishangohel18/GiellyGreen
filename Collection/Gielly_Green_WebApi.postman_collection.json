@@ -20,10 +20,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Account/Register",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Account/Register",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -62,10 +62,10 @@
 					]
 				},
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/token",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/token",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -91,10 +91,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Login",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Login",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -118,10 +118,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Suppliers",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -145,10 +145,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers/11",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Suppliers/11",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -182,10 +182,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Suppliers",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -218,10 +218,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers/14",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Suppliers/14",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],
@@ -255,10 +255,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://251d-106-201-236-89.ngrok.io/api/Suppliers/14",
+					"raw": "http://caf7-106-201-236-89.ngrok.io/api/Suppliers/14",
 					"protocol": "http",
 					"host": [
-						"251d-106-201-236-89",
+						"caf7-106-201-236-89",
 						"ngrok",
 						"io"
 					],

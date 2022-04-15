@@ -50,10 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DeleteConstrainedSupplier_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\GetAllSupplierByIsActive_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GetAllSupplier_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GetInvoiceByMonth_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GiellyGreen_SelfInvoice.Context.cs">
