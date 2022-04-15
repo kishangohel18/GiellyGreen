@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Http.Description;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
@@ -20,8 +13,8 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();        
-        
+        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
+
         public JsonResponse Get()
         {
             var ObjResponse = new JsonResponse();
@@ -53,13 +46,31 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
-
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
+                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
+                    }
+                    else
+                    {
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
+                    }
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
@@ -90,7 +101,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
@@ -121,7 +132,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
@@ -139,18 +150,24 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
-                var ObjSupplier = ObjDataAccess.DeleteSupplierById(id);                
-                if (ObjSupplier > 0)
+                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id).FirstOrDefault();                
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
+
+                if (ObjSupplier.ResponseStatus == 0)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
                 }
-                else if (ObjSupplier == 0)
+                else if (ObjSupplier.ResponseStatus == 1)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not found", null);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted", null);
+                }
+                else if (ObjSupplier.ResponseStatus == 2)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not delete. Because invoice present for this supplier.", null);
                 }
                 else
                 {
-                    var allErrors = ModelState.Values.SelectMany(x => x.Errors);
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
                 }
             }

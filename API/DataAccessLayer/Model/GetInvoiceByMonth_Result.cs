@@ -10,9 +10,8 @@
 namespace DataAccessLayer.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Monthly_Invoice
+    public partial class GetInvoiceByMonth_Result
     {
         public int MonthlyInvoiceId { get; set; }
         public Nullable<int> SupplierId { get; set; }
@@ -33,7 +32,5 @@ namespace DataAccessLayer.Model
         public Nullable<bool> IsApproved { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
         public Nullable<System.DateTime> CurrentMonth { get; set; }
-    
-        public virtual Supplier Supplier { get; set; }
     }
 }

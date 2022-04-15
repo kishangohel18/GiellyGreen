@@ -5,7 +5,7 @@
       <PropertyRef Name="MonthlyInvoiceId" />
     </Key>
     <Property Name="MonthlyInvoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SuplierId" Type="int" />
+    <Property Name="SupplierId" Type="int" />
     <Property Name="SuplierName" Type="nvarchar" MaxLength="100" />
     <Property Name="HairService" Type="decimal" Precision="18" Scale="2" />
     <Property Name="BeautyService" Type="decimal" Precision="18" Scale="2" />
@@ -21,6 +21,8 @@
     <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
     <Property Name="InvoiceReference" Type="int" />
     <Property Name="IsApproved" Type="bit" />
+    <Property Name="InvoiceDate" Type="date" />
+    <Property Name="CurrentMonth" Type="date" />
   </EntityType>
   <EntityType Name="Supplier">
     <Key>
@@ -41,11 +43,29 @@
     <Property Name="LogoUrl" Type="nvarchar" MaxLength="100" />
     <Property Name="IsActive" Type="bit" />
   </EntityType>
+  <Association Name="FK_Monthly_Invoice_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+    <End Role="Monthly_Invoice" Type="Self.Monthly_Invoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SupplierId" />
+      </Principal>
+      <Dependent Role="Monthly_Invoice">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="DeleteConstrainedSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierId" Type="int" Mode="In" />
+  </Function>
   <Function Name="DeleteSupplierById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id" Type="int" Mode="In" />
   </Function>
   <Function Name="GetAllSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="GetAllSupplierByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetInvoiceByMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InvoiceMonth" Type="date" Mode="In" />
+  </Function>
   <Function Name="InsertUpdateSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SupplierId" Type="int" Mode="In" />
     <Parameter Name="SupplierName" Type="nvarchar" Mode="In" />
@@ -69,5 +89,9 @@
   <EntityContainer Name="GiellyGreen_SelfInvoiceModelStoreContainer">
     <EntitySet Name="Monthly_Invoice" EntityType="Self.Monthly_Invoice" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Monthly_Invoice_Supplier" Association="Self.FK_Monthly_Invoice_Supplier">
+      <End Role="Supplier" EntitySet="Supplier" />
+      <End Role="Monthly_Invoice" EntitySet="Monthly_Invoice" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

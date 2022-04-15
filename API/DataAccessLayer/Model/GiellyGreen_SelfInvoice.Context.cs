@@ -30,6 +30,15 @@ namespace DataAccessLayer.Model
         public virtual DbSet<Monthly_Invoice> Monthly_Invoice { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
     
+        public virtual ObjectResult<DeleteConstrainedSupplier_Result> DeleteConstrainedSupplier(Nullable<int> supplierId)
+        {
+            var supplierIdParameter = supplierId.HasValue ?
+                new ObjectParameter("SupplierId", supplierId) :
+                new ObjectParameter("SupplierId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeleteConstrainedSupplier_Result>("DeleteConstrainedSupplier", supplierIdParameter);
+        }
+    
         public virtual int DeleteSupplierById(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
@@ -37,6 +46,25 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("id", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSupplierById", idParameter);
+        }
+    
+        public virtual ObjectResult<GetAllSupplier_Result> GetAllSupplier()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier");
+        }
+    
+        public virtual ObjectResult<GetAllSupplierByIsActive_Result> GetAllSupplierByIsActive()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplierByIsActive_Result>("GetAllSupplierByIsActive");
+        }
+    
+        public virtual ObjectResult<GetInvoiceByMonth_Result> GetInvoiceByMonth(Nullable<System.DateTime> invoiceMonth)
+        {
+            var invoiceMonthParameter = invoiceMonth.HasValue ?
+                new ObjectParameter("InvoiceMonth", invoiceMonth) :
+                new ObjectParameter("InvoiceMonth", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceByMonth_Result>("GetInvoiceByMonth", invoiceMonthParameter);
         }
     
         public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string referenceNumber, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> modifiedDate, string logoUrl, Nullable<bool> isActive)
@@ -98,16 +126,6 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("IsActive", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateSupplier_Result>("InsertUpdateSupplier", supplierIdParameter, supplierNameParameter, referenceNumberParameter, businessAddressParameter, emailParameter, phoneParameter, taxReferenceParameter, companyRegNumberParameter, companyRegAddressParameter, vatNumberParameter, createdDateParameter, modifiedDateParameter, logoUrlParameter, isActiveParameter);
-        }
-    
-        public virtual ObjectResult<GetAllSupplier_Result> GetAllSupplier()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier");
-        }
-    
-        public virtual ObjectResult<GetAllSupplierByIsActive_Result> GetAllSupplierByIsActive()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplierByIsActive_Result>("GetAllSupplierByIsActive");
         }
     
         public virtual int UpdateByIsActive(Nullable<int> supplierId, Nullable<bool> isActive)
