@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GiellyGreen_SelfInvoiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="GiellyGreen_SelfInvoiceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
+    <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
+    <FunctionImport Name="DeleteSupplierById">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)" />
+    <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
+  </EntityContainer>
+  <EntityType Name="Monthly_Invoice">
+    <Key>
+      <PropertyRef Name="MonthlyInvoiceId" />
+    </Key>
+    <Property Name="MonthlyInvoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SuplierId" Type="Int32" />
+    <Property Name="SuplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HairService" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BeautyService" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Custom1" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Custom2" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Custom3" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Custom4" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Custom5" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Net" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Vat" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Gross" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AdvancePaid" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="InvoiceReference" Type="Int32" />
+    <Property Name="IsApproved" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierId" />
+    </Key>
+    <Property Name="SupplierId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ReferenceNumber" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="BusinessAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="TaxReference" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyRegNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyRegAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="VatNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="Logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <ComplexType Name="GetAllSupplier_Result">
+    <Property Type="Int32" Name="SupplierId" Nullable="false" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="BusinessAddress" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="TaxReference" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CompanyRegNumber" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CompanyRegAddress" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+    <Property Type="Binary" Name="Logo" Nullable="true" />
+    <Property Type="Boolean" Name="IsActive" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetAllSupplierByIsActive_Result">
+    <Property Type="Int32" Name="SupplierId" Nullable="false" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="BusinessAddress" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="TaxReference" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CompanyRegNumber" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="CompanyRegAddress" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+    <Property Type="Binary" Name="Logo" Nullable="true" />
+    <Property Type="Boolean" Name="IsActive" Nullable="true" />
+  </ComplexType>
+</Schema>

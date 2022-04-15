@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "96c6fcb2-7265-4c86-abbe-75d615559aa7",
+		"name": "Gielly_Green_WebApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Email\": \"admin@getnada.com\",\r\n  \"Password\": \"GiellyGreen@123\",\r\n  \"ConfirmPassword\": \"GiellyGreen@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Account/Register",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Account",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "admin@getnada.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "GiellyGreen@123",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/token",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\":\"admin@getnada.com\",\r\n    \"Password\":\"GiellyGreen@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Login",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Supplier",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Suppliers",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Supplier",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer n-Q4tmggDN1GQ0IrDYMVqselu-nGZJTXAz_kR5cbcR0XmBMcZmaRDFvW9umIEKvdtepeGWVaYeC_JDaSZGPOhZcmOhBwGmE53G7u2WJ1R2Dw5yCt6wMc4q5eN-X-Fn45RcwZLdY6-KPUgSV8TBZAnVrml_tUJKzCgiGRAR3wbd9opDCO-YVXYGCUu6U0YchCUCyZIpc6NUvQDE9HRc9I9TPy4fV1GuOD0hP1lkggipATwdZ7AabINqlW738bMcewxN77ImCn-FJ1oFkICrgoXGV_-SJWabV5Csc4UaG02YH1TpXYz1vm8p5o1zWBVm2DlK8yGW_J2tbvm2l4bjrxuQ0afATwkdVbofrVHPZtk7OkdOjTbZKlrhlKTxo9GyTIKE36BPWHlVG3guSVM74r-Bunha_yAMbrykRaXcRIdqXZVdvNh07pDRdkpZD7cLsyFtzP_29GmT7PzFENlrPPqNGQugWDYPdCeyI5yfeeH0o",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://7cd1-106-201-236-89.ngrok.io/api/Suppliers/1",
+					"protocol": "https",
+					"host": [
+						"7cd1-106-201-236-89",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"Suppliers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

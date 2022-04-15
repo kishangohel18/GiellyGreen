@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "c3470af3-9a01-4901-aecd-a905c2fef248": {
+      "ProjectGuid": "c3470af3-9a01-4901-aecd-a905c2fef248",
+      "DisplayName": "GiellyGreenApi",
+      "ColorIndex": 0
+    },
+    "fd65a491-a0b4-4e67-8dc5-bf7f88e65b5c": {
+      "ProjectGuid": "fd65a491-a0b4-4e67-8dc5-bf7f88e65b5c",
+      "DisplayName": "DataAccessLayer",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
