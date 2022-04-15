@@ -160,14 +160,18 @@ namespace GiellyGreenApi.Controllers
                 var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
                 var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id);
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
-                
-                //if (ObjSupplier > 0)
+                //ObjSupplier.
+                //if (ObjSupplier.ResponseStatus == 0)
                 //{
-                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
                 //}
-                //else if (ObjSupplier == 0)
+                //else if (ObjSupplier.ResponseStatus == 1)
                 //{
-                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not found", null);
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted", null);
+                //}
+                //else if (ObjSupplier.ResponseStatus == 2)
+                //{
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not delete. Because invoice present for this supplier.", null);
                 //}
                 //else
                 //{
