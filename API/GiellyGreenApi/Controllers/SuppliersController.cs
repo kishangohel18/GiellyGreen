@@ -8,12 +8,12 @@ using GiellyGreenApi.Models;
 
 namespace GiellyGreenApi.Controllers
 {
+
     [Authorize]
     public class SuppliersController : ApiController
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
 
         public JsonResponse Get()
         {
@@ -163,7 +163,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else if (ObjSupplier.ResponseStatus == 2)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not delete. Because invoice present for this supplier.", null);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record cannot delete. Because invoice present for this supplier.", null);
                 }
                 else
                 {
