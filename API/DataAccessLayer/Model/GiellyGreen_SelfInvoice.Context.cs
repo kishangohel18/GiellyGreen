@@ -27,6 +27,7 @@ namespace DataAccessLayer.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<CustomHeader> CustomHeaders { get; set; }
         public virtual DbSet<Monthly_Invoice> Monthly_Invoice { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
     
@@ -67,7 +68,7 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceByMonth_Result>("GetInvoiceByMonth", invoiceMonthParameter);
         }
     
-        public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string referenceNumber, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> modifiedDate, string logoUrl, Nullable<bool> isActive)
+        public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string referenceNumber, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> modifiedDate, string logoUrl, Nullable<bool> isActive, Nullable<bool> isInvoiced)
         {
             var supplierIdParameter = supplierId.HasValue ?
                 new ObjectParameter("SupplierId", supplierId) :
@@ -125,7 +126,11 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("IsActive", isActive) :
                 new ObjectParameter("IsActive", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateSupplier_Result>("InsertUpdateSupplier", supplierIdParameter, supplierNameParameter, referenceNumberParameter, businessAddressParameter, emailParameter, phoneParameter, taxReferenceParameter, companyRegNumberParameter, companyRegAddressParameter, vatNumberParameter, createdDateParameter, modifiedDateParameter, logoUrlParameter, isActiveParameter);
+            var isInvoicedParameter = isInvoiced.HasValue ?
+                new ObjectParameter("IsInvoiced", isInvoiced) :
+                new ObjectParameter("IsInvoiced", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateSupplier_Result>("InsertUpdateSupplier", supplierIdParameter, supplierNameParameter, referenceNumberParameter, businessAddressParameter, emailParameter, phoneParameter, taxReferenceParameter, companyRegNumberParameter, companyRegAddressParameter, vatNumberParameter, createdDateParameter, modifiedDateParameter, logoUrlParameter, isActiveParameter, isInvoicedParameter);
         }
     
         public virtual int UpdateByIsActive(Nullable<int> supplierId, Nullable<bool> isActive)

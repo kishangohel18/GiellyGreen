@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f11c94c83a2143839e5c93529bf90fc9" Name="Diagram1" >
-        <EntityTypeShape EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="GiellyGreen_SelfInvoiceModel.Supplier" Width="1.5" PointX="0.75" PointY="1.5" />
-        <AssociationConnector Association="GiellyGreen_SelfInvoiceModel.FK_Monthly_Invoice_Supplier" />
+        <EntityTypeShape EntityType="GiellyGreen_SelfInvoiceModel.CustomHeader" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GiellyGreen_SelfInvoiceModel.Supplier" Width="1.5" PointX="4.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -33,7 +33,5 @@ namespace DataAccessLayer.Model
         public Nullable<bool> IsApproved { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
         public Nullable<System.DateTime> CurrentMonth { get; set; }
-    
-        public virtual Supplier Supplier { get; set; }
     }
 }

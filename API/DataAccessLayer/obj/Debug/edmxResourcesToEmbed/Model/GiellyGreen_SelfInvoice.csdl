@@ -1,12 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="GiellyGreen_SelfInvoiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="GiellyGreen_SelfInvoiceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CustomHeaders" EntityType="GiellyGreen_SelfInvoiceModel.CustomHeader" />
     <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
     <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
-    <AssociationSet Name="FK_Monthly_Invoice_Supplier" Association="GiellyGreen_SelfInvoiceModel.FK_Monthly_Invoice_Supplier">
-      <End Role="Supplier" EntitySet="Suppliers" />
-      <End Role="Monthly_Invoice" EntitySet="Monthly_Invoice" />
-    </AssociationSet>
     <FunctionImport Name="DeleteConstrainedSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result)">
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -33,12 +30,25 @@
       <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
       <Parameter Name="LogoUrl" Mode="In" Type="String" />
       <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+      <Parameter Name="IsInvoiced" Mode="In" Type="Boolean" />
     </FunctionImport>
     <FunctionImport Name="UpdateByIsActive">
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
       <Parameter Name="IsActive" Mode="In" Type="Boolean" />
     </FunctionImport>
   </EntityContainer>
+  <EntityType Name="CustomHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceReferance" Type="Int32" />
+    <Property Name="Custom1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Custom2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Custom3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Custom4" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Custom5" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="Monthly_Invoice">
     <Key>
       <PropertyRef Name="MonthlyInvoiceId" />
@@ -62,7 +72,6 @@
     <Property Name="IsApproved" Type="Boolean" />
     <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
     <Property Name="CurrentMonth" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="Supplier" Relationship="GiellyGreen_SelfInvoiceModel.FK_Monthly_Invoice_Supplier" FromRole="Monthly_Invoice" ToRole="Supplier" />
   </EntityType>
   <EntityType Name="Supplier">
     <Key>
@@ -80,22 +89,10 @@
     <Property Name="VatNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <Property Name="LogoUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LogoUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="IsActive" Type="Boolean" />
-    <NavigationProperty Name="Monthly_Invoice" Relationship="GiellyGreen_SelfInvoiceModel.FK_Monthly_Invoice_Supplier" FromRole="Supplier" ToRole="Monthly_Invoice" />
+    <Property Name="IsInvoiced" Type="Boolean" />
   </EntityType>
-  <Association Name="FK_Monthly_Invoice_Supplier">
-    <End Type="GiellyGreen_SelfInvoiceModel.Supplier" Role="Supplier" Multiplicity="0..1" />
-    <End Type="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" Role="Monthly_Invoice" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Supplier">
-        <PropertyRef Name="SupplierId" />
-      </Principal>
-      <Dependent Role="Monthly_Invoice">
-        <PropertyRef Name="SupplierId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <ComplexType Name="GetAllSupplier_Result">
     <Property Type="Int32" Name="SupplierId" Nullable="false" />
     <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
@@ -109,8 +106,9 @@
     <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
     <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
-    <Property Type="String" Name="LogoUrl" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="LogoUrl" Nullable="true" />
     <Property Type="Boolean" Name="IsActive" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiced" Nullable="true" />
   </ComplexType>
   <ComplexType Name="GetAllSupplierByIsActive_Result">
     <Property Type="Int32" Name="SupplierId" Nullable="false" />
@@ -125,8 +123,9 @@
     <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
     <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
-    <Property Type="String" Name="LogoUrl" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="LogoUrl" Nullable="true" />
     <Property Type="Boolean" Name="IsActive" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiced" Nullable="true" />
   </ComplexType>
   <ComplexType Name="GetInvoiceByMonth_Result">
     <Property Type="Int32" Name="MonthlyInvoiceId" Nullable="false" />
@@ -149,10 +148,10 @@
     <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
     <Property Type="DateTime" Name="CurrentMonth" Nullable="true" />
   </ComplexType>
-  <ComplexType Name="InsertUpdateSupplier_Result">
-    <Property Type="Int32" Name="Id" Nullable="true" />
-  </ComplexType>
   <ComplexType Name="DeleteConstrainedSupplier_Result">
     <Property Type="Int32" Name="ResponseStatus" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="InsertUpdateSupplier_Result">
+    <Property Type="Int32" Name="Id" Nullable="true" />
   </ComplexType>
 </Schema>

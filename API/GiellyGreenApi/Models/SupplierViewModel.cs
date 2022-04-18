@@ -9,7 +9,7 @@ namespace GiellyGreenApi.Models
 {
     public class SupplierViewModel
     {
-        
+
         public int SupplierId { get; set; }
 
         private string _SupplierName { get; set; }
@@ -22,16 +22,14 @@ namespace GiellyGreenApi.Models
             get { return _SupplierName; }
             set
             {
-                _SupplierName = value.Trim();
-                _SupplierName = Regex.Replace(SupplierName, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _SupplierName = value.Trim();
+                    _SupplierName = Regex.Replace(SupplierName, @"\s+", " ");
+                }
             }
         }
 
-
-        //[Required]
-        //[RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Suppliername must be alphabet")]
-        //[MaxLength(50, ErrorMessage = "Suppliername max length upto 50")]
-        //public string SupplierName { get; set; }
 
         public string _ReferenceNumber { get; set; }
 
@@ -43,8 +41,11 @@ namespace GiellyGreenApi.Models
             get { return _ReferenceNumber; }
             set
             {
-                _ReferenceNumber = value.Trim();
-                _ReferenceNumber = Regex.Replace(ReferenceNumber, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _ReferenceNumber = value.Trim();
+                    _ReferenceNumber = Regex.Replace(ReferenceNumber, @"\s+", " ");
+                }
             }
         }
 
@@ -55,8 +56,11 @@ namespace GiellyGreenApi.Models
             get { return _BusinessAddress; }
             set
             {
-                _BusinessAddress = value.Trim();
-                _BusinessAddress = Regex.Replace(BusinessAddress, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _BusinessAddress = value.Trim();
+                    _BusinessAddress = Regex.Replace(BusinessAddress, @"\s+", " ");
+                }
             }
         }
         //public string _Email { get; set; }
@@ -74,8 +78,11 @@ namespace GiellyGreenApi.Models
             get { return _Phone; }
             set
             {
-                _Phone = value.Trim();
-                _Phone = Regex.Replace(Phone, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _Phone = value.Trim();
+                    _Phone = Regex.Replace(Phone, @"\s+", " ");
+                }
             }
         }
 
@@ -89,8 +96,11 @@ namespace GiellyGreenApi.Models
             get { return _TaxReference; }
             set
             {
-                _TaxReference = value.Trim();
-                _TaxReference = Regex.Replace(TaxReference, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _TaxReference = value.Trim();
+                    _TaxReference = Regex.Replace(TaxReference, @"\s+", " ");
+                }
             }
         }
 
@@ -103,11 +113,13 @@ namespace GiellyGreenApi.Models
             get { return _CompanyRegNumber; }
             set
             {
-                _CompanyRegNumber = value.Trim();
-                _CompanyRegNumber = Regex.Replace(CompanyRegNumber, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _CompanyRegNumber = value.Trim();
+                    _CompanyRegNumber = Regex.Replace(CompanyRegNumber, @"\s+", " ");
+                }
             }
         }
-
 
 
 
@@ -119,8 +131,11 @@ namespace GiellyGreenApi.Models
             get { return _CompanyRegAddress; }
             set
             {
-                _CompanyRegAddress = value.Trim();
-                _CompanyRegAddress = Regex.Replace(CompanyRegAddress, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _CompanyRegAddress = value.Trim();
+                    _CompanyRegAddress = Regex.Replace(CompanyRegAddress, @"\s+", " ");
+                }
             }
         }
 
@@ -134,8 +149,11 @@ namespace GiellyGreenApi.Models
             get { return _VatNumber; }
             set
             {
-                _VatNumber = value.Trim();
-                _VatNumber = Regex.Replace(VatNumber, @"\s+", " ");
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _VatNumber = value.Trim();
+                    _VatNumber = Regex.Replace(VatNumber, @"\s+", " ");
+                }
             }
         }
 
@@ -145,6 +163,9 @@ namespace GiellyGreenApi.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string LogoUrl { get; set; }
         public Nullable<bool> IsActive { get; set; }
+
+        public Nullable<bool> IsInvoiced { get; set; }
+
 
     }
 }
