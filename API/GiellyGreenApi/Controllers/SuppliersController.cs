@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
@@ -8,19 +10,31 @@ using GiellyGreenApi.Models;
 
 namespace GiellyGreenApi.Controllers
 {
+
     [Authorize]
     public class SuppliersController : ApiController
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
 
-        public JsonResponse Get()
+        public JsonResponse Get(int id = 0)
         {
             var ObjResponse = new JsonResponse();
             try
             {
-                var ObjSupplierList = ObjDataAccess.GetAllSupplier().ToList();
+                var ObjSupplierList = ObjDataAccess.GetAllSupplier(id).ToList();
+
+                ObjSupplierList.ForEach(supplier =>
+               {
+                   string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+                   if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
+                   {
+                       string imgPath = Path.Combine(path, supplier.LogoUrl);
+                       byte[] imageByte = File.ReadAllBytes(imgPath);
+                       supplier.LogoUrl = Convert.ToBase64String(imageByte);
+                   }
+               });
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
                 {
@@ -46,25 +60,46 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber))
+
+                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    if (!string.IsNullOrEmpty(model.LogoUrl)) 
+                    {
+                        string imageName = Guid.NewGuid().ToString("N") + ".jpg";
+
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
+
+                        File.WriteAllBytes(imgPath, imageBytes);
+
+                        model.LogoUrl = imgPath;
+                    }
+
+                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber && s.SupplierId != model.SupplierId) && model.ReferenceNumber != null && model.ReferenceNumber != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
                     }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email))
+                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email) && model.Email != null && model.Email != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
                     }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber))
+                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber) && model.VatNumber != null && model.VatNumber != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
                     }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference))
+                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference) && model.TaxReference != null && model.TaxReference != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
                     }
                     else
                     {
-                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive, model.IsInvoiced).FirstOrDefault();
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
                     }
                 }
@@ -89,15 +124,53 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive).FirstOrDefault();
-                    if (ObjDataAccess.Suppliers.Find(id) == null)
+
+                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+                    if (!Directory.Exists(path))
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
+                        Directory.CreateDirectory(path);
+                    }
+
+                    string imageName = model.SupplierName + ".jpg";
+
+                    string imgPath = Path.Combine(path, imageName);
+
+                    byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
+
+                    File.WriteAllBytes(imgPath, imageBytes);
+
+                    model.LogoUrl = imgPath;
+
+                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber && s.SupplierId != id) && model.ReferenceNumber != null && model.ReferenceNumber != "")
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
+                    }
+                    else if(ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id) && model.Email != null && model.Email != "")
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
+                    }
+                    else if(ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id) && model.VatNumber != null && model.VatNumber != "")
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
+                    }
+                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id) && model.TaxReference != null && model.TaxReference != "")
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
                     }
                     else
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Suppliers.Find(id));
-                    }
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive, model.IsInvoiced).FirstOrDefault();
+
+                        if (ObjDataAccess.Suppliers.Find(id) == null)
+                        {
+                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
+                        }
+                        else
+                        {
+                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Suppliers.Find(id));
+                        }
+                    }                   
                 }
                 else
                 {
@@ -150,7 +223,7 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
-                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id).FirstOrDefault();                
+                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id).FirstOrDefault();
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
 
                 if (ObjSupplier.ResponseStatus == 0)
@@ -163,7 +236,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else if (ObjSupplier.ResponseStatus == 2)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not delete. Because invoice present for this supplier.", null);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record cannot delete. Because invoice present for this supplier.", null);
                 }
                 else
                 {

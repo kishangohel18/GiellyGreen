@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-
+using DataAccessLayer.Model;
 
 namespace GiellyGreenApi.Models
 {
@@ -11,7 +11,7 @@ namespace GiellyGreenApi.Models
     {
 
         public int MonthlyInvoiceId { get; set; }
-        public Nullable<int> SuplierId { get; set; }
+        public Nullable<int> SupplierId { get; set; }
         public string SuplierName { get; set; }
         public Nullable<decimal> HairService { get; set; }
         public Nullable<decimal> BeautyService { get; set; }
@@ -27,5 +27,9 @@ namespace GiellyGreenApi.Models
         public Nullable<decimal> Balance { get; set; }
         public Nullable<int> InvoiceReference { get; set; }
         public Nullable<bool> IsApproved { get; set; }
+        public Nullable<System.DateTime> InvoiceDate { get; set; }
+        public Nullable<System.DateTime> CurrentMonth { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
     }
 }
