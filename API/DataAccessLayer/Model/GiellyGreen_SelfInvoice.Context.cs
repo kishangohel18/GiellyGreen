@@ -63,13 +63,17 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplierByIsActive_Result>("GetAllSupplierByIsActive");
         }
     
-        public virtual ObjectResult<GetInvoiceByMonth_Result> GetInvoiceByMonth(Nullable<System.DateTime> invoiceMonth)
+        public virtual ObjectResult<GetInvoiceByMonth_Result> GetInvoiceByMonth(Nullable<int> invoiceMonth, Nullable<int> invoiceYear)
         {
             var invoiceMonthParameter = invoiceMonth.HasValue ?
                 new ObjectParameter("InvoiceMonth", invoiceMonth) :
-                new ObjectParameter("InvoiceMonth", typeof(System.DateTime));
+                new ObjectParameter("InvoiceMonth", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceByMonth_Result>("GetInvoiceByMonth", invoiceMonthParameter);
+            var invoiceYearParameter = invoiceYear.HasValue ?
+                new ObjectParameter("InvoiceYear", invoiceYear) :
+                new ObjectParameter("InvoiceYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceByMonth_Result>("GetInvoiceByMonth", invoiceMonthParameter, invoiceYearParameter);
         }
     
         public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string referenceNumber, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> modifiedDate, string logoUrl, Nullable<bool> isActive, Nullable<bool> isInvoiced)

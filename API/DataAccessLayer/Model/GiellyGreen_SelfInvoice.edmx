@@ -39,7 +39,8 @@
           <Property Name="InvoiceReference" Type="int" />
           <Property Name="IsApproved" Type="bit" />
           <Property Name="InvoiceDate" Type="date" />
-          <Property Name="CurrentMonth" Type="date" />
+          <Property Name="CurrentYear" Type="int" />
+          <Property Name="CurrentMonth" Type="int" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -72,7 +73,8 @@
         </Function>
         <Function Name="GetAllSupplierByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetInvoiceByMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="InvoiceMonth" Type="date" Mode="In" />
+          <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
+          <Parameter Name="InvoiceYear" Type="int" Mode="In" />
         </Function>
         <Function Name="InsertUpdateSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierId" Type="int" Mode="In" />
@@ -109,17 +111,18 @@
           <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
           <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
           <FunctionImport Name="DeleteConstrainedSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result)">
-          <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteSupplierById">
-          <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)" >
+          <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)">
             <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
           <FunctionImport Name="GetInvoiceByMonth" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetInvoiceByMonth_Result)">
-          <Parameter Name="InvoiceMonth" Mode="In" Type="DateTime" />
+            <Parameter Name="InvoiceMonth" Mode="In" Type="Int32" />
+            <Parameter Name="InvoiceYear" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result)">
             <Parameter Name="SupplierId" Mode="In" Type="Int32" />
@@ -177,7 +180,8 @@
           <Property Name="InvoiceReference" Type="Int32" />
           <Property Name="IsApproved" Type="Boolean" />
           <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
-          <Property Name="CurrentMonth" Type="DateTime" Precision="0" />
+          <Property Name="CurrentYear" Type="Int32" />
+          <Property Name="CurrentMonth" Type="Int32" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -252,7 +256,8 @@
           <Property Type="Int32" Name="InvoiceReference" Nullable="true" />
           <Property Type="Boolean" Name="IsApproved" Nullable="true" />
           <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
-          <Property Type="DateTime" Name="CurrentMonth" Nullable="true" />
+          <Property Type="Int32" Name="CurrentYear" Nullable="true" />
+          <Property Type="Int32" Name="CurrentMonth" Nullable="true" />
         </ComplexType>
         <ComplexType Name="DeleteConstrainedSupplier_Result">
           <Property Type="Int32" Name="ResponseStatus" Nullable="true" />
@@ -283,6 +288,7 @@
             <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.Monthly_Invoice">
               <MappingFragment StoreEntitySet="Monthly_Invoice">
                 <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
+                <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
                 <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
@@ -396,6 +402,7 @@
                 <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
                 <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
               </ComplexTypeMapping>
             </ResultMapping>
