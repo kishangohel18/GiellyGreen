@@ -49,9 +49,13 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSupplierById", idParameter);
         }
     
-        public virtual ObjectResult<GetAllSupplier_Result> GetAllSupplier()
+        public virtual ObjectResult<GetAllSupplier_Result> GetAllSupplier(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier", idParameter);
         }
     
         public virtual ObjectResult<GetAllSupplierByIsActive_Result> GetAllSupplierByIsActive()

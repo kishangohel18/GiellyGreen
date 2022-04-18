@@ -72,7 +72,8 @@ namespace GiellyGreenApi.Models
         public string _Phone { get; set; }
 
         [RegularExpression(@"[0-9]+", ErrorMessage = "Phone Number must be digits")]
-        [MaxLength(15, ErrorMessage = "Phone Number max length upto 15")]
+        [MinLength(7, ErrorMessage = "Phone Number min length is 7")]
+        [MaxLength(15, ErrorMessage = "Phone Number max length is 15")]
         public string Phone
         {
             get { return _Phone; }
@@ -90,7 +91,7 @@ namespace GiellyGreenApi.Models
         public string _TaxReference { get; set; }
 
         [RegularExpression(@"^[a-zA-Z0-9]{1,15}$", ErrorMessage = "Tax reference must be alphanumeric")]
-        [MaxLength(10, ErrorMessage = "Tax reference max length upto 15")]
+        [MaxLength(15, ErrorMessage = "Tax reference max length upto 15")]
         public string TaxReference
         {
             get { return _TaxReference; }
@@ -107,7 +108,9 @@ namespace GiellyGreenApi.Models
 
         public string _CompanyRegNumber { get; set; }
 
-        [RegularExpression(@"^[0-9]{1,15}$", ErrorMessage = "Company registered number should be digits. Max length upto 15.")]
+        //[RegularExpression(@"^[0-9]{1,15}$", ErrorMessage = "Company registered number should be digits. Max length upto 15.")]
+        [RegularExpression(@"^[a-zA-Z0-9]{1,15}$", ErrorMessage = "Company registered number must be alphanumeric")]
+        [MaxLength(15, ErrorMessage = "Company registered number max length upto 15")]
         public string CompanyRegNumber
         {
             get { return _CompanyRegNumber; }
