@@ -3,7 +3,7 @@
     <div class="logo"><img src="/assets/innerLogoGolden.png" width="250" /></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-menu-item>
-        <span class="menuItem" style="text-align: center;">MONTHLY INVOICE</span>
+        <span class="menuItem" style="text-align: center;"><a routerLink="/monthly-invoice">MONTHLY INVOICE</a></span>
       </li>
       <li nz-menu-item>
         <span class="menuItem"><a routerLink="/supplier"></a>SUPPLIERS LIST</span>
@@ -18,15 +18,11 @@
             Suppliers List
           </div>
           <div class="col-md-5">
-            <form nz-form #ngform (keyup)="searchData()" nzWidth="100%">
-              <nz-form-item class="searchBox">
                 <nz-form-control nzErrorTip="Please input your username!">
                   <nz-input-group nzPrefixIcon="search">
-                    <input [(ngModel)]="searchText" name="searchText" nz-input placeholder="Search here..." />
+                    <input [(ngModel)]="searchText" (keyup)="searchSupplier()" nz-input placeholder="Search here..." />
                   </nz-input-group>
                 </nz-form-control>
-              </nz-form-item>
-            </form>
           </div>
           <div class="col-md-2">
             <button nz-button class="addButton fw-bold" (click)="showModalTop(null)" nzType="primary"><i nz-icon
@@ -36,14 +32,14 @@
         <div class="row">
           <div class="col-md-12">
             <!-- <div class="scrollableModal"> -->
-            <nz-table class="table text-center table-bordered" *ngIf="apiProductsData" #apiProductsDataTable
-              [nzData]="apiProductsData">
+            <nz-table class="table text-center table-bordered" #apiProductsDataTable
+              [nzData]="apiSuppliersData">
               
               <thead>
                 <tr>
                   <th style="border-radius: 6px 0px 0px 0px;" scope="col" [nzSortFn]="sortRefFn">Supplier Reference</th>
                   <th scope="col" [nzSortFn]="sortNameFn">Supplier Name</th>
-                  <th scope="col">Staus</th>
+                  <th scope="col">Status</th>
                   <th style="border-radius: 0px 6px 0px 0px;" scope="col">Action</th>
                 </tr>
               </thead>
@@ -51,11 +47,11 @@
                 <tr *ngFor="let data of apiProductsDataTable.data">
                   <td scope="row">{{data.ReferenceNumber}}</td>
                   <td>{{data.SupplierName}}</td>
-                  <td><nz-switch [(ngModel)]="data.IsActive"></nz-switch>
+                  <td><nz-switch class="ant-switch-ch" [(ngModel)]="data.IsActive" (ngModelChange)="changeStatus(data,data.IsActive)"></nz-switch>
                   </td>
                   <td>
-                    <i nz-icon nzType="edit" nzTheme="outline" class="p-2" (click)="showModalTop(data)"></i>
-                    <i nz-icon nzType="delete" nzTheme="outline" (click)="onDeleteProduct(data.SupplierId)"></i>
+                    <fa-icon [icon]="faPen" class="p-2" (click)="showModalTop(data)"></fa-icon>
+                    <fa-icon [icon]="faTrash" (click)="onDeleteProduct(data)"></fa-icon>
                   </td>
                 </tr>
               </tbody>
@@ -65,8 +61,7 @@
           </div>
         </div>
         <nz-modal [(nzVisible)]="isVisibleTop" nzTitle="Add New Supplier" (nzOnCancel)="handleCancelTop()"
-          (nzOnOk)="handleOkTop()" [nzStyle]="{ top: '30px'}" [nzFooter]="modalFooter">
-
+          (nzOnOk)="handleOkTop()" [nzStyle]="{ top: '30px'}" [nzFooter]="modalFooter" [nzWidth]="600">
           <ng-container *nzModalContent nzBodyStyle="height:500">
             <form nz-form [formGroup]="validateForm">
               <div class="scrollableModal">
@@ -75,7 +70,7 @@
                     <nz-form-item>
                       <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="supplierNameError">
                         <label>Supplier Name</label><br>
-                        <input nz-input formControlName="supplierName" name="fname" />
+                        <input nz-input formControlName="supplierName" name="fname"/>
                         <ng-template #supplierNameError let-control>
                           <ng-container *ngIf="control.hasError('required')">Enter Supplier Name</ng-container>
                           <ng-container *ngIf="control.hasError('pattern')">Supplier name must consist only alphabtes!
@@ -88,7 +83,7 @@
                     <nz-form-item>
                       <nz-form-control [nzErrorTip]="supplierReferenceError">
                         <label>Supplier Reference</label><br>
-                        <input nz-input formControlName="supplierReference" />
+                        <input nz-input formControlName="supplierReference"/>
                         <ng-template #supplierReferenceError let-control>
                           <ng-container *ngIf="control.hasError('required')">Enter Supplier Reference</ng-container>
                           <ng-container *ngIf="control.hasError('pattern')">Supplier Reference must consist maximum 15
@@ -119,10 +114,10 @@
                     <nz-form-item>
                       <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="emailAddressError">
                         <label>Email Address</label>
-                        <input nz-input formControlName="emailAddress" name="fname" />
+                        <input nz-input formControlName="emailAddress" name="fname"/>
                         <ng-template #emailAddressError let-control>
                           <ng-container *ngIf="control.hasError('required')">Enter Email Address</ng-container>
-                          <ng-container *ngIf="control.hasError('pattern')">Enter valid email address!
+                          <ng-container *ngIf="control.hasError('email')">Enter valid email address!
                           </ng-container>
                         </ng-template>
                       </nz-form-control>
@@ -174,7 +169,7 @@
                     <nz-form-item>
                       <nz-form-control [nzErrorTip]="taxReferenceError">
                         <label>Tax Reference</label>
-                        <input formControlName="taxReference" nz-input/>
+                        <input formControlName="taxReference" nz-input />
                         <ng-template #taxReferenceError let-control>
                           <ng-container *ngIf="control.hasError('pattern')">Reference must consist maximum 15 letters
                           </ng-container>
@@ -203,13 +198,15 @@
                       <nz-form-control nzValidatingTip="Validating...">
                         <label>Upload Invoice Logo</label>
                         <div class="clearfix">
-                          <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture"
-                            [nzFileType]="'image/png,image/jpeg,image/gif'" [nzMultiple]="false">
-                            <button nz-button>
+                          <input nz-input type="file" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture"
+                            accept="image/png,image/jpeg,image/gif,image/bmp" #fileUpload (change)="UploadLogo($event)" hidden/>
+                            <button nz-button (click)="fileUpload.click()">
                               <i nz-icon nzType="upload"></i>
                               Upload
                             </button>
-                          </nz-upload>
+                        </div>
+                        <div *ngIf="file">
+                          {{file.name}}
                         </div>
                       </nz-form-control>
                     </nz-form-item>

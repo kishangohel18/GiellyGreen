@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { GGInvoiceService } from '../gginvoice.service';
 import Swal from 'sweetalert2'
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -48,13 +46,6 @@ export class LoginComponent implements OnInit {
             })
           }
         },
-        // (error)=>{
-        //   Swal.fire({
-        //     title: error.error.error_description,
-        //     icon: 'error',
-        //     confirmButtonText: 'Okay'
-        //   })
-        // }
       );
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -65,7 +56,6 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

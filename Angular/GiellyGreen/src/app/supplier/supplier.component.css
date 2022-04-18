@@ -82,9 +82,10 @@ border-radius: 7px;
   .scrollableModal{
     overflow-y: scroll;
     height: 400px;
+    padding: 3px;
   }
   .scrollableModal::-webkit-scrollbar, .scrollable::-webkit-scrollbar-thumb:hover {
-    background: #C99D4A;
+    background: #2C2B29;
     width: 3px;
 }
 .darkButtonModal{
@@ -100,4 +101,20 @@ border-radius: 7px;
 }
 .leftTd{
   border-radius: 2px !important;
+}
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: none !important;
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: none !important;
+}
+.menuItem{
+  color: #C99D4A !important;
+}
+a{
+  color: #C99D4A;
+  text-decoration: none;
+}
+.ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-item-group-title, .ant-menu-dark .ant-menu-item > a, .ant-menu-dark .ant-menu-item > span > a{
+  color: #C99D4A!important;
 }

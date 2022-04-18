@@ -12,25 +12,26 @@ export class GGInvoiceService {
 
   suppliers={
     "SupplierId": 1,
-    "SupplierName": "sample string 2",
-    "ReferenceNumber": "sample string 3",
-    "BusinessAddress": "sample string 4",
-    "Email": "sample string 5",
-    "Phone": "sample string 6",
-    "TaxReference": "sample string 7",
-    "CompanyRegNumber": "sample string 8",
-    "CompanyRegAddress": "sample string 9",
-    "VatNumber": "sample string 10",
-    "CreatedDate": "2022-04-14T19:08:10.78912+05:30",
-    "ModifiedDate": "2022-04-14T19:08:10.78912+05:30",
-    "Logo": "QEA=",
-    "IsActive": true
+    "SupplierName": "",
+    "ReferenceNumber": "",
+    "BusinessAddress": "",
+    "Email": "",
+    "Phone": "",
+    "TaxReference": "",
+    "CompanyRegNumber": "",
+    "CompanyRegAddress": "",
+    "VatNumber": "",
+    "CreatedDate": "",
+    "ModifiedDate": "",
+    "LogoUrl": "",
+    "IsActive": false
   }
+
   constructor(private http: HttpClient) { }
 
   getLoginStatus(username: any, password: any): Observable<unknown>{
     let user = {"Email" : username, "password":password}
-    return this.http.post<unknown>(`http://caf2-106-201-236-89.ngrok.io/api/Login`, user);
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/api/Login`, user);
   }
 
   getToken(username: any, password: any): Observable<unknown> {
@@ -42,23 +43,45 @@ export class GGInvoiceService {
     let RequestOptions = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
-    return this.http.post<unknown>(`http://caf2-106-201-236-89.ngrok.io/token`, body, RequestOptions);
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/token`, body, RequestOptions);
   }
   getSuppliers(userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.get<unknown>(`http://caf2-106-201-236-89.ngrok.io/api/Suppliers`,{headers:header});
+    return this.http.get<unknown>(`http://c4f3-106-201-236-89.ngrok.io/api/Suppliers`,{headers:header});
   }
   addSupplier(userSessionToken:any): Observable<unknown> {
-    const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.post<unknown>(`http://caf2-106-201-236-89.ngrok.io/api/Suppliers`, this.suppliers, {headers:header});
-  }
-  updateSupplier(id:any, userSessionToken:any): Observable<unknown> {
     debugger
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.put<unknown>(`http://caf2-106-201-236-89.ngrok.io/api/Suppliers/${id}`, this.suppliers, {headers:header});
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/api/Suppliers`, this.suppliers, {headers:header});
+  }
+  updateSupplier(id:any, userSessionToken:any): Observable<unknown> {
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.put<unknown>(`http://c4f3-106-201-236-89.ngrok.io/api/Suppliers/${id}`, this.suppliers, {headers:header});
   }
   deletetSupplier(id: number, userSessionToken:any): Observable<unknown> {
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.delete<unknown>(`http://caf2-106-201-236-89.ngrok.io/api/Suppliers/${id}`, {headers:header});
+    return this.http.delete<unknown>(`http://c4f3-106-201-236-89.ngrok.io/api/Suppliers/${id}`, {headers:header});
+  }
+  updateSupplierStatus(id:number, userSessionToken:any, supplierStatus:any){
+    console.log(supplierStatus)
+    const header = {"Authorization":"bearer "+userSessionToken}
+    let newSupplierStatus = {"SupplierId" : id, "IsActive":supplierStatus}
+    return this.http.patch<unknown>(`http://c4f3-106-201-236-89.ngrok.io/api/Suppliers/${id}`, newSupplierStatus, {headers:header});
+  }
+  uniqueMail(id:number, userSessionToken:any, email:any){
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/VarifyEmail?id=${id}&email=${email}`, {headers:header});
+  }
+  uniqueTaxRef(id:number, userSessionToken:any, taxRef:any){
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/VarifyEmail?id=${id}&email=${taxRef}`, {headers:header});
+  }
+  uniqueVAT(id:number, userSessionToken:any, VAT:any){
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/VarifyEmail?id=${id}&email=${VAT}`, {headers:header});
+  }
+  uniqueSupplierRef(id:number, userSessionToken:any, supRef:any){
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.post<unknown>(`http://c4f3-106-201-236-89.ngrok.io/VarifyEmail?id=${id}&email=${supRef}`, {headers:header});
   }
 }
