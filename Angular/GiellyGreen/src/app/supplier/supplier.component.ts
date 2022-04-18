@@ -3,10 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GGInvoiceService } from '../gginvoice.service';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-supplier',
@@ -16,6 +13,7 @@ import { map } from 'rxjs/operators';
 export class SupplierComponent implements OnInit {
 
   apiProductsData: GGInvoiceService["suppliers"][] = [];
+  searchableData:any[]=[];
   validateForm: FormGroup;
   isVisibleTop: any;
   data: any;
@@ -27,22 +25,25 @@ export class SupplierComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private _gs: GGInvoiceService, private router:Router, private http: HttpClient) {
     this.validateForm = this.fb.group({
-      supplierName: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 ]{1,20}$")]],
-      supplierReference: ['', [Validators.required]],
-      businessAddress: ['', [Validators.required]],
-      emailAddress: ['', [Validators.required, Validators.email]],
-      phoneNumber: [''],
-      companyRegisteredNumber:[''],
-      VATNumber:[''],
-      taxReference:[''],
-      companyRegisteredAddress:[''],
+      supplierName: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+[ ]?[a-zA-Z]+$")]],
+      supplierReference: ['', [Validators.required, Validators.pattern("[A-Za-z0-9]{1,15}")]],
+      businessAddress: ['', [Validators.required, Validators.pattern("")]],
+      emailAddress: ['', [Validators.required]],
+      phoneNumber: ['',Validators.pattern("^[0-9]{1,15}$")],
+      companyRegisteredNumber:['', [Validators.pattern("^[0-9]{1,15}")]],
+      VATNumber:['', [Validators.pattern("^GB[0-9]{9}")]],
+      taxReference:['', [Validators.pattern("[A-Za-z0-9]{1,15}")]],
+      companyRegisteredAddress:['',[Validators.pattern("")]],
       activeSupplier:[''],
     });
   }
   onGetSuppliers() {
     if (this.userSessionToken) {
       this._gs.getSuppliers(this.userSessionToken).subscribe(
-        (response: any) => this.apiProductsData = response.Result
+        (response: any) => {
+          this.apiProductsData = response.Result
+          this.searchableData = response.Result
+        }
       );
     }
   }
@@ -77,10 +78,11 @@ export class SupplierComponent implements OnInit {
   handleOkTop(): void {
     if (this.validateForm.valid) {
       if (this.data) {
-        this.editProduct(this.data.Id);
+        console.log(this.data)
+        this.editSupplier(this.data.SupplierId);
       }
       else {
-        this.addProduct();
+        this.addSupplierToDB();
       }
     }
     else {
@@ -94,7 +96,7 @@ export class SupplierComponent implements OnInit {
     }
     //this.displayEvent.emit(this.isVisibleTop);
   }
-  addProduct() {
+  addSupplierToDB() {
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = formValue.supplierName;
     this._gs.suppliers.ReferenceNumber = formValue.supplierReference;
@@ -112,7 +114,12 @@ export class SupplierComponent implements OnInit {
     }
     console.log(this._gs.suppliers)
     this._gs.addSupplier(this.userSessionToken).subscribe(
-      (response:any) => this.apiProductsData.push(response.Result)
+      (response:any) => {
+        console.log(this.apiProductsData)
+        console.log(response.Result)
+        this.apiProductsData.push(response.Result)
+        console.log(this.apiProductsData)
+      }
     );
     this.isVisibleTop = false;
   }
@@ -125,27 +132,33 @@ export class SupplierComponent implements OnInit {
     else {
       this.data = $event;
       this.validateForm.patchValue({
-        productName: this.data.Name,
-        productDescription: this.data.Description,
-        productPrice: this.data.Price,
-        productQuantity: this.data.OnHandQuantity,
-        productStatus: this.data.Status,
+      supplierName: this.data.SupplierName,
+      supplierReference: this.data.ReferenceNumber,
+      businessAddress: this.data.BusinessAddress,
+      emailAddress: this.data.Email,
+      phoneNumber: this.data.Phone,
+      companyRegisteredNumber:this.data.CompanyRegNumber,
+      VATNumber: this.data.VatNumber,
+      taxReference: this.data.taxReference,
+      companyRegisteredAddress: this.data.CompanyRegAddress,
+      activeSupplier:this.data.IsActive,
       });
     }
   }
-  editProduct(id: any) {
+  editSupplier(id: any) {
+    console.log(id)
     debugger
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
     this._gs.suppliers.ReferenceNumber = this.data.ReferenceNumber = formValue.supplierReference;
     this._gs.suppliers.BusinessAddress = this.data.BusinessAddress = formValue.businessAddress;
-    this._gs.suppliers.Email =this.data.Email = formValue.emailAddress;
-    this._gs.suppliers.Phone = formValue.phoneNumber;
-    this._gs.suppliers.CompanyRegNumber = formValue.companyRegisteredNumber;
-    this._gs.suppliers.VatNumber = formValue.VATNumber;
-    this._gs.suppliers.TaxReference = formValue.taxReference;
+    this._gs.suppliers.Email = this.data.Email = formValue.emailAddress;
+    this._gs.suppliers.Phone = this.data.Phone = formValue.phoneNumber;
+    this._gs.suppliers.CompanyRegNumber = this.data.CompanyRegNumber  = formValue.companyRegisteredNumber;
+    this._gs.suppliers.VatNumber = this.data.VatNumber = formValue.VATNumber;
+    this._gs.suppliers.TaxReference = this.data.taxReference = formValue.taxReference;
     
-    this._gs.updateProduct(id, this.userSessionToken).subscribe(
+    this._gs.updateSupplier(id, this.userSessionToken).subscribe(
       //(response) => this.apiData.data.push(response)
     );
     this.isEdited = true;
@@ -154,14 +167,8 @@ export class SupplierComponent implements OnInit {
   closeAlert() {
     this.isEdited = false;
   }
-  searchData(){}
-  previewFile = (file: NzUploadFile): Observable<string> => {
-    console.log('Your upload file:', file);
-    return this.http
-      .post<{ thumbnail: string }>(`https://next.json-generator.com/api/json/get/4ytyBoLK8`, {
-        method: 'POST',
-        body: file
-      })
-      .pipe(map(res => res.thumbnail));
-  };
+  searchData(){
+    this.apiProductsData = this.searchableData.filter((item: any) => item.name.indexOf(this.searchText) !== -1);
+  }
+  
 }
