@@ -23,28 +23,13 @@ namespace GiellyGreenApi.Controllers
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
 
-
-        public JsonResponse Get()
+        [Route("GetAllSupplierByIsActive")]
+        public JsonResponse GetAllSupplierByIsActive(string month, string year)
         {
             var ObjResponse = new JsonResponse();
             try
             {
-                //List<Monthly_Invoice> ObjSupplierList = new List<Monthly_Invoice>();
-
-                //int GetSupplierList = 0;
-                var ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive().ToList();
-                //if (GetSupplierList == 0)
-                //{
-                //    ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive();
-                //}
-                //else
-                //{
-                //    ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(04, 2022);
-                //    //var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(04, 2022).ToList();
-                //}
-
-                //var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(04, 2022).ToList();
-                //var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(month,year).ToList();
+                var ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
                 {
@@ -64,104 +49,130 @@ namespace GiellyGreenApi.Controllers
         }
 
 
+        [Route("GetCustomHeader")]
+        public JsonResponse InsetUpdateMonthly_Invoice(List<MonthlyInvoiceViewModel> ListOfSupplier)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
 
-        // GET: api/Monthly_Invoice
-        //public IQueryable<Monthly_Invoice> GetMonthly_Invoice()
-        //{
-        //    return db.Monthly_Invoice;
-        //}
+                if (ListOfSupplier != null && ListOfSupplier.Count > 0)
+                {
+                    foreach (var Item in ListOfSupplier)
+                    {
+                        if (Item.MonthlyInvoiceId == 0)
+                        {
+                            var ObjSupplierList = ObjDataAccess.InsetUpdateMonthly_Invoice(0, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.InvoiceReference, Item.IsApproved, Item.InvoiceDate, Item.CurrentYear, Item.CurrentMonth, Item.IsSelected).ToList();
+                        }
+                        else
+                        {
+                            var ObjSupplierList = ObjDataAccess.InsetUpdateMonthly_Invoice(Item.MonthlyInvoiceId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.InvoiceReference, Item.IsApproved, Item.InvoiceDate, Item.CurrentYear, Item.CurrentMonth, Item.IsSelected).ToList();
+                        }
+                    }
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", null);
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Error.", allErrors);
+                }
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
 
-        // GET: api/Monthly_Invoice/5
-        //[ResponseType(typeof(Monthly_Invoice))]
-        //public IHttpActionResult GetMonthly_Invoice(int id)
-        //{
-        //    Monthly_Invoice monthly_Invoice = db.Monthly_Invoice.Find(id);
-        //    if (monthly_Invoice == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return ObjResponse;
+        }
 
-        //    return Ok(monthly_Invoice);
-        //}
 
-        // PUT: api/Monthly_Invoice/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutMonthly_Invoice(int id, Monthly_Invoice monthly_Invoice)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [Route("GetCustomHeader")]
+        public JsonResponse GetCustomHeader()
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
+                var ObjSupplierList = ObjDataAccess.GetAllCustom_Header().ToList();
 
-        //    if (id != monthly_Invoice.MonthlyInvoiceId)
-        //    {
-        //        return BadRequest();
-        //    }
+                if (ObjSupplierList != null && ObjSupplierList.Count > 0)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom header found.", ObjSupplierList);
+                }
+                else
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                }
 
-        //    db.Entry(monthly_Invoice).State = EntityState.Modified;
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
 
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!Monthly_InvoiceExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            return ObjResponse;
+        }
 
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
+        [Route("GetCustomHeaderByDate")]
+        public JsonResponse GetCustomHeaderByDate(string month, string year)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
 
-        // POST: api/Monthly_Invoice
-        //[ResponseType(typeof(Monthly_Invoice))]
-        //public IHttpActionResult PostMonthly_Invoice(Monthly_Invoice monthly_Invoice)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+                var ObjSupplierList = ObjDataAccess.GetCustomHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
 
-        //    db.Monthly_Invoice.Add(monthly_Invoice);
-        //    db.SaveChanges();
+                if (ObjSupplierList != null && ObjSupplierList.Count > 0)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom header found.", ObjSupplierList);
+                }
+                else
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                }
 
-        //    return CreatedAtRoute("DefaultApi", new { id = monthly_Invoice.MonthlyInvoiceId }, monthly_Invoice);
-        //}
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
 
-        // DELETE: api/Monthly_Invoice/5
-        //[ResponseType(typeof(Monthly_Invoice))]
-        //public IHttpActionResult DeleteMonthly_Invoice(int id)
-        //{
-        //    Monthly_Invoice monthly_Invoice = db.Monthly_Invoice.Find(id);
-        //    if (monthly_Invoice == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return ObjResponse;
+        }
 
-        //    db.Monthly_Invoice.Remove(monthly_Invoice);
-        //    db.SaveChanges();
+        [HttpPut]
+        [Route("InsertUpdateCustomHeader")]
+        public JsonResponse InsertUpdateCustomHeader(CustomHeaderViewModel model)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (model.Id == 0)
+                    {
+                        var ObjSupplierList = ObjDataAccess.InsertUpdateCustomHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.CurrentMonth, model.CurrentYear).FirstOrDefault();
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Header created.", null);
+                    }
+                    else
+                    {
+                        var ObjSupplierList = ObjDataAccess.InsertUpdateCustomHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.CurrentMonth, model.CurrentYear).FirstOrDefault();
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Header id " + ObjSupplierList.CustomHeaderId + " updated.", null);
+                    }
+                }
+                else
+                {
+                    var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Error.", allErrors);
+                }
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
 
-        //    return Ok(monthly_Invoice);
-        //}
+            return ObjResponse;
+        }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
 
-        //private bool Monthly_InvoiceExists(int id)
-        //{
-        //    return db.Monthly_Invoice.Count(e => e.MonthlyInvoiceId == id) > 0;
-        //}
     }
 }

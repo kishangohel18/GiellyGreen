@@ -15,7 +15,6 @@ namespace DataAccessLayer.Model
     {
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public int MonthlyInvoiceId { get; set; }
         public Nullable<decimal> HairService { get; set; }
         public Nullable<decimal> BeautyService { get; set; }
         public Nullable<decimal> Custom1 { get; set; }

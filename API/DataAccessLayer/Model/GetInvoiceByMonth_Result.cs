@@ -33,5 +33,6 @@ namespace DataAccessLayer.Model
         public Nullable<System.DateTime> InvoiceDate { get; set; }
         public Nullable<int> CurrentYear { get; set; }
         public Nullable<int> CurrentMonth { get; set; }
+        public Nullable<bool> IsSelected { get; set; }
     }
 }

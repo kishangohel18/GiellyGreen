@@ -4,6 +4,8 @@
     <EntitySetMapping Name="CustomHeaders">
       <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.CustomHeader">
         <MappingFragment StoreEntitySet="CustomHeader">
+          <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
+          <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
           <ScalarProperty Name="Custom5" ColumnName="Custom5" />
           <ScalarProperty Name="Custom4" ColumnName="Custom4" />
           <ScalarProperty Name="Custom3" ColumnName="Custom3" />
@@ -70,6 +72,19 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="DeleteSupplierById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplierById" />
+    <FunctionImportMapping FunctionImportName="GetAllCustom_Header" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllCustom_Header">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllCustom_Header_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
+          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="GetAllSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplier">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result">
@@ -96,7 +111,6 @@
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result">
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
           <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-          <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
           <ScalarProperty Name="HairService" ColumnName="HairService" />
           <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
           <ScalarProperty Name="Custom1" ColumnName="Custom1" />
@@ -115,6 +129,34 @@
           <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
           <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
           <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCustom_HeaderByInvoiceRefrance" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetCustom_HeaderByInvoiceRefrance">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetCustom_HeaderByInvoiceRefrance_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
+          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCustomHeaderByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetCustomHeaderByDate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetCustomHeaderByDate_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
+          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+          <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
+          <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -141,12 +183,27 @@
           <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
           <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
           <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
+          <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertUpdateCustomHeader" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateCustomHeader">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsertUpdateCustomHeader_Result">
+          <ScalarProperty Name="CustomHeaderId" ColumnName="CustomHeaderId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="InsertUpdateSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateSupplier">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsetUpdateMonthly_Invoice" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsetUpdateMonthly_Invoice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsetUpdateMonthly_Invoice_Result">
           <ScalarProperty Name="Id" ColumnName="Id" />
         </ComplexTypeMapping>
       </ResultMapping>

@@ -250,36 +250,7 @@ namespace GiellyGreenApi.Controllers
             }
 
             return ObjResponse;
-        }
-
-
-
-
-
-        // GetAllSupplierByIsActive API
-        //public JsonResponse Get()
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    try
-        //    {
-        //        var ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive().ToList();
-
-        //        if (ObjSupplierList != null && ObjSupplierList.Count > 0)
-        //        {
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + ObjSupplierList.Count + " records found.", ObjSupplierList);
-        //        }
-        //        else
-        //        {
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-        //    }
-
-        //    return ObjResponse;
-        //}
+        }       
 
     }
 }
