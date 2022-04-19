@@ -10,9 +10,8 @@
 namespace DataAccessLayer.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CustomHeader
+    public partial class GetAllCustom_Header_Result
     {
         public int Id { get; set; }
         public Nullable<int> InvoiceReferance { get; set; }
@@ -21,7 +20,5 @@ namespace DataAccessLayer.Model
         public string Custom3 { get; set; }
         public string Custom4 { get; set; }
         public string Custom5 { get; set; }
-        public Nullable<int> CurrentMonth { get; set; }
-        public Nullable<int> CurrentYear { get; set; }
     }
 }
