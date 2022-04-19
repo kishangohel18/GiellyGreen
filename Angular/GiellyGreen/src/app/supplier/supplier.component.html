@@ -1,14 +1,8 @@
 <nz-layout class="layout">
   <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
-    <div class="logo"><img src="/assets/innerLogoGolden.png" width="250" /></div>
-    <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item>
-        <span class="menuItem" style="text-align: center;"><a routerLink="/monthly-invoice">MONTHLY INVOICE</a></span>
-      </li>
-      <li nz-menu-item>
-        <span class="menuItem"><a routerLink="/supplier"></a>SUPPLIERS LIST</span>
-      </li>
-    </ul>
+    <div class="logo pt-2"><img src="/assets/innerLogoGolden.png" width="250" /></div>
+      <div class="text-center py-3"><a routerLink="/monthly-invoice">MONTHLY INVOICE</a></div>
+      <div class="text-center"><a routerLink="/supplier">SUPPLIERS LIST</a></div>
   </nz-sider>
   <nz-layout>
     <nz-content>
@@ -26,7 +20,7 @@
           </div>
           <div class="col-md-2">
             <button nz-button class="addButton" (click)="showModalTop(null)" nzType="primary">
-              <fa-icon [icon]="faPlus" class="px-2"></fa-icon>
+              <fa-icon [icon]="faPlus" style="padding-right:5%"></fa-icon>
               ADD SUPPLIER</button>
           </div>
         </div>
@@ -40,8 +34,8 @@
                 <tr>
                   <th style="border-radius: 6px 0px 0px 0px;" scope="col" [nzSortFn]="sortRefFn">Supplier Reference</th>
                   <th scope="col" [nzSortFn]="sortNameFn">Supplier Name</th>
-                  <th scope="col">Status</th>
-                  <th style="border-radius: 0px 6px 0px 0px;" scope="col">Action</th>
+                  <th scope="col" class="text-center">Status</th>
+                  <th style="border-radius: 0px 6px 0px 0px;" class="text-center" scope="col">Action</th>
                 </tr>
               </thead>
               <!-- <div class="scrollableTable"> -->
@@ -50,9 +44,9 @@
                 <tr *ngFor="let data of apiProductsDataTable.data">
                   <td scope="row">{{data.ReferenceNumber}}</td>
                   <td>{{data.SupplierName}}</td>
-                  <td><nz-switch class="ant-switch-ch" [(ngModel)]="data.IsActive" (ngModelChange)="changeStatus(data,data.IsActive)"></nz-switch>
+                  <td class="text-center"><nz-switch [(ngModel)]="data.IsActive" (ngModelChange)="changeStatus(data,data.IsActive)"></nz-switch>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <fa-icon [icon]="faPen" class="p-2" (click)="showModalTop(data)"></fa-icon>
                     <fa-icon [icon]="faTrash" (click)="onDeleteProduct(data)"></fa-icon>
                   </td>
@@ -66,7 +60,7 @@
           <!-- </div> -->
           </div>
         </div>
-        <nz-modal [(nzVisible)]="isVisibleTop" nzTitle="Add New Supplier" (nzOnCancel)="handleCancelTop()"
+        <nz-modal [nzMaskClosable]="false" [(nzVisible)]="isVisibleTop" nzTitle="Add New Supplier" (nzOnCancel)="handleCancelTop()"
           (nzOnOk)="handleOkTop()" [nzStyle]="{ top: '30px'}" [nzFooter]="modalFooter" [nzWidth]="600">
           <ng-container *nzModalContent nzBodyStyle="height:500">
             <form nz-form [formGroup]="validateForm">

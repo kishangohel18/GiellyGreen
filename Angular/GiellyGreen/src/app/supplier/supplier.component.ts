@@ -24,7 +24,7 @@ export class SupplierComponent implements OnInit {
   isVisibleTop: any;
   baseURL: any;
   data: any;
-  uploadedSupplierLogo:any
+  uploadedSupplierLogo: any
   file: File;
   // isEdited = false;
   searchText: any;
@@ -93,15 +93,18 @@ export class SupplierComponent implements OnInit {
   }
   handleCancelTop(): void {
     this.isVisibleTop = false;
+    this.validateForm.reset();
   }
   handleOkTop(): void {
     if (this.validateForm.valid) {
       if (this.data) {
         console.log(this.data)
         this.editSupplier(this.data);
+        this.validateForm.reset();
       }
       else {
         this.addSupplierToDB();
+        this.validateForm.reset();
       }
     }
     else {
@@ -177,7 +180,7 @@ export class SupplierComponent implements OnInit {
     this.isVisibleTop = true;
     if (!$event) {
       this.data = null
-      this.validateForm.reset();
+      //this.validateForm.reset();
     }
     else {
 
@@ -195,7 +198,7 @@ export class SupplierComponent implements OnInit {
         taxReference: this.data.TaxReference,
         companyRegisteredAddress: this.data.CompanyRegAddress,
         activeSupplier: this.data.IsActive,
-        supplierLogo: this.uploadedSupplierLogo,
+        supplierLogo: this.data.LogoUrl,
       });
     }
   }
@@ -241,7 +244,7 @@ export class SupplierComponent implements OnInit {
     reader.onload = () => {
       this.baseURL = reader.result.split(",")
       this.supplierLogo = this.baseURL[1];
-      this.uploadedSupplierLogo = "data:image/png;base64,"+this.supplierLogo;
+      this.uploadedSupplierLogo = "data:image/png;base64," + this.supplierLogo;
     };
   }
 }
