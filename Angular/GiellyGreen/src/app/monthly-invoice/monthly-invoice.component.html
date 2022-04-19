@@ -12,7 +12,19 @@
     </nz-sider>
     <nz-layout>
         <nz-content>
-            <div class="inner-content">Monthly</div>
+            <div class="inner-content">
+                <div class="row">
+                    <div class="col-md-3 MothlyInvoiceTitle">
+                Monthly Invoice
+            </div>
+            <div class="col-md-2">
+                Choose Month
+            </div>
+            <div class="col-md-3">
+                <nz-date-picker nzMode="month" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+            </div>
+            </div>
+            </div>
         </nz-content>
         <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
     </nz-layout>

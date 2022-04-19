@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class MonthlyInvoiceComponent implements OnInit {
 
+  date = null;
   userSessionToken = sessionStorage.getItem("User");
   constructor(public router:Router) { }
 
@@ -15,6 +16,9 @@ export class MonthlyInvoiceComponent implements OnInit {
     if(!this.userSessionToken){
       this.router.navigate(['/login'])
     }
+  }
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
   }
 
 }

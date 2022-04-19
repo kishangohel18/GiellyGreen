@@ -36,3 +36,27 @@
   .menuItem{
     color: #C99D4A;
   }
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background: none !important;
+  }
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background: none !important;
+  }
+  .menuItem{
+    color: #C99D4A !important;
+  }
+  a{
+    color: #C99D4A;
+    text-decoration: none;
+  }
+  .ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-item-group-title, .ant-menu-dark .ant-menu-item > a, .ant-menu-dark .ant-menu-item > span > a{
+    color: #C99D4A!important;
+  }
+  .MothlyInvoiceTitle{
+    font-weight: 400 !important;
+    font-size: 30px;
+    line-height: 47px;
+    letter-spacing: -0.02em;
+    
+    color: #2C2B29;
+  }

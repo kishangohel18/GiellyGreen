@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GGInvoiceService } from '../gginvoice.service';
 import { HttpClient } from '@angular/common/http';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-supplier',
@@ -12,43 +14,47 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SupplierComponent implements OnInit {
 
-  apiProductsData: GGInvoiceService["suppliers"][] = [];
-  searchableData:any[]=[];
+  apiSuppliersData: GGInvoiceService["suppliers"][] = [];
+  faPen = faPen;
+  faTrash = faTrash;
+  searchedData: any;
   validateForm: FormGroup;
+  supplierLogo: any;
   isVisibleTop: any;
+  baseURL: any;
   data: any;
+  file: File;
   isEdited = false;
-  searchText:any;
+  searchText: any;
   sortNameFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.SupplierName.localeCompare(b.SupplierName);
   sortRefFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.ReferenceNumber.localeCompare(b.ReferenceNumber);
-  userSessionToken = sessionStorage.getItem("User");  
+  userSessionToken = sessionStorage.getItem("User");
 
-  constructor(private fb: FormBuilder, private _gs: GGInvoiceService, private router:Router, private http: HttpClient) {
+  constructor(private message: NzMessageService, private fb: FormBuilder, private _gs: GGInvoiceService, private router: Router, private http: HttpClient) {
     this.validateForm = this.fb.group({
       supplierName: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+[ ]?[a-zA-Z]+$")]],
-      supplierReference: ['', [Validators.required, Validators.pattern("[A-Za-z0-9]{1,15}")]],
-      businessAddress: ['', [Validators.required, Validators.pattern("")]],
-      emailAddress: ['', [Validators.required]],
-      phoneNumber: ['',Validators.pattern("^[0-9]{1,15}$")],
-      companyRegisteredNumber:['', [Validators.pattern("^[0-9]{1,15}")]],
-      VATNumber:['', [Validators.pattern("^GB[0-9]{9}")]],
-      taxReference:['', [Validators.pattern("[A-Za-z0-9]{1,15}")]],
-      companyRegisteredAddress:['',[Validators.pattern("")]],
-      activeSupplier:[''],
+      supplierReference: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9]{1,15}$")]],
+      businessAddress: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 ]{3,150}$")]],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', Validators.pattern("^[0-9]{1,15}$")],
+      companyRegisteredNumber: ['', [Validators.pattern("^[0-9]{1,15}$")]],
+      VATNumber: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
+      taxReference: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
+      companyRegisteredAddress: ['', [Validators.pattern("[A-Za-z0-9 ]{3,150}$")]],
+      activeSupplier: [''],
+      supplierLogo: [''],
     });
   }
   onGetSuppliers() {
     if (this.userSessionToken) {
       this._gs.getSuppliers(this.userSessionToken).subscribe(
         (response: any) => {
-          this.apiProductsData = response.Result
-          this.searchableData = response.Result
+          this.apiSuppliersData = response.Result
         }
       );
     }
   }
-  onDeleteProduct(id: any) {
-    console.log(id)
+  onDeleteProduct(data: any) {
     Swal.fire({
       title: 'Do you want to delete this product?',
       showDenyButton: true,
@@ -58,14 +64,22 @@ export class SupplierComponent implements OnInit {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this._gs.deletetSupplier(id, this.userSessionToken).subscribe(
-          //(response) => this.apiData = response
+        // if(data.MonthlyInvoice.length == 0){
+        this._gs.deletetSupplier(data.SupplierId, this.userSessionToken).subscribe(
+          (response: any) => {
+            if (response.ResponseStatus == 2) {
+              data.IsActive = false;
+              this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, data.IsActive).subscribe();
+              Swal.fire('Supplier Inactivated!', '', 'success')
+            }
+            else {
+              Swal.fire('Supplier Deleted!', '', 'success')
+              this.apiSuppliersData = this.apiSuppliersData.filter((d: { SupplierId: any; }) => d.SupplierId !== data.SupplierId);
+            }
+          }
         );
-        Swal.fire('Product Deleted!', '', 'success')
-
-        this.apiProductsData = this.apiProductsData.filter((d: {SupplierId: any; }) => d.SupplierId !== id);
       } else if (result.isDenied) {
-        Swal.fire('Product is safe!', '', 'info')
+        Swal.fire('Supplier is safe!', '', 'info')
       }
     });
   }
@@ -79,7 +93,7 @@ export class SupplierComponent implements OnInit {
     if (this.validateForm.valid) {
       if (this.data) {
         console.log(this.data)
-        this.editSupplier(this.data.SupplierId);
+        this.editSupplier(this.data);
       }
       else {
         this.addSupplierToDB();
@@ -94,7 +108,6 @@ export class SupplierComponent implements OnInit {
         }
       });
     }
-    //this.displayEvent.emit(this.isVisibleTop);
   }
   addSupplierToDB() {
     const formValue = this.validateForm.value;
@@ -106,22 +119,54 @@ export class SupplierComponent implements OnInit {
     this._gs.suppliers.CompanyRegNumber = formValue.companyRegisteredNumber;
     this._gs.suppliers.VatNumber = formValue.VATNumber;
     this._gs.suppliers.TaxReference = formValue.taxReference;
+    this._gs.suppliers.CompanyRegAddress = formValue.companyRegisteredAddress;
     if (formValue.activeSupplier == null) {
       this._gs.suppliers.IsActive = false;
     } else {
       this._gs.suppliers.IsActive = formValue.activeSupplier;
-
     }
+    this._gs.suppliers.LogoUrl = this.supplierLogo
     console.log(this._gs.suppliers)
-    this._gs.addSupplier(this.userSessionToken).subscribe(
-      (response:any) => {
-        console.log(this.apiProductsData)
-        console.log(response.Result)
-        this.apiProductsData.push(response.Result)
-        console.log(this.apiProductsData)
+    this._gs.uniqueMail(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.Email).subscribe(
+      (response: any) => {
+        if (response.ResponseStatus == 0) {
+          this.message.create('error', 'This Email already taken, please enter another one.')
+        } else {
+          this._gs.uniqueTaxRef(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.TaxReference).subscribe(
+            (response: any) => {
+              if (response.ResponseStatus == 0) {
+                this.message.create('error', 'Tax reference number already taken, please enter another one.')
+              } else {
+                this._gs.uniqueVAT(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.VatNumber).subscribe(
+                  (response: any) => {
+                    if (response.ResponseStatus == 0) {
+                      this.message.create('error', 'This VAT number is used, Please enter unique VAT Number')
+                    } else {
+                      this._gs.uniqueSupplierRef(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.ReferenceNumber).subscribe(
+                        (response: any) => {
+                          if (response.ResponseStatus == 0) {
+                            this.message.create('error', 'Supplier reference number already taken, please enter another one.')
+                          } else {
+                            this._gs.addSupplier(this.userSessionToken).subscribe(
+                              (response: any) => {
+                                console.log(this.apiSuppliersData)
+                                this.apiSuppliersData.push(response.Result)
+                              }
+                            );
+                            this.isVisibleTop = false;
+                            this.onGetSuppliers();
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
       }
     );
-    this.isVisibleTop = false;
   }
   showModalTop($event: any): void {
     this.isVisibleTop = true;
@@ -130,45 +175,66 @@ export class SupplierComponent implements OnInit {
       this.validateForm.reset();
     }
     else {
+
       this.data = $event;
+
+      console.log(this.data)
       this.validateForm.patchValue({
-      supplierName: this.data.SupplierName,
-      supplierReference: this.data.ReferenceNumber,
-      businessAddress: this.data.BusinessAddress,
-      emailAddress: this.data.Email,
-      phoneNumber: this.data.Phone,
-      companyRegisteredNumber:this.data.CompanyRegNumber,
-      VATNumber: this.data.VatNumber,
-      taxReference: this.data.taxReference,
-      companyRegisteredAddress: this.data.CompanyRegAddress,
-      activeSupplier:this.data.IsActive,
+        supplierName: this.data.SupplierName,
+        supplierReference: this.data.ReferenceNumber,
+        businessAddress: this.data.BusinessAddress,
+        emailAddress: this.data.Email,
+        phoneNumber: this.data.Phone,
+        companyRegisteredNumber: this.data.CompanyRegNumber,
+        VATNumber: this.data.VatNumber,
+        taxReference: this.data.TaxReference,
+        companyRegisteredAddress: this.data.CompanyRegAddress,
+        activeSupplier: this.data.IsActive,
       });
     }
   }
-  editSupplier(id: any) {
-    console.log(id)
-    debugger
+  editSupplier(data: any) {
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
     this._gs.suppliers.ReferenceNumber = this.data.ReferenceNumber = formValue.supplierReference;
     this._gs.suppliers.BusinessAddress = this.data.BusinessAddress = formValue.businessAddress;
     this._gs.suppliers.Email = this.data.Email = formValue.emailAddress;
     this._gs.suppliers.Phone = this.data.Phone = formValue.phoneNumber;
-    this._gs.suppliers.CompanyRegNumber = this.data.CompanyRegNumber  = formValue.companyRegisteredNumber;
+    this._gs.suppliers.CompanyRegNumber = this.data.CompanyRegNumber = formValue.companyRegisteredNumber;
     this._gs.suppliers.VatNumber = this.data.VatNumber = formValue.VATNumber;
     this._gs.suppliers.TaxReference = this.data.taxReference = formValue.taxReference;
-    
-    this._gs.updateSupplier(id, this.userSessionToken).subscribe(
-      //(response) => this.apiData.data.push(response)
-    );
+    if (formValue.activeSupplier == null) {
+      this._gs.suppliers.IsActive = false;
+    } else {
+      this._gs.suppliers.IsActive = this.data.IsActive = formValue.activeSupplier;
+    }
+    this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
+    this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
     this.isEdited = true;
     this.isVisibleTop = false;
   }
   closeAlert() {
     this.isEdited = false;
   }
-  searchData(){
-    this.apiProductsData = this.searchableData.filter((item: any) => item.name.indexOf(this.searchText) !== -1);
+  searchSupplier() {
+    this.searchedData = this.apiSuppliersData;
+    this.apiSuppliersData = this.searchedData.filter((item: any) => item.SupplierName.indexOf(this.searchText) !== -1);
+    if (this.searchText.length == 0) {
+      this.onGetSuppliers();
+    }
   }
-  
+  changeStatus(data: any, supplierStatus: any) {
+    console.log(supplierStatus)
+    this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, supplierStatus).subscribe();
+  }
+
+  UploadLogo(event: any) {
+    this.file = event.target.files[0];
+    const reader: any = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = () => {
+      this.baseURL = reader.result.split(",")
+      this.supplierLogo = this.baseURL[1];
+    };
+  }
 }
