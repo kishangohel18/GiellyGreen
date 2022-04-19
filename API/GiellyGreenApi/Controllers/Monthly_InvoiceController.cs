@@ -24,14 +24,27 @@ namespace GiellyGreenApi.Controllers
 
 
 
-        public JsonResponse Get(string date)
+        public JsonResponse Get()
         {
             var ObjResponse = new JsonResponse();
             try
             {
-                var Date = Convert.ToDateTime(date);
+                //List<Monthly_Invoice> ObjSupplierList = new List<Monthly_Invoice>();
 
-                var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(Date).ToList();
+                //int GetSupplierList = 0;
+                var ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive().ToList();
+                //if (GetSupplierList == 0)
+                //{
+                //    ObjSupplierList = ObjDataAccess.GetAllSupplierByIsActive();
+                //}
+                //else
+                //{
+                //    ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(04, 2022);
+                //    //var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(04, 2022).ToList();
+                //}
+
+                //var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(04, 2022).ToList();
+                //var ObjSupplierList = ObjDataAccess.GetInvoiceByMonth(month,year).ToList();
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
                 {

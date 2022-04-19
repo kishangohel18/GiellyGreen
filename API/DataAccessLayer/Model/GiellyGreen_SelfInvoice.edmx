@@ -23,7 +23,7 @@
           </Key>
           <Property Name="MonthlyInvoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SupplierId" Type="int" />
-          <Property Name="SuplierName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="100" />
           <Property Name="HairService" Type="decimal" Precision="18" Scale="2" />
           <Property Name="BeautyService" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Custom1" Type="decimal" Precision="18" Scale="2" />
@@ -41,6 +41,7 @@
           <Property Name="InvoiceDate" Type="date" />
           <Property Name="CurrentYear" Type="int" />
           <Property Name="CurrentMonth" Type="int" />
+          <Property Name="IsSelected" Type="bit" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -111,13 +112,13 @@
           <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
           <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
           <FunctionImport Name="DeleteConstrainedSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result)">
-            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+          <Parameter Name="SupplierId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteSupplierById">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
           <FunctionImport Name="GetInvoiceByMonth" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetInvoiceByMonth_Result)">
@@ -164,7 +165,7 @@
           </Key>
           <Property Name="MonthlyInvoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SupplierId" Type="Int32" />
-          <Property Name="SuplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HairService" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="BeautyService" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Custom1" Type="Decimal" Precision="18" Scale="2" />
@@ -182,6 +183,7 @@
           <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
           <Property Name="CurrentYear" Type="Int32" />
           <Property Name="CurrentMonth" Type="Int32" />
+          <Property Name="IsSelected" Type="Boolean" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -223,24 +225,30 @@
         <ComplexType Name="GetAllSupplierByIsActive_Result">
           <Property Type="Int32" Name="SupplierId" Nullable="false" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="BusinessAddress" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="TaxReference" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="CompanyRegNumber" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="CompanyRegAddress" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="LogoUrl" Nullable="true" />
-          <Property Type="Boolean" Name="IsActive" Nullable="true" />
-          <Property Type="Boolean" Name="IsInvoiced" Nullable="true" />
+          <Property Type="Int32" Name="MonthlyInvoiceId" Nullable="false" />
+          <Property Type="Decimal" Name="HairService" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="BeautyService" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Custom1" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Custom2" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Custom3" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Custom4" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Custom5" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Net" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Vat" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Gross" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="AdvancePaid" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Balance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="InvoiceReference" Nullable="true" />
+          <Property Type="Boolean" Name="IsApproved" Nullable="true" />
+          <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
+          <Property Type="Int32" Name="CurrentYear" Nullable="true" />
+          <Property Type="Int32" Name="CurrentMonth" Nullable="true" />
+          <Property Type="Boolean" Name="IsSelected" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetInvoiceByMonth_Result">
           <Property Type="Int32" Name="MonthlyInvoiceId" Nullable="false" />
           <Property Type="Int32" Name="SupplierId" Nullable="true" />
-          <Property Type="String" Name="SuplierName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="HairService" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="BeautyService" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Custom1" Nullable="true" Precision="18" Scale="2" />
@@ -287,6 +295,7 @@
           <EntitySetMapping Name="Monthly_Invoice">
             <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.Monthly_Invoice">
               <MappingFragment StoreEntitySet="Monthly_Invoice">
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
                 <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
                 <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
                 <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
@@ -304,7 +313,7 @@
                 <ScalarProperty Name="Custom1" ColumnName="Custom1" />
                 <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
                 <ScalarProperty Name="HairService" ColumnName="HairService" />
-                <ScalarProperty Name="SuplierName" ColumnName="SuplierName" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
               </MappingFragment>
@@ -365,19 +374,25 @@
               <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result">
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
-                <ScalarProperty Name="BusinessAddress" ColumnName="BusinessAddress" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="TaxReference" ColumnName="TaxReference" />
-                <ScalarProperty Name="CompanyRegNumber" ColumnName="CompanyRegNumber" />
-                <ScalarProperty Name="CompanyRegAddress" ColumnName="CompanyRegAddress" />
-                <ScalarProperty Name="VatNumber" ColumnName="VatNumber" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsInvoiced" ColumnName="IsInvoiced" />
+                <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
+                <ScalarProperty Name="HairService" ColumnName="HairService" />
+                <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
+                <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+                <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+                <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+                <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+                <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Vat" ColumnName="Vat" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
+                <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -386,7 +401,7 @@
               <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetInvoiceByMonth_Result">
                 <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="SuplierName" ColumnName="SuplierName" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="HairService" ColumnName="HairService" />
                 <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
                 <ScalarProperty Name="Custom1" ColumnName="Custom1" />

@@ -15,7 +15,8 @@
     </FunctionImport>
     <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)" />
     <FunctionImport Name="GetInvoiceByMonth" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetInvoiceByMonth_Result)">
-      <Parameter Name="InvoiceMonth" Mode="In" Type="DateTime" />
+      <Parameter Name="InvoiceMonth" Mode="In" Type="Int32" />
+      <Parameter Name="InvoiceYear" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result)">
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
@@ -57,7 +58,7 @@
     </Key>
     <Property Name="MonthlyInvoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SupplierId" Type="Int32" />
-    <Property Name="SuplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="HairService" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="BeautyService" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Custom1" Type="Decimal" Precision="18" Scale="2" />
@@ -73,7 +74,9 @@
     <Property Name="InvoiceReference" Type="Int32" />
     <Property Name="IsApproved" Type="Boolean" />
     <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
-    <Property Name="CurrentMonth" Type="DateTime" Precision="0" />
+    <Property Name="CurrentYear" Type="Int32" />
+    <Property Name="CurrentMonth" Type="Int32" />
+    <Property Name="IsSelected" Type="Boolean" />
   </EntityType>
   <EntityType Name="Supplier">
     <Key>
@@ -115,24 +118,7 @@
   <ComplexType Name="GetAllSupplierByIsActive_Result">
     <Property Type="Int32" Name="SupplierId" Nullable="false" />
     <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="150" />
-    <Property Type="String" Name="BusinessAddress" Nullable="true" MaxLength="150" />
-    <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="TaxReference" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="CompanyRegNumber" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="CompanyRegAddress" Nullable="true" MaxLength="150" />
-    <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
-    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
-    <Property Type="String" Name="LogoUrl" Nullable="true" />
-    <Property Type="Boolean" Name="IsActive" Nullable="true" />
-    <Property Type="Boolean" Name="IsInvoiced" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="GetInvoiceByMonth_Result">
     <Property Type="Int32" Name="MonthlyInvoiceId" Nullable="false" />
-    <Property Type="Int32" Name="SupplierId" Nullable="true" />
-    <Property Type="String" Name="SuplierName" Nullable="true" MaxLength="100" />
     <Property Type="Decimal" Name="HairService" Nullable="true" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="BeautyService" Nullable="true" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="Custom1" Nullable="true" Precision="18" Scale="2" />
@@ -148,7 +134,31 @@
     <Property Type="Int32" Name="InvoiceReference" Nullable="true" />
     <Property Type="Boolean" Name="IsApproved" Nullable="true" />
     <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
-    <Property Type="DateTime" Name="CurrentMonth" Nullable="true" />
+    <Property Type="Int32" Name="CurrentYear" Nullable="true" />
+    <Property Type="Int32" Name="CurrentMonth" Nullable="true" />
+    <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetInvoiceByMonth_Result">
+    <Property Type="Int32" Name="MonthlyInvoiceId" Nullable="false" />
+    <Property Type="Int32" Name="SupplierId" Nullable="true" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="HairService" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BeautyService" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Net" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Vat" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Gross" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="AdvancePaid" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Balance" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="InvoiceReference" Nullable="true" />
+    <Property Type="Boolean" Name="IsApproved" Nullable="true" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
+    <Property Type="Int32" Name="CurrentYear" Nullable="true" />
+    <Property Type="Int32" Name="CurrentMonth" Nullable="true" />
   </ComplexType>
   <ComplexType Name="DeleteConstrainedSupplier_Result">
     <Property Type="Int32" Name="ResponseStatus" Nullable="true" />

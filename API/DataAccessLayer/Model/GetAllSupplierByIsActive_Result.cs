@@ -15,18 +15,24 @@ namespace DataAccessLayer.Model
     {
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public string ReferenceNumber { get; set; }
-        public string BusinessAddress { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string TaxReference { get; set; }
-        public string CompanyRegNumber { get; set; }
-        public string CompanyRegAddress { get; set; }
-        public string VatNumber { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string LogoUrl { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<bool> IsInvoiced { get; set; }
+        public int MonthlyInvoiceId { get; set; }
+        public Nullable<decimal> HairService { get; set; }
+        public Nullable<decimal> BeautyService { get; set; }
+        public Nullable<decimal> Custom1 { get; set; }
+        public Nullable<decimal> Custom2 { get; set; }
+        public Nullable<decimal> Custom3 { get; set; }
+        public Nullable<decimal> Custom4 { get; set; }
+        public Nullable<decimal> Custom5 { get; set; }
+        public Nullable<decimal> Net { get; set; }
+        public Nullable<decimal> Vat { get; set; }
+        public Nullable<decimal> Gross { get; set; }
+        public Nullable<decimal> AdvancePaid { get; set; }
+        public Nullable<decimal> Balance { get; set; }
+        public Nullable<int> InvoiceReference { get; set; }
+        public Nullable<bool> IsApproved { get; set; }
+        public Nullable<System.DateTime> InvoiceDate { get; set; }
+        public Nullable<int> CurrentYear { get; set; }
+        public Nullable<int> CurrentMonth { get; set; }
+        public Nullable<bool> IsSelected { get; set; }
     }
 }

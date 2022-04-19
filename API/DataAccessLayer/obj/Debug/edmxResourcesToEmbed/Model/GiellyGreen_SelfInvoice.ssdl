@@ -18,7 +18,7 @@
     </Key>
     <Property Name="MonthlyInvoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SupplierId" Type="int" />
-    <Property Name="SuplierName" Type="nvarchar" MaxLength="100" />
+    <Property Name="SupplierName" Type="nvarchar" MaxLength="100" />
     <Property Name="HairService" Type="decimal" Precision="18" Scale="2" />
     <Property Name="BeautyService" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Custom1" Type="decimal" Precision="18" Scale="2" />
@@ -34,7 +34,9 @@
     <Property Name="InvoiceReference" Type="int" />
     <Property Name="IsApproved" Type="bit" />
     <Property Name="InvoiceDate" Type="date" />
-    <Property Name="CurrentMonth" Type="date" />
+    <Property Name="CurrentYear" Type="int" />
+    <Property Name="CurrentMonth" Type="int" />
+    <Property Name="IsSelected" Type="bit" />
   </EntityType>
   <EntityType Name="Supplier">
     <Key>
@@ -67,7 +69,8 @@
   </Function>
   <Function Name="GetAllSupplierByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="GetInvoiceByMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="InvoiceMonth" Type="date" Mode="In" />
+    <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
+    <Parameter Name="InvoiceYear" Type="int" Mode="In" />
   </Function>
   <Function Name="InsertUpdateSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SupplierId" Type="int" Mode="In" />
