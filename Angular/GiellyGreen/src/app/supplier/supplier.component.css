@@ -29,6 +29,7 @@
   }
   .ant-layout-sider{
     background: #2C2B29;
+    font-family: "Dax-Regular" !important;
   }
   .ant-menu.ant-menu-dark{
     background: #2C2B29;
@@ -36,14 +37,12 @@
   .menuItem{
     color: #C99D4A;
   }
-  body{
-    font-family: 'Dax';
-  }
   .addButton{
     background-color: #C99D4A;
     border: 3px solid #C99D4A;
 box-sizing: border-box;
 border-radius: 7px;
+font-weight: 400;
 
   }
   .ant-input-affix-wrapper{
@@ -61,7 +60,7 @@ border-radius: 7px;
   .supplierTitle{
     font-weight: 400;
     font-size: 30px;
-    line-height: 47px;
+    line-height: 20px;
     letter-spacing: -0.02em;
     
     color: #2C2B29;
@@ -75,6 +74,7 @@ border-radius: 7px;
   th{
     background-color: #2C2B29 !important;
     color: #fff!important;
+    font-weight: 400;
   }
   .pr{
     padding-right: 6%;
@@ -84,10 +84,32 @@ border-radius: 7px;
     height: 400px;
     padding: 3px;
   }
-  .scrollableModal::-webkit-scrollbar, .scrollable::-webkit-scrollbar-thumb:hover {
-    background: #2C2B29;
-    width: 3px;
+  
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
 }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2C2B29; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2C2B29; 
+}
+.scrollableTable{
+  overflow-y: scroll;
+    height: 490px;
+    padding: 3px;
+}
+
 .darkButtonModal{
   background-color:  #2C2B29;
   color: #fff;
@@ -117,4 +139,15 @@ a{
 }
 .ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-item-group-title, .ant-menu-dark .ant-menu-item > a, .ant-menu-dark .ant-menu-item > span > a{
   color: #C99D4A!important;
+}
+.ant-table-tbody{
+  overflow-y: scroll !important;
+    height: 490px !important;
+    padding: 3px !important;
+}
+form{
+  font-family: "Dax-Regular" !important;
+}
+.inner-content{
+  font-family: "Dax-Regular" !important;
 }

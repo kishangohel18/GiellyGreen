@@ -25,16 +25,17 @@
                 </nz-form-control>
           </div>
           <div class="col-md-2">
-            <button nz-button class="addButton fw-bold" (click)="showModalTop(null)" nzType="primary"><i nz-icon
-                nzType="plus" class="plusIcon" nzTheme="outline"></i>ADD SUPPLIER</button>
+            <button nz-button class="addButton" (click)="showModalTop(null)" nzType="primary">
+              <fa-icon [icon]="faPlus" class="px-2"></fa-icon>
+              ADD SUPPLIER</button>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <!-- <div class="scrollableModal"> -->
+              <div class="scrollableTable">
             <nz-table class="table text-center table-bordered" #apiProductsDataTable
-              [nzData]="apiSuppliersData">
-              
+              [nzData]="apiSuppliersData" [nzPageSize]="100">
               <thead>
                 <tr>
                   <th style="border-radius: 6px 0px 0px 0px;" scope="col" [nzSortFn]="sortRefFn">Supplier Reference</th>
@@ -43,7 +44,9 @@
                   <th style="border-radius: 0px 6px 0px 0px;" scope="col">Action</th>
                 </tr>
               </thead>
+              <!-- <div class="scrollableTable"> -->
               <tbody>
+                
                 <tr *ngFor="let data of apiProductsDataTable.data">
                   <td scope="row">{{data.ReferenceNumber}}</td>
                   <td>{{data.SupplierName}}</td>
@@ -55,7 +58,10 @@
                   </td>
                 </tr>
               </tbody>
+              
+            <!-- </div> -->
             </nz-table>
+          </div>
             
           <!-- </div> -->
           </div>
@@ -70,7 +76,7 @@
                     <nz-form-item>
                       <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="supplierNameError">
                         <label>Supplier Name</label><br>
-                        <input nz-input formControlName="supplierName" name="fname"/>
+                        <input nz-input formControlName="supplierName"/>
                         <ng-template #supplierNameError let-control>
                           <ng-container *ngIf="control.hasError('required')">Enter Supplier Name</ng-container>
                           <ng-container *ngIf="control.hasError('pattern')">Supplier name must consist only alphabtes!
@@ -198,8 +204,8 @@
                       <nz-form-control nzValidatingTip="Validating...">
                         <label>Upload Invoice Logo</label>
                         <div class="clearfix">
-                          <input nz-input type="file" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture"
-                            accept="image/png,image/jpeg,image/gif,image/bmp" #fileUpload (change)="UploadLogo($event)" hidden/>
+                          <input nz-input type="file" 
+                            accept="image/png,image/jpeg" #fileUpload (change)="UploadLogo($event)" hidden/>
                             <button nz-button (click)="fileUpload.click()">
                               <i nz-icon nzType="upload"></i>
                               Upload
@@ -207,6 +213,7 @@
                         </div>
                         <div *ngIf="file">
                           {{file.name}}
+                          <img [src]="uploadedSupplierLogo" height="200" width="200">
                         </div>
                       </nz-form-control>
                     </nz-form-item>

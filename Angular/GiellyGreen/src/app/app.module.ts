@@ -34,6 +34,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+
 
 registerLocaleData(en);
 
@@ -69,7 +71,8 @@ registerLocaleData(en);
     NzTableModule,
     NzUploadModule,
     NzSpaceModule,
-    NzMessageModule,    
+    NzMessageModule,
+    NzCheckboxModule    
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

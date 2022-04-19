@@ -29,6 +29,9 @@
   }
   .ant-layout-sider{
     background: #2C2B29;
+    
+      font-family: "Dax-Regular" !important;
+    
   }
   .ant-menu.ant-menu-dark{
     background: #2C2B29;
@@ -55,8 +58,52 @@
   .MothlyInvoiceTitle{
     font-weight: 400 !important;
     font-size: 30px;
-    line-height: 47px;
+    line-height: 20px;
     letter-spacing: -0.02em;
     
     color: #2C2B29;
+  }
+  .editable-cell {
+    position: relative;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+
+  .editable-row:hover .editable-cell {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 4px 11px;
+  }
+  th{
+    background: #2C2B29!important;
+    color: #fff !important;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #2C2B29; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2C2B29; 
+  }
+  .scrollableTable{
+    overflow-y: scroll;
+      height: 490px;
+      padding: 3px;
+  }
+  .inner-content{
+    font-family: "Dax-Regular" !important;
+  }
+  .pr{
+    padding-right: 6%;
   }
