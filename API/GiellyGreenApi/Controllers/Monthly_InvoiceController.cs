@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -180,36 +181,57 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
+        [Route("PDF")]
+        public JsonResponse PDF()
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
 
-        //[Route("ApproveSelectedInvoice_")]
-        //public JsonResponse ApproveSelectedInvoice_(List<int> ListOfId)
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    try
-        //    {
-        //        if (ListOfId.Count > 0)
-        //        {
-        //            foreach (int id in ListOfId)
-        //            {
-        //                if(id > 0)
-        //                {
-        //                    var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(id);
-        //                }
-        //            }
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);
-        //        }
-        //        else
-        //        {
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-        //    }
+                var file = @"D:\PrintAllEmployee1.pdf";
 
-        //    return ObjResponse;
-        //}
+                var PDFFile = Convert.ToBase64String(File.ReadAllBytes(file));
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", PDFFile);
+
+                string PDFName = Guid.NewGuid().ToString("N") + ".pdf";
+
+                using (FileStream stream = File.Create("D:\\All_PDF\\" + PDFName))
+                {
+                    Byte[] byteArray = Convert.FromBase64String(PDFFile);
+                    stream.Write(byteArray, 0, byteArray.Length);
+                }
+
+
+                //if (ListOfId.Length > 0)
+                //{
+                //    for (int i = 0; i < ListOfId.Length; i++)
+                //    {
+                //        if (ListOfId[i] > 0)
+                //        {
+                //            var file = @"D:\PrintAllEmployee1.pdf";
+
+                //            //var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(ListOfId[i]);
+                //            var PDFFile = Convert.ToBase64String(File.ReadAllBytes(file));
+
+                //        }
+                //    }
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);
+                //}
+                //else
+                //{
+                //    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                //}
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
+
+            return ObjResponse;
+        }
+
+
+        
 
 
 

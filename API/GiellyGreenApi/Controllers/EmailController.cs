@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Web.Http;
 
 namespace GiellyGreenApi.Controllers
@@ -25,6 +26,17 @@ namespace GiellyGreenApi.Controllers
             mailMessage.Body = Message;
             mailMessage.IsBodyHtml = true;
 
+
+            string file = @"C:\Users\User42\Documents\GitHub\GiellyGreen\Images\logo5.jpg";
+            Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
+
+            ContentDisposition disposition = data.ContentDisposition;
+            disposition.CreationDate = System.IO.File.GetCreationTime(file);
+            disposition.ModificationDate = System.IO.File.GetLastWriteTime(file);
+            disposition.ReadDate = System.IO.File.GetLastAccessTime(file);
+
+            mailMessage.Attachments.Add(data);
+
             string[] Multi = ToEmail.Split(',');
             foreach (string Multiemailid in Multi)
             {
@@ -43,7 +55,6 @@ namespace GiellyGreenApi.Controllers
             smtp.Send(mailMessage);
 
         }
-
 
     }
 }

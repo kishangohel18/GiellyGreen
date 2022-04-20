@@ -122,3 +122,4 @@ C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\System.Web.H
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\DataAccessLayer.dll
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\DataAccessLayer.pdb
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\DataAccessLayer.dll.config
+C:\Users\User42\Documents\GitHub\GiellyGreen\API\GiellyGreenApi\bin\Rotativa.dll

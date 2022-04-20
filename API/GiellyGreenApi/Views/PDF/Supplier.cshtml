@@ -1,0 +1,134 @@
+﻿@model List<DataAccessLayer.Model.Supplier>
+    
+
+@{
+    ViewBag.Title = "Supplier";
+    Layout = "";
+}
+
+<h2>Supplier</h2>
+<br />
+<div style="text-align:right">@Html.ActionLink("Print Employees", "PrintAllEmployee")</div>
+<br />
+<div>
+    <h4>Supplier</h4>
+    <hr />
+    @foreach (var item in Model) { 
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => item.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.ReferenceNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ReferenceNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.BusinessAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.BusinessAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.TaxReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.TaxReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.CompanyRegNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.CompanyRegNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.CompanyRegAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.CompanyRegAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.VatNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.VatNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.ModifiedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.LogoUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.LogoUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => item.IsInvoiced)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => item.IsInvoiced)
+        </dd>
+
+    </dl>
+    <hr />
+    }
+    
+</div>
