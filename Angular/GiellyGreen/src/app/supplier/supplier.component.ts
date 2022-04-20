@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GGInvoiceService } from '../gginvoice.service';
 import { HttpClient } from '@angular/common/http';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -17,14 +17,16 @@ export class SupplierComponent implements OnInit {
   apiSuppliersData: GGInvoiceService["suppliers"][] = [];
   faPen = faPen;
   faTrash = faTrash;
+  faPlus = faPlus;
   searchedData: any;
   validateForm: FormGroup;
   supplierLogo: any;
   isVisibleTop: any;
   baseURL: any;
   data: any;
+  uploadedSupplierLogo: any
   file: File;
-  isEdited = false;
+  // isEdited = false;
   searchText: any;
   sortNameFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.SupplierName.localeCompare(b.SupplierName);
   sortRefFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.ReferenceNumber.localeCompare(b.ReferenceNumber);
@@ -34,10 +36,10 @@ export class SupplierComponent implements OnInit {
     this.validateForm = this.fb.group({
       supplierName: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+[ ]?[a-zA-Z]+$")]],
       supplierReference: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9]{1,15}$")]],
-      businessAddress: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 ]{3,150}$")]],
+      businessAddress: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 .-]{3,150}$")]],
       emailAddress: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.pattern("^[0-9]{1,15}$")],
-      companyRegisteredNumber: ['', [Validators.pattern("^[0-9]{1,15}$")]],
+      companyRegisteredNumber: ['', [Validators.pattern("^[0-9a-zA-Z]{1,15}$")]],
       VATNumber: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
       taxReference: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
       companyRegisteredAddress: ['', [Validators.pattern("[A-Za-z0-9 ]{3,150}$")]],
@@ -56,11 +58,14 @@ export class SupplierComponent implements OnInit {
   }
   onDeleteProduct(data: any) {
     Swal.fire({
-      title: 'Do you want to delete this product?',
+      title: 'Are You Sure?',
       showDenyButton: true,
-      icon: 'question',
-      confirmButtonText: 'Yes',
-      denyButtonText: `Don't delete`,
+      icon: 'error',
+      text: 'Once the record is deleted, this process cannot be undone!',
+      denyButtonText: `Cancel`,
+      denyButtonColor: '#CFD3D8',
+      confirmButtonText: 'Delete',
+      confirmButtonColor: '#FF8080',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -88,15 +93,18 @@ export class SupplierComponent implements OnInit {
   }
   handleCancelTop(): void {
     this.isVisibleTop = false;
+    this.validateForm.reset();
   }
   handleOkTop(): void {
     if (this.validateForm.valid) {
       if (this.data) {
         console.log(this.data)
         this.editSupplier(this.data);
+        this.validateForm.reset();
       }
       else {
         this.addSupplierToDB();
+        this.validateForm.reset();
       }
     }
     else {
@@ -127,22 +135,22 @@ export class SupplierComponent implements OnInit {
     }
     this._gs.suppliers.LogoUrl = this.supplierLogo
     console.log(this._gs.suppliers)
-    this._gs.uniqueMail(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.Email).subscribe(
+    this._gs.uniqueMail(0, this._gs.suppliers.Email).subscribe(
       (response: any) => {
         if (response.ResponseStatus == 0) {
           this.message.create('error', 'This Email already taken, please enter another one.')
         } else {
-          this._gs.uniqueTaxRef(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.TaxReference).subscribe(
+          this._gs.uniqueTaxRef(0, this._gs.suppliers.TaxReference).subscribe(
             (response: any) => {
               if (response.ResponseStatus == 0) {
                 this.message.create('error', 'Tax reference number already taken, please enter another one.')
               } else {
-                this._gs.uniqueVAT(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.VatNumber).subscribe(
+                this._gs.uniqueVAT(0, this._gs.suppliers.VatNumber).subscribe(
                   (response: any) => {
                     if (response.ResponseStatus == 0) {
-                      this.message.create('error', 'This VAT number is used, Please enter unique VAT Number')
+                      this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
                     } else {
-                      this._gs.uniqueSupplierRef(this._gs.suppliers.SupplierId, this.userSessionToken, this._gs.suppliers.ReferenceNumber).subscribe(
+                      this._gs.uniqueSupplierRef(0, this._gs.suppliers.ReferenceNumber).subscribe(
                         (response: any) => {
                           if (response.ResponseStatus == 0) {
                             this.message.create('error', 'Supplier reference number already taken, please enter another one.')
@@ -172,7 +180,7 @@ export class SupplierComponent implements OnInit {
     this.isVisibleTop = true;
     if (!$event) {
       this.data = null
-      this.validateForm.reset();
+      //this.validateForm.reset();
     }
     else {
 
@@ -190,6 +198,7 @@ export class SupplierComponent implements OnInit {
         taxReference: this.data.TaxReference,
         companyRegisteredAddress: this.data.CompanyRegAddress,
         activeSupplier: this.data.IsActive,
+        supplierLogo: this.data.LogoUrl,
       });
     }
   }
@@ -210,11 +219,11 @@ export class SupplierComponent implements OnInit {
     }
     this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
     this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
-    this.isEdited = true;
+    // this.isEdited = true;
     this.isVisibleTop = false;
   }
   closeAlert() {
-    this.isEdited = false;
+    // this.isEdited = false;
   }
   searchSupplier() {
     this.searchedData = this.apiSuppliersData;
@@ -235,6 +244,7 @@ export class SupplierComponent implements OnInit {
     reader.onload = () => {
       this.baseURL = reader.result.split(",")
       this.supplierLogo = this.baseURL[1];
+      this.uploadedSupplierLogo = "data:image/png;base64," + this.supplierLogo;
     };
   }
 }
