@@ -14,7 +14,7 @@ namespace DataAccessLayer.Model
     public partial class GetCustomHeaderByDate_Result
     {
         public int Id { get; set; }
-        public Nullable<int> InvoiceReferance { get; set; }
+        public string InvoiceReferance { get; set; }
         public string Custom1 { get; set; }
         public string Custom2 { get; set; }
         public string Custom3 { get; set; }

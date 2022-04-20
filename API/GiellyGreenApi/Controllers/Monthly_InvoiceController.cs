@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DataAccessLayer.Model;
@@ -49,7 +50,7 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        [Route("GetCustomHeader")]
+        [Route("InsetUpdateMonthly_Invoice")]
         public JsonResponse InsetUpdateMonthly_Invoice(List<MonthlyInvoiceViewModel> ListOfSupplier)
         {
             var ObjResponse = new JsonResponse();
@@ -76,33 +77,6 @@ namespace GiellyGreenApi.Controllers
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Error.", allErrors);
                 }
-            }
-            catch (Exception ex)
-            {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-            }
-
-            return ObjResponse;
-        }
-
-
-        [Route("GetCustomHeader")]
-        public JsonResponse GetCustomHeader()
-        {
-            var ObjResponse = new JsonResponse();
-            try
-            {
-                var ObjSupplierList = ObjDataAccess.GetAllCustom_Header().ToList();
-
-                if (ObjSupplierList != null && ObjSupplierList.Count > 0)
-                {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom record found.", ObjSupplierList);
-                }
-                else
-                {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
-                }
-
             }
             catch (Exception ex)
             {
@@ -176,27 +150,65 @@ namespace GiellyGreenApi.Controllers
 
 
 
-        //[Route("ApproveStatus")]
-        //public JsonResponse ApproveStatus(List<int> id)
+        [Route("ApproveSelectedInvoice")]
+        public JsonResponse ApproveSelectedInvoice(int[] id)
+        {
+            var ObjResponse = new JsonResponse();
+            try
+            {
+                if (id.Length > 0)
+                {
+                    for (int i = 0; i < id.Length; i++)
+                    {
+                        if (id[i] > 0)
+                        {
+                            var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(id[i]);
+                        }
+                    }                   
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", id);
+                }
+                else
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
+
+            return ObjResponse;
+        }
+
+
+        //[Route("SendEmail")]
+        //public JsonResponse SendEmail(int[] SupplierId)
         //{
         //    var ObjResponse = new JsonResponse();
+        //    string[] EmailList = new string[SupplierId.Length];
         //    try
         //    {
-        //        if (id.Count > 0)
+        //        for(int i = 0;i < SupplierId.Length; i++)
         //        {
-        //            foreach (int i in id)
+        //            var getSupplier = ObjDataAccess.Suppliers.Where(s => s.SupplierId == SupplierId[i]).FirstOrDefault();
+        //            string getEmail = getSupplier.Email;
+        //            EmailList[i] = getEmail;
+        //        }
+
+        //        string from = "goheklishan18102000@gmail.com";
+
+        //        using (MailMessage mail = new MailMessage())
+        //        {
+        //            mail.From = new MailAddress(from);
+        //            foreach (string email in EmailList)
         //            {
-        //                if (i > 0)
-        //                {
-        //                    //var UpdateApproveStatus = ObjDataAccess.UpdateApproveStatus(i);
-        //                }
+        //                mail.To.Add(email);
         //            }
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", id);
+                    
         //        }
-        //        else
-        //        {
-        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
-        //        }
+
+
+               
         //    }
         //    catch (Exception ex)
         //    {
@@ -205,7 +217,6 @@ namespace GiellyGreenApi.Controllers
 
         //    return ObjResponse;
         //}
-
 
 
     }

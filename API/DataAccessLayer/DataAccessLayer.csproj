@@ -56,9 +56,6 @@
     <Compile Include="Model\DeleteConstrainedSupplier_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\GetAllCustom_Header_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\GetAllSupplierByIsActive_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
@@ -66,9 +63,6 @@
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GetCustomHeaderByDate_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GetCustom_HeaderByInvoiceRefrance_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GetInvoiceByMonth_Result.cs">
