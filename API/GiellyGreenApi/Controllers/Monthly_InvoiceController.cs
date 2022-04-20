@@ -19,7 +19,7 @@ namespace GiellyGreenApi.Controllers
     [Authorize]
     public class Monthly_InvoiceController : ApiController
     {
-        private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
+        //private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
 
@@ -96,7 +96,7 @@ namespace GiellyGreenApi.Controllers
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom header found.", ObjSupplierList);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom record found.", ObjSupplierList);
                 }
                 else
                 {
@@ -111,6 +111,7 @@ namespace GiellyGreenApi.Controllers
 
             return ObjResponse;
         }
+
 
         [Route("GetCustomHeaderByDate")]
         public JsonResponse GetCustomHeaderByDate(string month, string year)
@@ -123,7 +124,7 @@ namespace GiellyGreenApi.Controllers
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom header found.", ObjSupplierList);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Custom record found.", ObjSupplierList);
                 }
                 else
                 {
@@ -139,7 +140,7 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
-        [HttpPut]
+
         [Route("InsertUpdateCustomHeader")]
         public JsonResponse InsertUpdateCustomHeader(CustomHeaderViewModel model)
         {
@@ -151,12 +152,12 @@ namespace GiellyGreenApi.Controllers
                     if (model.Id == 0)
                     {
                         var ObjSupplierList = ObjDataAccess.InsertUpdateCustomHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.CurrentMonth, model.CurrentYear).FirstOrDefault();
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Header created.", null);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", null);
                     }
                     else
                     {
                         var ObjSupplierList = ObjDataAccess.InsertUpdateCustomHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.CurrentMonth, model.CurrentYear).FirstOrDefault();
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Header id " + ObjSupplierList.CustomHeaderId + " updated.", null);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record " + ObjSupplierList.CustomHeaderId + " updated.", null);
                     }
                 }
                 else
@@ -172,6 +173,39 @@ namespace GiellyGreenApi.Controllers
 
             return ObjResponse;
         }
+
+
+
+        //[Route("ApproveStatus")]
+        //public JsonResponse ApproveStatus(List<int> id)
+        //{
+        //    var ObjResponse = new JsonResponse();
+        //    try
+        //    {
+        //        if (id.Count > 0)
+        //        {
+        //            foreach (int i in id)
+        //            {
+        //                if (i > 0)
+        //                {
+        //                    //var UpdateApproveStatus = ObjDataAccess.UpdateApproveStatus(i);
+        //                }
+        //            }
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", id);
+        //        }
+        //        else
+        //        {
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+        //    }
+
+        //    return ObjResponse;
+        //}
+
 
 
     }
