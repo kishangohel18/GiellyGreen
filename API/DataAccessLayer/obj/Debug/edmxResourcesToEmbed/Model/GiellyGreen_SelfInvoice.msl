@@ -64,6 +64,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ApproveSelectedInvoice" FunctionName="GiellyGreen_SelfInvoiceModel.Store.ApproveSelectedInvoice" />
     <FunctionImportMapping FunctionImportName="DeleteConstrainedSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteConstrainedSupplier">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result">
@@ -72,19 +73,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="DeleteSupplierById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplierById" />
-    <FunctionImportMapping FunctionImportName="GetAllCustom_Header" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllCustom_Header">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllCustom_Header_Result">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
-          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="GetAllSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplier">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result">
@@ -111,6 +99,7 @@
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result">
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
           <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
           <ScalarProperty Name="HairService" ColumnName="HairService" />
           <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
           <ScalarProperty Name="Custom1" ColumnName="Custom1" />
@@ -129,19 +118,6 @@
           <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
           <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
           <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="GetCustom_HeaderByInvoiceRefrance" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetCustom_HeaderByInvoiceRefrance">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetCustom_HeaderByInvoiceRefrance_Result">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
-          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -209,5 +185,12 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="UpdateByIsActive" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateByIsActive" />
+    <FunctionImportMapping FunctionImportName="GetSupplierEmailById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetSupplierEmailById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result">
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

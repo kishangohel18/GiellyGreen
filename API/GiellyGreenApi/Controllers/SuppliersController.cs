@@ -16,7 +16,6 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-
         public JsonResponse Get(int id = 0)
         {
             var ObjResponse = new JsonResponse();
@@ -25,16 +24,16 @@ namespace GiellyGreenApi.Controllers
                 var ObjSupplierList = ObjDataAccess.GetAllSupplier(id).ToList();
 
                 ObjSupplierList.ForEach(supplier =>
-               {
-                   string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                {
+                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
-                   if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
-                   {
-                       string imgPath = Path.Combine(path, supplier.LogoUrl);
-                       byte[] imageByte = File.ReadAllBytes(imgPath);
-                       supplier.LogoUrl = Convert.ToBase64String(imageByte);
-                   }
-               });
+                    if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
+                    {
+                        string imgPath = Path.Combine(path, supplier.LogoUrl);
+                        byte[] imageByte = File.ReadAllBytes(imgPath);
+                        supplier.LogoUrl = Convert.ToBase64String(imageByte);
+                    }
+                });
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
                 {
@@ -68,7 +67,7 @@ namespace GiellyGreenApi.Controllers
                         Directory.CreateDirectory(path);
                     }
 
-                    if (!string.IsNullOrEmpty(model.LogoUrl)) 
+                    if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
                         string imageName = Guid.NewGuid().ToString("N") + ".jpg";
 
@@ -132,7 +131,7 @@ namespace GiellyGreenApi.Controllers
                         Directory.CreateDirectory(path);
                     }
 
-                    string imageName = model.SupplierName + ".jpg";
+                    string imageName = Guid.NewGuid().ToString("N") + ".jpg";
 
                     string imgPath = Path.Combine(path, imageName);
 
@@ -146,11 +145,11 @@ namespace GiellyGreenApi.Controllers
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
                     }
-                    else if(ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id) && model.Email != null && model.Email != "")
+                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id) && model.Email != null && model.Email != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
                     }
-                    else if(ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id) && model.VatNumber != null && model.VatNumber != "")
+                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id) && model.VatNumber != null && model.VatNumber != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
                     }
@@ -170,7 +169,7 @@ namespace GiellyGreenApi.Controllers
                         {
                             ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Suppliers.Find(id));
                         }
-                    }                   
+                    }
                 }
                 else
                 {
@@ -250,7 +249,7 @@ namespace GiellyGreenApi.Controllers
             }
 
             return ObjResponse;
-        }       
+        }
 
     }
 }

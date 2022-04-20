@@ -29,7 +29,7 @@ namespace DataAccessLayer.Model
         public Nullable<decimal> Gross { get; set; }
         public Nullable<decimal> AdvancePaid { get; set; }
         public Nullable<decimal> Balance { get; set; }
-        public Nullable<int> InvoiceReference { get; set; }
+        public string InvoiceReference { get; set; }
         public Nullable<bool> IsApproved { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
         public Nullable<int> CurrentYear { get; set; }

@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="InvoiceReferance" Type="int" />
+          <Property Name="InvoiceReferance" Type="nvarchar" MaxLength="100" />
           <Property Name="Custom1" Type="nvarchar" MaxLength="100" />
           <Property Name="Custom2" Type="nvarchar" MaxLength="100" />
           <Property Name="Custom3" Type="nvarchar" MaxLength="100" />
@@ -38,7 +38,7 @@
           <Property Name="Gross" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AdvancePaid" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="InvoiceReference" Type="int" />
+          <Property Name="InvoiceReference" Type="nvarchar" MaxLength="100" />
           <Property Name="IsApproved" Type="bit" />
           <Property Name="InvoiceDate" Type="date" />
           <Property Name="CurrentYear" Type="int" />
@@ -65,22 +65,21 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsInvoiced" Type="bit" />
         </EntityType>
+        <Function Name="ApproveSelectedInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MonthlyInvoiceID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeleteConstrainedSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierId" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteSupplierById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetAllCustom_Header" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="GetAllSupplierByIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CurrentMonth" Type="int" Mode="In" />
           <Parameter Name="CurrentYear" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetCustom_HeaderByInvoiceRefrance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="InvoiceReferance" Type="int" Mode="In" />
         </Function>
         <Function Name="GetCustomHeaderByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CurrentMonth" Type="int" Mode="In" />
@@ -90,9 +89,12 @@
           <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
           <Parameter Name="InvoiceYear" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetSupplierEmailById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierId" Type="int" Mode="In" />
+        </Function>
         <Function Name="InsertUpdateCustomHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="InvoiceRefrance" Type="int" Mode="In" />
+          <Parameter Name="InvoiceRefrance" Type="nvarchar" Mode="In" />
           <Parameter Name="Custom1" Type="nvarchar" Mode="In" />
           <Parameter Name="Custom2" Type="nvarchar" Mode="In" />
           <Parameter Name="Custom3" Type="nvarchar" Mode="In" />
@@ -134,7 +136,7 @@
           <Parameter Name="Gross" Type="decimal" Mode="In" />
           <Parameter Name="AdvancePaid" Type="decimal" Mode="In" />
           <Parameter Name="Balance" Type="decimal" Mode="In" />
-          <Parameter Name="InvoiceReferance" Type="int" Mode="In" />
+          <Parameter Name="InvoiceReferance" Type="nvarchar" Mode="In" />
           <Parameter Name="IsApproved" Type="bit" Mode="In" />
           <Parameter Name="InvoiceDate" Type="date" Mode="In" />
           <Parameter Name="CurrentYear" Type="int" Mode="In" />
@@ -158,22 +160,21 @@
           <EntitySet Name="CustomHeaders" EntityType="GiellyGreen_SelfInvoiceModel.CustomHeader" />
           <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
           <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
+          <FunctionImport Name="ApproveSelectedInvoice">
+          <Parameter Name="MonthlyInvoiceID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="DeleteConstrainedSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result)">
-            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+          <Parameter Name="SupplierId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteSupplierById">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetAllCustom_Header" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllCustom_Header_Result)" />
           <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)">
             <Parameter Name="CurrentMonth" Mode="In" Type="Int32" />
             <Parameter Name="CurrentYear" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetCustom_HeaderByInvoiceRefrance" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetCustom_HeaderByInvoiceRefrance_Result)">
-            <Parameter Name="InvoiceReferance" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetCustomHeaderByDate" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetCustomHeaderByDate_Result)">
             <Parameter Name="CurrentMonth" Mode="In" Type="Int32" />
@@ -185,7 +186,7 @@
           </FunctionImport>
           <FunctionImport Name="InsertUpdateCustomHeader" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateCustomHeader_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="InvoiceRefrance" Mode="In" Type="Int32" />
+            <Parameter Name="InvoiceRefrance" Mode="In" Type="String" />
             <Parameter Name="Custom1" Mode="In" Type="String" />
             <Parameter Name="Custom2" Mode="In" Type="String" />
             <Parameter Name="Custom3" Mode="In" Type="String" />
@@ -227,7 +228,7 @@
             <Parameter Name="Gross" Mode="In" Type="Decimal" />
             <Parameter Name="AdvancePaid" Mode="In" Type="Decimal" />
             <Parameter Name="Balance" Mode="In" Type="Decimal" />
-            <Parameter Name="InvoiceReferance" Mode="In" Type="Int32" />
+            <Parameter Name="InvoiceReferance" Mode="In" Type="String" />
             <Parameter Name="IsApproved" Mode="In" Type="Boolean" />
             <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
             <Parameter Name="CurrentYear" Mode="In" Type="Int32" />
@@ -238,13 +239,16 @@
             <Parameter Name="SupplierId" Mode="In" Type="Int32" />
             <Parameter Name="IsActive" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="GetSupplierEmailById" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result)">
+            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="CustomHeader">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InvoiceReferance" Type="Int32" />
+          <Property Name="InvoiceReferance" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Custom1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Custom2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Custom3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -272,7 +276,7 @@
           <Property Name="Gross" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="AdvancePaid" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="InvoiceReference" Type="Int32" />
+          <Property Name="InvoiceReference" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsApproved" Type="Boolean" />
           <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
           <Property Name="CurrentYear" Type="Int32" />
@@ -299,15 +303,6 @@
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsInvoiced" Type="Boolean" />
         </EntityType>
-        <ComplexType Name="GetAllCustom_Header_Result">
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="InvoiceReferance" Nullable="true" />
-          <Property Type="String" Name="Custom1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom2" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom3" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom4" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom5" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <ComplexType Name="GetAllSupplier_Result">
           <Property Type="Int32" Name="SupplierId" Nullable="false" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
@@ -328,6 +323,7 @@
         <ComplexType Name="GetAllSupplierByIsActive_Result">
           <Property Type="Int32" Name="SupplierId" Nullable="false" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="MonthlyInvoiceId" Nullable="true" />
           <Property Type="Decimal" Name="HairService" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="BeautyService" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Custom1" Nullable="true" Precision="18" Scale="2" />
@@ -340,25 +336,16 @@
           <Property Type="Decimal" Name="Gross" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="AdvancePaid" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Balance" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="InvoiceReference" Nullable="true" />
+          <Property Type="String" Name="InvoiceReference" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="IsApproved" Nullable="true" />
           <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
           <Property Type="Int32" Name="CurrentYear" Nullable="true" />
           <Property Type="Int32" Name="CurrentMonth" Nullable="true" />
           <Property Type="Boolean" Name="IsSelected" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="GetCustom_HeaderByInvoiceRefrance_Result">
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="InvoiceReferance" Nullable="true" />
-          <Property Type="String" Name="Custom1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom2" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom3" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom4" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Custom5" Nullable="true" MaxLength="100" />
-        </ComplexType>
         <ComplexType Name="GetCustomHeaderByDate_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="InvoiceReferance" Nullable="true" />
+          <Property Type="String" Name="InvoiceReferance" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Custom1" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Custom2" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Custom3" Nullable="true" MaxLength="100" />
@@ -383,7 +370,7 @@
           <Property Type="Decimal" Name="Gross" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="AdvancePaid" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Balance" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="InvoiceReference" Nullable="true" />
+          <Property Type="String" Name="InvoiceReference" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="IsApproved" Nullable="true" />
           <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
           <Property Type="Int32" Name="CurrentYear" Nullable="true" />
@@ -393,14 +380,17 @@
         <ComplexType Name="DeleteConstrainedSupplier_Result">
           <Property Type="Int32" Name="ResponseStatus" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="InsetUpdateMonthly_Invoice_Result">
-          <Property Type="Int32" Name="Id" Nullable="true" />
+        <ComplexType Name="InsertUpdateCustomHeader_Result">
+          <Property Type="Int32" Name="CustomHeaderId" Nullable="true" />
         </ComplexType>
         <ComplexType Name="InsertUpdateSupplier_Result">
           <Property Type="Int32" Name="Id" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="InsertUpdateCustomHeader_Result">
-          <Property Type="Int32" Name="CustomHeaderId" Nullable="true" />
+        <ComplexType Name="InsetUpdateMonthly_Invoice_Result">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetSupplierEmailById_Result">
+          <Property Type="String" Name="EMAIL" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -471,6 +461,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ApproveSelectedInvoice" FunctionName="GiellyGreen_SelfInvoiceModel.Store.ApproveSelectedInvoice" />
           <FunctionImportMapping FunctionImportName="DeleteConstrainedSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteConstrainedSupplier" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result">
@@ -479,19 +470,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DeleteSupplierById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplierById" />
-          <FunctionImportMapping FunctionImportName="GetAllCustom_Header" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllCustom_Header">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllCustom_Header_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
-                <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-                <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-                <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-                <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-                <ScalarProperty Name="Custom5" ColumnName="Custom5" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetAllSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllSupplier">
             <ResultMapping>
               <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result">
@@ -518,6 +496,7 @@
               <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result">
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="MonthlyInvoiceId" ColumnName="MonthlyInvoiceId" />
                 <ScalarProperty Name="HairService" ColumnName="HairService" />
                 <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
                 <ScalarProperty Name="Custom1" ColumnName="Custom1" />
@@ -536,19 +515,6 @@
                 <ScalarProperty Name="CurrentYear" ColumnName="CurrentYear" />
                 <ScalarProperty Name="CurrentMonth" ColumnName="CurrentMonth" />
                 <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetCustom_HeaderByInvoiceRefrance" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetCustom_HeaderByInvoiceRefrance">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetCustom_HeaderByInvoiceRefrance_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
-                <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-                <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-                <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-                <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-                <ScalarProperty Name="Custom5" ColumnName="Custom5" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -616,6 +582,13 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateByIsActive" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateByIsActive" />
+          <FunctionImportMapping FunctionImportName="GetSupplierEmailById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetSupplierEmailById" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result">
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
