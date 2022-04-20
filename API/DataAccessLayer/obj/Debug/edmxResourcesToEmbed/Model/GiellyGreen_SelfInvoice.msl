@@ -185,5 +185,12 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="UpdateByIsActive" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateByIsActive" />
+    <FunctionImportMapping FunctionImportName="GetSupplierEmailById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetSupplierEmailById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result">
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

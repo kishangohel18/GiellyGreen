@@ -19,7 +19,7 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        [Route("Supplier")]
+        //[Route("Supplier")]
         public ActionResult Supplier()
         {
             var AllSupplierData = ObjDataAccess.Suppliers.ToList();
@@ -28,8 +28,16 @@ namespace GiellyGreenApi.Controllers
 
         public ActionResult PrintAllEmployee()
         {
+           
             var report = new Rotativa.ActionAsPdf("Supplier");
             return report;
+        }
+
+        [Obsolete]
+        public void ViewAsPdf()
+        {
+            var actionPDF = new Rotativa.ViewAsPdf("Supplier");
+            byte[] applicationPDFData = actionPDF.BuildPdf(ControllerContext);
         }
     }
 }

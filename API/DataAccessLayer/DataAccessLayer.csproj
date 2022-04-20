@@ -68,6 +68,9 @@
     <Compile Include="Model\GetInvoiceByMonth_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\GetSupplierEmailById_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\GiellyGreen_SelfInvoice.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

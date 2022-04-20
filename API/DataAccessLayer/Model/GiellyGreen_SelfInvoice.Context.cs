@@ -313,5 +313,14 @@ namespace DataAccessLayer.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateByIsActive", supplierIdParameter, isActiveParameter);
         }
+    
+        public virtual ObjectResult<GetSupplierEmailById_Result> GetSupplierEmailById(Nullable<int> supplierId)
+        {
+            var supplierIdParameter = supplierId.HasValue ?
+                new ObjectParameter("SupplierId", supplierId) :
+                new ObjectParameter("SupplierId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSupplierEmailById_Result>("GetSupplierEmailById", supplierIdParameter);
+        }
     }
 }

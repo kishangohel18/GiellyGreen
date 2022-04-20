@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
@@ -68,7 +69,7 @@ namespace GiellyGreenApi.Controllers
                         else
                         {
                             var ObjSupplierList = ObjDataAccess.InsetUpdateMonthly_Invoice(Item.MonthlyInvoiceId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.InvoiceReference, Item.IsApproved, Item.InvoiceDate, Item.CurrentYear, Item.CurrentMonth, Item.IsSelected).ToList();
-                        
+
                         }
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", null);
@@ -231,46 +232,49 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        
 
 
 
 
 
-        //[Route("SendEmail")]
-        //public JsonResponse SendEmail(int[] SupplierId)
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    string[] EmailList = new string[SupplierId.Length];
-        //    try
-        //    {
-        //        for(int i = 0;i < SupplierId.Length; i++)
-        //        {
-        //            var getSupplier = ObjDataAccess.Suppliers.Where(s => s.SupplierId == SupplierId[i]).FirstOrDefault();
-        //            string getEmail = getSupplier.Email;
-        //            EmailList[i] = getEmail;
-        //        }
 
-        //        string from = "goheklishan18102000@gmail.com";
+        [Route("SendEmail")]
+        public JsonResponse SendEmail(int[] SupplierId)
+        {
+            var ObjResponse = new JsonResponse();
+            EmailController emailController = new EmailController();
+            try
+            {
+                for (int i = 0; i < SupplierId.Length; i++)
+                {
+                    if (SupplierId[i] > 0)
+                    {
+                        var GetSupplierEmail = ObjDataAccess.GetSupplierEmailById(SupplierId[i]).FirstOrDefault();
+                        string Email = GetSupplierEmail.EMAIL;
+                    }
 
-        //        using (MailMessage mail = new MailMessage())
-        //        {
-        //            mail.From = new MailAddress(from);
-        //            foreach (string email in EmailList)
-        //            {
-        //                mail.To.Add(email);
-        //            }
 
-        //        }        
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-        //    }
 
-        //    return ObjResponse;
-        //}
+                    //var actionPDF = new Rotativa.ViewAsPdf("Supplier");
+                    //byte[] applicationPDFData = actionPDF.BuildPdf(ControllerContext);
+
+
+                    //var getMonthlyInvoice = ObjDataAccess.Monthly_Invoice.Where(s => s.SupplierId == getSupplier.SupplierId).FirstOrDefault();
+
+                    //emailController.Email_Attachment(getEmail, "Your invoice for the <month>, <year>", "");
+                    //EmailList[i] = getEmail;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
+
+            return ObjResponse;
+        }
 
 
     }

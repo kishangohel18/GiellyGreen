@@ -13,18 +13,18 @@ namespace GiellyGreenApi.Controllers
     public class EmailController : ApiController
     {
 
-        public void Email_Without_Attachment(string ToEmail, string Subj, string Message)
+        public void Email_Attachment(string ToEmail, string Subj, string Message)
         {
             var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
             var FromEmailid = ConfigurationManager.AppSettings["FromEmail"].ToString();
-            var Pass = ConfigurationManager.AppSettings["Password"].ToString();
+            var Pass = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
 
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(FromEmailid);
             mailMessage.Subject = Subj;
             mailMessage.Body = Message;
             mailMessage.Body = Message;
-            mailMessage.IsBodyHtml = true;
+            mailMessage.IsBodyHtml = true;            
 
 
             string file = @"C:\Users\User42\Documents\GitHub\GiellyGreen\Images\logo5.jpg";
@@ -36,6 +36,16 @@ namespace GiellyGreenApi.Controllers
             disposition.ReadDate = System.IO.File.GetLastAccessTime(file);
 
             mailMessage.Attachments.Add(data);
+
+            //var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
+
+            //var pdfBytes = htmlToPdf.GeneratePdfFromFile("http://{siteName}/templates/PasswordResetEmail2.cshtml", null);
+
+            //var stream = new System.IO.MemoryStream(pdfBytes);
+            //email.Attachments.Add(new Attachment(stream, "invoice.pdf"));
+
+
+
 
             string[] Multi = ToEmail.Split(',');
             foreach (string Multiemailid in Multi)

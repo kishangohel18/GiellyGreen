@@ -89,6 +89,9 @@
           <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
           <Parameter Name="InvoiceYear" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetSupplierEmailById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierId" Type="int" Mode="In" />
+        </Function>
         <Function Name="InsertUpdateCustomHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="InvoiceRefrance" Type="nvarchar" Mode="In" />
@@ -158,16 +161,16 @@
           <EntitySet Name="Monthly_Invoice" EntityType="GiellyGreen_SelfInvoiceModel.Monthly_Invoice" />
           <EntitySet Name="Suppliers" EntityType="GiellyGreen_SelfInvoiceModel.Supplier" />
           <FunctionImport Name="ApproveSelectedInvoice">
-            <Parameter Name="MonthlyInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="MonthlyInvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteConstrainedSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.DeleteConstrainedSupplier_Result)">
-            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+          <Parameter Name="SupplierId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteSupplierById">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetAllSupplierByIsActive" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplierByIsActive_Result)">
             <Parameter Name="CurrentMonth" Mode="In" Type="Int32" />
@@ -235,6 +238,9 @@
           <FunctionImport Name="UpdateByIsActive">
             <Parameter Name="SupplierId" Mode="In" Type="Int32" />
             <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetSupplierEmailById" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result)">
+            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="CustomHeader">
@@ -382,6 +388,9 @@
         </ComplexType>
         <ComplexType Name="InsetUpdateMonthly_Invoice_Result">
           <Property Type="Int32" Name="Id" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetSupplierEmailById_Result">
+          <Property Type="String" Name="EMAIL" Nullable="true" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -573,6 +582,13 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateByIsActive" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateByIsActive" />
+          <FunctionImportMapping FunctionImportName="GetSupplierEmailById" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetSupplierEmailById" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result">
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

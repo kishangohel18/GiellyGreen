@@ -83,6 +83,9 @@
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
       <Parameter Name="IsActive" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <FunctionImport Name="GetSupplierEmailById" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetSupplierEmailById_Result)">
+      <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="CustomHeader">
     <Key>
@@ -229,5 +232,8 @@
   </ComplexType>
   <ComplexType Name="InsetUpdateMonthly_Invoice_Result">
     <Property Type="Int32" Name="Id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetSupplierEmailById_Result">
+    <Property Type="String" Name="EMAIL" Nullable="true" MaxLength="100" />
   </ComplexType>
 </Schema>
