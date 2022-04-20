@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GGInvoiceService } from '../gginvoice.service';
 import Swal from 'sweetalert2'
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,11 @@ import Swal from 'sweetalert2'
 })
 export class LoginComponent implements OnInit {
 
-  loginStatus: any;
-
-  constructor(private fb: FormBuilder, private router: Router, private _gs: GGInvoiceService) { }
+  //constructor to inject services
+  constructor(private message: NzMessageService,private fb: FormBuilder, private router: Router, private _gs: GGInvoiceService,) { }
   validateForm!: FormGroup;
 
+  //submit button to login
   submitForm(): void {
     if (this.validateForm.valid) {
       this._gs.getLoginStatus(this.validateForm.value.userName, this.validateForm.value.password).subscribe(
@@ -34,7 +35,8 @@ export class LoginComponent implements OnInit {
                 Swal.fire({
                   title: error.error.error_description,
                   icon: 'error',
-                  confirmButtonText: 'Okay'
+                  confirmButtonText: 'Okay',
+                  confirmButtonColor: '#DC3741',
                 })
               }
             );
@@ -42,12 +44,14 @@ export class LoginComponent implements OnInit {
             Swal.fire({
               title: "Username or Password is Incorrect!",
               icon: 'error',
-              confirmButtonText: 'Okay'
+              confirmButtonText: 'Okay',
+              confirmButtonColor: '#DC3741',
             })
           }
         },
       );
     } else {
+      //if values in form are invalid then fire validations
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
@@ -58,12 +62,18 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //validating form
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       password: [null, [Validators.required]],
       remember: [true]
     });
-    sessionStorage.removeItem("User");
+
+    //check if use already logged in
+    if(sessionStorage.getItem("User") != null){
+      this.message.create('error', 'You\'re already logged in.')
+      this.router.navigate(['/monthly-invoice']);
+    }
   }
 
 }

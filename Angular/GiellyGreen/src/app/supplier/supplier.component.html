@@ -29,7 +29,7 @@
             <!-- <div class="scrollableModal"> -->
               <div class="scrollableTable">
             <nz-table class="table text-center table-bordered" #apiProductsDataTable
-              [nzData]="apiSuppliersData" [nzPageSize]="100">
+              [nzData]="apiSuppliersData">
               <thead>
                 <tr>
                   <th style="border-radius: 6px 0px 0px 0px;" scope="col" [nzSortFn]="sortRefFn">Supplier Reference</th>
@@ -48,7 +48,7 @@
                   </td>
                   <td class="text-center">
                     <fa-icon [icon]="faPen" class="p-2" (click)="showModalTop(data)"></fa-icon>
-                    <fa-icon [icon]="faTrash" (click)="onDeleteProduct(data)"></fa-icon>
+                    <fa-icon [icon]="faTrash" (click)="onDeleteSupplier(data)"></fa-icon>
                   </td>
                 </tr>
               </tbody>
@@ -215,6 +215,7 @@
                   <div nz-col nzSpan="12">
                     <nz-form-item>
                       <label>Is Active ?</label>
+                      <div class="p-2"></div>
                       <nz-form-control>
                         <nz-switch formControlName="activeSupplier"></nz-switch>
                       </nz-form-control>

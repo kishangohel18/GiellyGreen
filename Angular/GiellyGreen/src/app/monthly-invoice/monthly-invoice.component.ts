@@ -10,6 +10,7 @@ import { GGInvoiceService } from '../gginvoice.service';
 })
 export class MonthlyInvoiceComponent implements OnInit {
 
+  //#region properties
   date:any;
   month = null;
   invoiceRef:any;
@@ -17,13 +18,17 @@ export class MonthlyInvoiceComponent implements OnInit {
   indeterminate = false;
   setOfCheckedId = new Set<number>();
   allChecked = false; 
-  Custom1 = "Custom 1";
-  Custom2 = "Custom 2";
-  Custom3 = "Custom 3";
-  Custom4 = "Custom 4";
-  Custom5  = "Custom 5";
+  Custom1:any;
+  Custom2:any;
+  Custom3:any;
+  Custom4:any;
+  Custom5:any;
   listOfData:any;
+  currentHeaderId:any;
+  chosenMonthString: any;
+  chosenYear:any
   editId: any;
+  arrayOfCheckedId:any;
 
   userSessionToken = sessionStorage.getItem("User");
   constructor(public router:Router,private fb: FormBuilder,private _gs:GGInvoiceService) { 
@@ -36,18 +41,22 @@ export class MonthlyInvoiceComponent implements OnInit {
     console.log('onChange: ', result);
     const chosenMonth = String(result.getMonth()+1);
     if(chosenMonth.length == 1){
-      var chosenMonthString = "0"+ chosenMonth;
-      console.log(chosenMonthString)
+      this.chosenMonthString = "0"+ chosenMonth;
+      console.log(this.chosenMonthString)
     }
     else{
-      chosenMonthString = chosenMonth+"";
+      this.chosenMonthString = chosenMonth+"";
     }
     this.date = new Date();
     const curMonth = this.date.getUTCMonth()+1;
     const curYear = this.date.getUTCFullYear();
-    this.invoiceRef = curMonth+"/"+curYear;
-    this.getAllActiveSuppliers(chosenMonthString,result.getFullYear());
+    this.invoiceRef = curMonth+""+curYear;
+    this.chosenYear = result.getFullYear();
+    this.getCustomHeaders(this.chosenMonthString,this.chosenYear);
+    this.getAllActiveSuppliers(this.chosenMonthString,this.chosenYear);
   }
+
+  //for editable cells
   startEdit(id: any): void {
     this.editId = id;
   }
@@ -55,41 +64,106 @@ export class MonthlyInvoiceComponent implements OnInit {
   stopEdit(): void {
     this.editId = null;
   }
+
+  //to get all checked sets
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
     } else {
       this.setOfCheckedId.delete(id);
     }
+    this.arrayOfCheckedId = Array.from(this.setOfCheckedId)
+    console.log(this.setOfCheckedId)
+    console.log(this.arrayOfCheckedId)
+
   }
 
+  //to check supplier item 
   onItemChecked(id: number, checked: boolean): void {
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    console.log(id)
   }
 
+  //check all suppliers
   onAllChecked(value: boolean): void {
-    this.listOfData.forEach((item: { id: number; }) => this.updateCheckedSet(item.id, value));
+    this.listOfData.forEach((item:any) => this.updateCheckedSet(item.SupplierId, value));
     this.refreshCheckedStatus();
   }
-
   onCurrentPageDataChange($event: any): void {
+    //console.log($event)
+    if(this.listOfData){
     this.listOfData = $event;
     this.refreshCheckedStatus();
+    }
   }
 
+  //refresh status of checked suppliers
   refreshCheckedStatus(): void {
+    if(this.listOfData){
     this.checked = this.listOfData.every((item: { id: number; }) => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfData.some((item: { id: number; }) => this.setOfCheckedId.has(item.id)) && !this.checked;
+    }
   }
+
+  //to get all active suppliers
   getAllActiveSuppliers(month:any,year:any){
     if (this.userSessionToken) {
-      //const month  = this.month?.getUTCMonth()+1
       this._gs.getActiveSuppliers(this.userSessionToken,month,year).subscribe(
         (response: any) => {
           this.listOfData = response.Result
+          this.onCurrentPageDataChange(response.Result)
         }
       );
     }
+  }
+
+  //to get custom header services names
+  getCustomHeaders(month:any,year:any){
+    this._gs.getCustomHeaderNames(this.userSessionToken,month,year).subscribe(
+      (response:any)=>{
+        if(response.Result != null){
+          this.currentHeaderId = response.Result[0].Id; 
+        this.Custom1 = (response.Result[0].Custom1 != "") ? response.Result[0].Custom1 : "Custom 1";
+        this.Custom2 = (response.Result[0].Custom2 != "") ? response.Result[0].Custom2 : "Custom 2";
+        this.Custom3 = (response.Result[0].Custom3 != "") ? response.Result[0].Custom3 : "Custom 3";
+        this.Custom4 = (response.Result[0].Custom4 != "") ? response.Result[0].Custom4 : "Custom 4";
+        this.Custom5 = (response.Result[0].Custom5 != "") ? response.Result[0].Custom5 : "Custom 5";
+        }
+      }
+    );
+  }
+
+  //add invoice data to database
+  addInvoiceDataToDB(){
+    this._gs.addInvoiceData(this.userSessionToken,this.listOfData).subscribe(
+      (response:any)=>console.log(response)
+      );
+      const updateHeader = {
+        "Id":this.currentHeaderId,
+        "InvoiceReferance": this.invoiceRef,
+        "Custom1": this.Custom1,
+        "Custom2": this.Custom2,
+        "Custom3": this.Custom3,
+        "Custom4": this.Custom4,
+        "Custom5": this.Custom5,
+        "CurrentMonth": this.chosenMonthString,
+        "CurrentYear": this.chosenYear
+      }
+      this._gs.updateCustomHeader(this.userSessionToken, updateHeader).subscribe(
+        (response:any)=>console.log(response)
+      );
+  }
+
+  //approve selected invoices
+  approveInvoices(){
+    this._gs.approveInvoices(this.userSessionToken,this.arrayOfCheckedId).subscribe(
+      (response:any)=>console.log(response)
+      );
+  }
+
+  //t print report
+  printPage(){
+    window.print();
   }
 }
