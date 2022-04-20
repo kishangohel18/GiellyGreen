@@ -20,7 +20,6 @@ namespace GiellyGreenApi.Controllers
     [Authorize]
     public class Monthly_InvoiceController : ApiController
     {
-        //private GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
 
@@ -68,6 +67,7 @@ namespace GiellyGreenApi.Controllers
                         else
                         {
                             var ObjSupplierList = ObjDataAccess.InsetUpdateMonthly_Invoice(Item.MonthlyInvoiceId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.InvoiceReference, Item.IsApproved, Item.InvoiceDate, Item.CurrentYear, Item.CurrentMonth, Item.IsSelected).ToList();
+                        
                         }
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", null);
@@ -151,21 +151,21 @@ namespace GiellyGreenApi.Controllers
 
 
         [Route("ApproveSelectedInvoice")]
-        public JsonResponse ApproveSelectedInvoice(int[] id)
+        public JsonResponse ApproveSelectedInvoice(int[] ListOfId)
         {
             var ObjResponse = new JsonResponse();
             try
             {
-                if (id.Length > 0)
+                if (ListOfId.Length > 0)
                 {
-                    for (int i = 0; i < id.Length; i++)
+                    for (int i = 0; i < ListOfId.Length; i++)
                     {
-                        if (id[i] > 0)
+                        if (ListOfId[i] > 0)
                         {
-                            var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(id[i]);
+                            var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(ListOfId[i]);
                         }
-                    }                   
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", id);
+                    }
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);
                 }
                 else
                 {
@@ -179,6 +179,40 @@ namespace GiellyGreenApi.Controllers
 
             return ObjResponse;
         }
+
+
+        //[Route("ApproveSelectedInvoice_")]
+        //public JsonResponse ApproveSelectedInvoice_(List<int> ListOfId)
+        //{
+        //    var ObjResponse = new JsonResponse();
+        //    try
+        //    {
+        //        if (ListOfId.Count > 0)
+        //        {
+        //            foreach (int id in ListOfId)
+        //            {
+        //                if(id > 0)
+        //                {
+        //                    var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(id);
+        //                }
+        //            }
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);
+        //        }
+        //        else
+        //        {
+        //            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+        //    }
+
+        //    return ObjResponse;
+        //}
+
+
+
 
 
         //[Route("SendEmail")]
@@ -204,11 +238,9 @@ namespace GiellyGreenApi.Controllers
         //            {
         //                mail.To.Add(email);
         //            }
-                    
-        //        }
 
+        //        }        
 
-               
         //    }
         //    catch (Exception ex)
         //    {

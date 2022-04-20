@@ -61,7 +61,7 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == ReferenceNumber) && ReferenceNumber != null && ReferenceNumber != "")
                     {
@@ -82,7 +82,7 @@ namespace GiellyGreenApi.Controllers
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", ReferenceNumber);
                     }
-                }              
+                }
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == VatNumber) && VatNumber != null && VatNumber != "")
                     {
@@ -119,7 +119,7 @@ namespace GiellyGreenApi.Controllers
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", VatNumber);
                     }
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -136,7 +136,7 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == TaxReference) && TaxReference != null && TaxReference != "")
                     {
@@ -157,7 +157,7 @@ namespace GiellyGreenApi.Controllers
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", TaxReference);
                     }
-                }                
+                }
             }
             catch (Exception ex)
             {
