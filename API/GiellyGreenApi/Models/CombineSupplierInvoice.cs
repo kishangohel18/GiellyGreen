@@ -8,7 +8,7 @@ namespace GiellyGreenApi.Models
     public class CombineSupplierInvoice
     {
         public SupplierViewModel SupplierViewModel { get; set; }
-        public MonthlyInvoiceViewModel MonthlyInvoiceViewModel { get; set; }
+        public InvoiceViewModel InvoiceViewModel { get; set; }
 
     }
 }

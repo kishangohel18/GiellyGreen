@@ -11,7 +11,7 @@ namespace DataAccessLayer.Model
 {
     using System;
     
-    public partial class InsetUpdateMonthly_Invoice_Result
+    public partial class InsetUpdateInvoices_Result
     {
         public Nullable<int> Id { get; set; }
     }

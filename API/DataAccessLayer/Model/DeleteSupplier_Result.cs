@@ -11,8 +11,8 @@ namespace DataAccessLayer.Model
 {
     using System;
     
-    public partial class GetSupplierEmailById_Result
+    public partial class DeleteSupplier_Result
     {
-        public string EMAIL { get; set; }
+        public Nullable<int> ResponseStatus { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace GiellyGreenApi.Models
 
         public int SupplierId { get; set; }
 
-        private string _SupplierName { get; set; }
+        private string _SupplierName;
 
         [Required]
         [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Suppliername must be alphabet")]
@@ -31,25 +31,25 @@ namespace GiellyGreenApi.Models
         }
 
 
-        public string _ReferenceNumber { get; set; }
+        private string _SupplierReference;
 
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Reference number must be alphanumeric")]
         [MaxLength(15, ErrorMessage = "Reference number max length upto 15")]
-        public string ReferenceNumber
+        public string SupplierReference
         {
-            get { return _ReferenceNumber; }
+            get { return _SupplierReference; }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    _ReferenceNumber = value.Trim();
-                    _ReferenceNumber = Regex.Replace(ReferenceNumber, @"\s+", " ");
+                    _SupplierReference = value.Trim();
+                    _SupplierReference = Regex.Replace(SupplierReference, @"\s+", " ");
                 }
             }
         }
 
-        public string _BusinessAddress { get; set; }
+        private string _BusinessAddress;
         [MaxLength(150, ErrorMessage = "Business address max length upto 150")]
         public string BusinessAddress
         {
@@ -63,13 +63,24 @@ namespace GiellyGreenApi.Models
                 }
             }
         }
-        //public string _Email { get; set; }
 
+        private string _Email;
         [Required]
         [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessage = "Email not valid")]
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return _Email; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _Email = value.Trim();
+                    _Email = value.ToLower();
+                }
+            }
+        }
 
-        public string _Phone { get; set; }
+        private string _Phone;
 
         [RegularExpression(@"[0-9]+", ErrorMessage = "Phone Number must be digits")]
         [MinLength(7, ErrorMessage = "Phone Number min length is 7")]
@@ -88,7 +99,7 @@ namespace GiellyGreenApi.Models
         }
 
 
-        public string _TaxReference { get; set; }
+        private string _TaxReference;
 
         [RegularExpression(@"^[a-zA-Z0-9]{1,15}$", ErrorMessage = "Tax reference must be alphanumeric")]
         [MaxLength(15, ErrorMessage = "Tax reference max length upto 15")]
@@ -106,9 +117,8 @@ namespace GiellyGreenApi.Models
         }
 
 
-        public string _CompanyRegNumber { get; set; }
+        private string _CompanyRegNumber;
 
-        //[RegularExpression(@"^[0-9]{1,15}$", ErrorMessage = "Company registered number should be digits. Max length upto 15.")]
         [RegularExpression(@"^[a-zA-Z0-9]{1,15}$", ErrorMessage = "Company registered number must be alphanumeric")]
         [MaxLength(15, ErrorMessage = "Company registered number max length upto 15")]
         public string CompanyRegNumber
@@ -126,7 +136,7 @@ namespace GiellyGreenApi.Models
 
 
 
-        public string _CompanyRegAddress { get; set; }
+        private string _CompanyRegAddress;
 
         [MaxLength(150, ErrorMessage = "Company registered address max length upto 150")]
         public string CompanyRegAddress
@@ -144,7 +154,7 @@ namespace GiellyGreenApi.Models
 
 
 
-        public string _VatNumber { get; set; }
+        private string _VatNumber;
 
         [RegularExpression(@"^[a-zA-Z0-9]{1,15}$", ErrorMessage = "VAT number must be alphanumeric and max length upto 15")]
         public string VatNumber
@@ -159,15 +169,9 @@ namespace GiellyGreenApi.Models
                 }
             }
         }
-
-
-
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
+       
         public string LogoUrl { get; set; }
         public Nullable<bool> IsActive { get; set; }
-
-        public Nullable<bool> IsInvoiced { get; set; }
 
 
     }

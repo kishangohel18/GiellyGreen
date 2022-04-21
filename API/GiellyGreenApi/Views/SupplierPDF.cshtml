@@ -1,0 +1,43 @@
+﻿@model GiellyGreenApi.Models.CombineSupplierInvoice
+
+@*@model DataAccessLayer.Model.*@
+@{
+    Layout = "";
+}
+@*@Html.DisplayFor(model => item.SupplierName)*@
+
+<h2>SupplierPDF</h2>
+<div class="container">
+    
+    <div class="row">
+        <div class="col-md-4">
+            @if (@Model.SupplierViewModel.LogoUrl != null)
+            {
+                @Html.DisplayFor(model => model.SupplierViewModel.LogoUrl)
+            }
+        </div>
+        <div class="col-md-8">
+            <h3 class="text-secondary">Self-Billed Invoice</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            @Html.DisplayFor(model => model.SupplierViewModel.BusinessAddress)
+        </div>
+        <div class="col-md-6">
+            @*@Html.DisplayFor(model => model.SupplierViewModel.)*@
+            @Html.DisplayFor(model => model.SupplierViewModel.BusinessAddress)
+            @Html.DisplayFor(model => model.SupplierViewModel.BusinessAddress)
+            @Html.DisplayFor(model => model.SupplierViewModel.BusinessAddress)
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+

@@ -50,25 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\CustomHeader.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DeleteConstrainedSupplier_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GetAllSupplierByIsActive_Result.cs">
+    <Compile Include="Model\DeleteSupplier_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GetAllSupplier_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GetCustomHeaderByDate_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GetInvoiceByMonth_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GetSupplierEmailById_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GiellyGreen_SelfInvoice.Context.cs">
@@ -86,16 +71,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GiellyGreen_SelfInvoice.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\InsertUpdateCustomHeader_Result.cs">
-      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\InsertUpdateSupplier_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\InsetUpdateMonthly_Invoice_Result.cs">
+    <Compile Include="Model\InsetUpdateInvoices_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Monthly_Invoice.cs">
+    <Compile Include="Model\Invoice.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Month_Header.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Supplier.cs">

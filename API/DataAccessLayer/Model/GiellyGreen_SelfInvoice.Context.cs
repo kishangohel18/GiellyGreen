@@ -27,35 +27,17 @@ namespace DataAccessLayer.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CustomHeader> CustomHeaders { get; set; }
-        public virtual DbSet<Monthly_Invoice> Monthly_Invoice { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<Month_Header> Month_Header { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
     
-        public virtual int ApproveSelectedInvoice(Nullable<int> monthlyInvoiceID)
-        {
-            var monthlyInvoiceIDParameter = monthlyInvoiceID.HasValue ?
-                new ObjectParameter("MonthlyInvoiceID", monthlyInvoiceID) :
-                new ObjectParameter("MonthlyInvoiceID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ApproveSelectedInvoice", monthlyInvoiceIDParameter);
-        }
-    
-        public virtual ObjectResult<DeleteConstrainedSupplier_Result> DeleteConstrainedSupplier(Nullable<int> supplierId)
+        public virtual ObjectResult<DeleteSupplier_Result> DeleteSupplier(Nullable<int> supplierId)
         {
             var supplierIdParameter = supplierId.HasValue ?
                 new ObjectParameter("SupplierId", supplierId) :
                 new ObjectParameter("SupplierId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeleteConstrainedSupplier_Result>("DeleteConstrainedSupplier", supplierIdParameter);
-        }
-    
-        public virtual int DeleteSupplierById(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteSupplierById", idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeleteSupplier_Result>("DeleteSupplier", supplierIdParameter);
         }
     
         public virtual ObjectResult<GetAllSupplier_Result> GetAllSupplier(Nullable<int> id)
@@ -67,87 +49,7 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier", idParameter);
         }
     
-        public virtual ObjectResult<GetAllSupplierByIsActive_Result> GetAllSupplierByIsActive(Nullable<int> currentMonth, Nullable<int> currentYear)
-        {
-            var currentMonthParameter = currentMonth.HasValue ?
-                new ObjectParameter("CurrentMonth", currentMonth) :
-                new ObjectParameter("CurrentMonth", typeof(int));
-    
-            var currentYearParameter = currentYear.HasValue ?
-                new ObjectParameter("CurrentYear", currentYear) :
-                new ObjectParameter("CurrentYear", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplierByIsActive_Result>("GetAllSupplierByIsActive", currentMonthParameter, currentYearParameter);
-        }
-    
-        public virtual ObjectResult<GetCustomHeaderByDate_Result> GetCustomHeaderByDate(Nullable<int> currentMonth, Nullable<int> currentYear)
-        {
-            var currentMonthParameter = currentMonth.HasValue ?
-                new ObjectParameter("CurrentMonth", currentMonth) :
-                new ObjectParameter("CurrentMonth", typeof(int));
-    
-            var currentYearParameter = currentYear.HasValue ?
-                new ObjectParameter("CurrentYear", currentYear) :
-                new ObjectParameter("CurrentYear", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCustomHeaderByDate_Result>("GetCustomHeaderByDate", currentMonthParameter, currentYearParameter);
-        }
-    
-        public virtual ObjectResult<GetInvoiceByMonth_Result> GetInvoiceByMonth(Nullable<int> invoiceMonth, Nullable<int> invoiceYear)
-        {
-            var invoiceMonthParameter = invoiceMonth.HasValue ?
-                new ObjectParameter("InvoiceMonth", invoiceMonth) :
-                new ObjectParameter("InvoiceMonth", typeof(int));
-    
-            var invoiceYearParameter = invoiceYear.HasValue ?
-                new ObjectParameter("InvoiceYear", invoiceYear) :
-                new ObjectParameter("InvoiceYear", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceByMonth_Result>("GetInvoiceByMonth", invoiceMonthParameter, invoiceYearParameter);
-        }
-    
-        public virtual ObjectResult<InsertUpdateCustomHeader_Result> InsertUpdateCustomHeader(Nullable<int> id, string invoiceRefrance, string custom1, string custom2, string custom3, string custom4, string custom5, Nullable<int> currentMonth, Nullable<int> currentYear)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            var invoiceRefranceParameter = invoiceRefrance != null ?
-                new ObjectParameter("InvoiceRefrance", invoiceRefrance) :
-                new ObjectParameter("InvoiceRefrance", typeof(string));
-    
-            var custom1Parameter = custom1 != null ?
-                new ObjectParameter("Custom1", custom1) :
-                new ObjectParameter("Custom1", typeof(string));
-    
-            var custom2Parameter = custom2 != null ?
-                new ObjectParameter("Custom2", custom2) :
-                new ObjectParameter("Custom2", typeof(string));
-    
-            var custom3Parameter = custom3 != null ?
-                new ObjectParameter("Custom3", custom3) :
-                new ObjectParameter("Custom3", typeof(string));
-    
-            var custom4Parameter = custom4 != null ?
-                new ObjectParameter("Custom4", custom4) :
-                new ObjectParameter("Custom4", typeof(string));
-    
-            var custom5Parameter = custom5 != null ?
-                new ObjectParameter("Custom5", custom5) :
-                new ObjectParameter("Custom5", typeof(string));
-    
-            var currentMonthParameter = currentMonth.HasValue ?
-                new ObjectParameter("CurrentMonth", currentMonth) :
-                new ObjectParameter("CurrentMonth", typeof(int));
-    
-            var currentYearParameter = currentYear.HasValue ?
-                new ObjectParameter("CurrentYear", currentYear) :
-                new ObjectParameter("CurrentYear", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateCustomHeader_Result>("InsertUpdateCustomHeader", idParameter, invoiceRefranceParameter, custom1Parameter, custom2Parameter, custom3Parameter, custom4Parameter, custom5Parameter, currentMonthParameter, currentYearParameter);
-        }
-    
-        public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string referenceNumber, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> modifiedDate, string logoUrl, Nullable<bool> isActive, Nullable<bool> isInvoiced)
+        public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string supplierRef, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, string logoUrl, Nullable<bool> isActive)
         {
             var supplierIdParameter = supplierId.HasValue ?
                 new ObjectParameter("SupplierId", supplierId) :
@@ -157,9 +59,9 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("SupplierName", supplierName) :
                 new ObjectParameter("SupplierName", typeof(string));
     
-            var referenceNumberParameter = referenceNumber != null ?
-                new ObjectParameter("ReferenceNumber", referenceNumber) :
-                new ObjectParameter("ReferenceNumber", typeof(string));
+            var supplierRefParameter = supplierRef != null ?
+                new ObjectParameter("SupplierRef", supplierRef) :
+                new ObjectParameter("SupplierRef", typeof(string));
     
             var businessAddressParameter = businessAddress != null ?
                 new ObjectParameter("BusinessAddress", businessAddress) :
@@ -189,14 +91,6 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("VatNumber", vatNumber) :
                 new ObjectParameter("VatNumber", typeof(string));
     
-            var createdDateParameter = createdDate.HasValue ?
-                new ObjectParameter("CreatedDate", createdDate) :
-                new ObjectParameter("CreatedDate", typeof(System.DateTime));
-    
-            var modifiedDateParameter = modifiedDate.HasValue ?
-                new ObjectParameter("ModifiedDate", modifiedDate) :
-                new ObjectParameter("ModifiedDate", typeof(System.DateTime));
-    
             var logoUrlParameter = logoUrl != null ?
                 new ObjectParameter("LogoUrl", logoUrl) :
                 new ObjectParameter("LogoUrl", typeof(string));
@@ -205,18 +99,18 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("IsActive", isActive) :
                 new ObjectParameter("IsActive", typeof(bool));
     
-            var isInvoicedParameter = isInvoiced.HasValue ?
-                new ObjectParameter("IsInvoiced", isInvoiced) :
-                new ObjectParameter("IsInvoiced", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateSupplier_Result>("InsertUpdateSupplier", supplierIdParameter, supplierNameParameter, referenceNumberParameter, businessAddressParameter, emailParameter, phoneParameter, taxReferenceParameter, companyRegNumberParameter, companyRegAddressParameter, vatNumberParameter, createdDateParameter, modifiedDateParameter, logoUrlParameter, isActiveParameter, isInvoicedParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateSupplier_Result>("InsertUpdateSupplier", supplierIdParameter, supplierNameParameter, supplierRefParameter, businessAddressParameter, emailParameter, phoneParameter, taxReferenceParameter, companyRegNumberParameter, companyRegAddressParameter, vatNumberParameter, logoUrlParameter, isActiveParameter);
         }
     
-        public virtual ObjectResult<InsetUpdateMonthly_Invoice_Result> InsetUpdateMonthly_Invoice(Nullable<int> monthlyInvoiceId, Nullable<int> supplierId, string supplierName, Nullable<decimal> hairService, Nullable<decimal> beautyService, Nullable<decimal> custom1, Nullable<decimal> custom2, Nullable<decimal> custom3, Nullable<decimal> custom4, Nullable<decimal> custom5, Nullable<decimal> net, Nullable<decimal> vat, Nullable<decimal> gross, Nullable<decimal> advancePaid, Nullable<decimal> balance, string invoiceReferance, Nullable<bool> isApproved, Nullable<System.DateTime> invoiceDate, Nullable<int> currentYear, Nullable<int> currentMonth, Nullable<bool> isSelected)
+        public virtual ObjectResult<InsetUpdateInvoices_Result> InsetUpdateInvoices(Nullable<int> id, Nullable<int> monthHeaderId, Nullable<int> supplierId, string supplierName, Nullable<decimal> hairService, Nullable<decimal> beautyService, Nullable<decimal> custom1, Nullable<decimal> custom2, Nullable<decimal> custom3, Nullable<decimal> custom4, Nullable<decimal> custom5, Nullable<decimal> net, Nullable<decimal> vat, Nullable<decimal> gross, Nullable<decimal> advancePaid, Nullable<decimal> balance, Nullable<bool> isApproved)
         {
-            var monthlyInvoiceIdParameter = monthlyInvoiceId.HasValue ?
-                new ObjectParameter("MonthlyInvoiceId", monthlyInvoiceId) :
-                new ObjectParameter("MonthlyInvoiceId", typeof(int));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var monthHeaderIdParameter = monthHeaderId.HasValue ?
+                new ObjectParameter("MonthHeaderId", monthHeaderId) :
+                new ObjectParameter("MonthHeaderId", typeof(int));
     
             var supplierIdParameter = supplierId.HasValue ?
                 new ObjectParameter("SupplierId", supplierId) :
@@ -274,34 +168,14 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("Balance", balance) :
                 new ObjectParameter("Balance", typeof(decimal));
     
-            var invoiceReferanceParameter = invoiceReferance != null ?
-                new ObjectParameter("InvoiceReferance", invoiceReferance) :
-                new ObjectParameter("InvoiceReferance", typeof(string));
-    
             var isApprovedParameter = isApproved.HasValue ?
                 new ObjectParameter("IsApproved", isApproved) :
                 new ObjectParameter("IsApproved", typeof(bool));
     
-            var invoiceDateParameter = invoiceDate.HasValue ?
-                new ObjectParameter("InvoiceDate", invoiceDate) :
-                new ObjectParameter("InvoiceDate", typeof(System.DateTime));
-    
-            var currentYearParameter = currentYear.HasValue ?
-                new ObjectParameter("CurrentYear", currentYear) :
-                new ObjectParameter("CurrentYear", typeof(int));
-    
-            var currentMonthParameter = currentMonth.HasValue ?
-                new ObjectParameter("CurrentMonth", currentMonth) :
-                new ObjectParameter("CurrentMonth", typeof(int));
-    
-            var isSelectedParameter = isSelected.HasValue ?
-                new ObjectParameter("IsSelected", isSelected) :
-                new ObjectParameter("IsSelected", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsetUpdateMonthly_Invoice_Result>("InsetUpdateMonthly_Invoice", monthlyInvoiceIdParameter, supplierIdParameter, supplierNameParameter, hairServiceParameter, beautyServiceParameter, custom1Parameter, custom2Parameter, custom3Parameter, custom4Parameter, custom5Parameter, netParameter, vatParameter, grossParameter, advancePaidParameter, balanceParameter, invoiceReferanceParameter, isApprovedParameter, invoiceDateParameter, currentYearParameter, currentMonthParameter, isSelectedParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsetUpdateInvoices_Result>("InsetUpdateInvoices", idParameter, monthHeaderIdParameter, supplierIdParameter, supplierNameParameter, hairServiceParameter, beautyServiceParameter, custom1Parameter, custom2Parameter, custom3Parameter, custom4Parameter, custom5Parameter, netParameter, vatParameter, grossParameter, advancePaidParameter, balanceParameter, isApprovedParameter);
         }
     
-        public virtual int UpdateByIsActive(Nullable<int> supplierId, Nullable<bool> isActive)
+        public virtual int UpdateStatus(Nullable<int> supplierId, Nullable<bool> isActive)
         {
             var supplierIdParameter = supplierId.HasValue ?
                 new ObjectParameter("SupplierId", supplierId) :
@@ -311,16 +185,7 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("IsActive", isActive) :
                 new ObjectParameter("IsActive", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateByIsActive", supplierIdParameter, isActiveParameter);
-        }
-    
-        public virtual ObjectResult<GetSupplierEmailById_Result> GetSupplierEmailById(Nullable<int> supplierId)
-        {
-            var supplierIdParameter = supplierId.HasValue ?
-                new ObjectParameter("SupplierId", supplierId) :
-                new ObjectParameter("SupplierId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSupplierEmailById_Result>("GetSupplierEmailById", supplierIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateStatus", supplierIdParameter, isActiveParameter);
         }
     }
 }

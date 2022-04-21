@@ -12,7 +12,7 @@ namespace DataAccessLayer.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomHeader
+    public partial class Month_Header
     {
         public int Id { get; set; }
         public string InvoiceReferance { get; set; }
@@ -21,7 +21,8 @@ namespace DataAccessLayer.Model
         public string Custom3 { get; set; }
         public string Custom4 { get; set; }
         public string Custom5 { get; set; }
-        public Nullable<int> CurrentMonth { get; set; }
-        public Nullable<int> CurrentYear { get; set; }
+        public Nullable<int> InvoiceMonth { get; set; }
+        public Nullable<int> InvoiceYear { get; set; }
+        public Nullable<System.DateTime> InvoiceDate { get; set; }
     }
 }
