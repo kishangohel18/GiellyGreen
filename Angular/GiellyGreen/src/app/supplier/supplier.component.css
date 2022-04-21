@@ -60,7 +60,7 @@ font-weight: 400;
   .supplierTitle{
     font-weight: 400;
     font-size: 30px;
-    line-height: 20px;
+    line-height: 32px;
     letter-spacing: -0.02em;
     
     color: #2C2B29;
@@ -150,4 +150,11 @@ form{
 }
 .inner-content{
   font-family: "Dax-Regular" !important;
+}
+.ng-star-inserted{
+  font-size: larger !important;
+  font-family: 'Dax-Regular' !important;
+}
+td{
+  font-size:15px !important;
 }

@@ -25,14 +25,15 @@ export class SupplierComponent implements OnInit {
   isVisibleTop: any;
   baseURL: any;
   data: any;
+  loading = true;
   uploadedSupplierLogo: any
   file: File;;
   searchText: any;
 
   //to sort column data of table
   sortNameFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.SupplierName.localeCompare(b.SupplierName);
-  sortRefFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.ReferenceNumber.localeCompare(b.ReferenceNumber);
-  
+  sortRefFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.SupplierReference.localeCompare(b.SupplierReference);
+
   //get user from session
   userSessionToken = sessionStorage.getItem("User");
 
@@ -49,17 +50,19 @@ export class SupplierComponent implements OnInit {
       taxReference: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
       companyRegisteredAddress: ['', [Validators.pattern("[A-Za-z,0-9 .-]{3,150}$")]],
       activeSupplier: [''],
-      supplierLogo: [''],
+      fileUpload: [''],
     });
   }
 
   //get all suppliers from DB
   onGetSuppliers() {
     if (this.userSessionToken) {
+      this.loading = true;
       this._gs.getSuppliers(this.userSessionToken).subscribe(
         (response: any) => {
           this.apiSuppliersData = response.Result
           console.log(this.apiSuppliersData)
+          this.loading = false;
         }
       );
     }
@@ -119,7 +122,6 @@ export class SupplierComponent implements OnInit {
       else {
         //function to add new data to DB
         this.addSupplierToDB();
-        this.validateForm.reset();
       }
     }
     else {
@@ -137,7 +139,7 @@ export class SupplierComponent implements OnInit {
   addSupplierToDB() {
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = formValue.supplierName;
-    this._gs.suppliers.ReferenceNumber = formValue.supplierReference;
+    this._gs.suppliers.SupplierReference = formValue.supplierReference;
     this._gs.suppliers.BusinessAddress = formValue.businessAddress;
     this._gs.suppliers.Email = formValue.emailAddress;
     this._gs.suppliers.Phone = formValue.phoneNumber;
@@ -150,8 +152,9 @@ export class SupplierComponent implements OnInit {
     } else {
       this._gs.suppliers.IsActive = formValue.activeSupplier;
     }
-    debugger
-    this._gs.suppliers.LogoUrl = this.supplierLogo
+    if (this.supplierLogo) {
+      this._gs.suppliers.LogoUrl = this.supplierLogo
+    }
 
     //check validations
     this._gs.uniqueMail(0, this._gs.suppliers.Email).subscribe(
@@ -169,7 +172,7 @@ export class SupplierComponent implements OnInit {
                     if (response.ResponseStatus == 0) {
                       this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
                     } else {
-                      this._gs.uniqueSupplierRef(0, this._gs.suppliers.ReferenceNumber).subscribe(
+                      this._gs.uniqueSupplierRef(0, this._gs.suppliers.SupplierReference).subscribe(
                         (response: any) => {
                           if (response.ResponseStatus == 0) {
                             this.message.create('error', 'Supplier reference number already taken, please enter another one.')
@@ -178,11 +181,16 @@ export class SupplierComponent implements OnInit {
                               (response: any) => {
                                 console.log(this.apiSuppliersData)
                                 this.apiSuppliersData.push(response.Result)
+                                console.log(response)
+                                this.onGetSuppliers();
+                              },
+                              (error:any)=>{
+                                this.message.create("error","Data cannot be saved, check your fields again!");
                               }
                             );
                             this.isVisibleTop = false;
-                            debugger
-                            this.onGetSuppliers();
+                            this.validateForm.reset();
+                            this.uploadedSupplierLogo = null
                           }
                         }
                       );
@@ -210,9 +218,10 @@ export class SupplierComponent implements OnInit {
       console.log(this.data)
 
       //patch value to modal while editing
+      this.uploadedSupplierLogo = "data:image/png;base64," + this.data.LogoUrl;
       this.validateForm.patchValue({
         supplierName: this.data.SupplierName,
-        supplierReference: this.data.ReferenceNumber,
+        supplierReference: this.data.SupplierReference,
         businessAddress: this.data.BusinessAddress,
         emailAddress: this.data.Email,
         phoneNumber: this.data.Phone,
@@ -221,7 +230,7 @@ export class SupplierComponent implements OnInit {
         taxReference: this.data.TaxReference,
         companyRegisteredAddress: this.data.CompanyRegAddress,
         activeSupplier: this.data.IsActive,
-        supplierLogo: this.data.LogoUrl,
+        fileUpload: "data:image/png;base64," + this.data.LogoUrl,
       });
     }
   }
@@ -232,7 +241,7 @@ export class SupplierComponent implements OnInit {
     this.uploadedSupplierLogo = "data:image/png;base64," + this.data.LogoUrl;
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
-    this._gs.suppliers.ReferenceNumber = this.data.ReferenceNumber = formValue.supplierReference;
+    this._gs.suppliers.SupplierReference = this.data.supplierReference = formValue.supplierReference;
     this._gs.suppliers.BusinessAddress = this.data.BusinessAddress = formValue.businessAddress;
     this._gs.suppliers.Email = this.data.Email = formValue.emailAddress;
     this._gs.suppliers.Phone = this.data.Phone = formValue.phoneNumber;
@@ -244,26 +253,63 @@ export class SupplierComponent implements OnInit {
     } else {
       this._gs.suppliers.IsActive = this.data.IsActive = formValue.activeSupplier;
     }
-    this._gs.suppliers.LogoUrl = this.data.LogoUrl;
+    //this._gs.suppliers.LogoUrl = this.data.LogoUrl = formValue.LogoUrl;
+      // this._gs.uniqueMail(0, this._gs.suppliers.Email).subscribe(
+      //   (response: any) => {
+      //     if (response.ResponseStatus == 0) {
+      //       this.message.create('error', 'This Email already taken, please enter another one.')
+      //     } else {
+      //       this._gs.uniqueTaxRef(0, this._gs.suppliers.TaxReference).subscribe(
+      //         (response: any) => {
+      //           if (response.ResponseStatus == 0) {
+      //             this.message.create('error', 'Tax reference number already taken, please enter another one.')
+      //           } else {
+      //             this._gs.uniqueVAT(0, this._gs.suppliers.VatNumber).subscribe(
+      //               (response: any) => {
+      //                 if (response.ResponseStatus == 0) {
+      //                   this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
+      //                 } else {
+      //                   this._gs.uniqueSupplierRef(0, this._gs.suppliers.SupplierReference).subscribe(
+      //                     (response: any) => {
+      //                       if (response.ResponseStatus == 0) {
+      //                         this.message.create('error', 'Supplier reference number already taken, please enter another one.')
+      //                       } else {
+      //                         this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
+      // this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
+      // // this.isEdited = true;
+      // this.isVisibleTop = false;
+      //                       }
+      //                     }
+      //                   );
+      //                 }
+      //               }
+      //             );
+      //           }
+      //         }
+      //       );
+      //     }
+      //   }
+      // );
     this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
     this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
     // this.isEdited = true;
     this.isVisibleTop = false;
+    
   }
 
   //search supplier
   searchSupplier() {
     this.searchedData = this.apiSuppliersData;
     this.apiSuppliersData = this.searchedData.filter((item: any) => item.SupplierName.indexOf(this.searchText) !== -1);
-    if (this.searchText.length == 0) {
+    if(this.searchText.length == 0) {
       this.onGetSuppliers();
     }
   }
 
   //change status of supplier from mail screen table
-  changeStatus(data: any, supplierStatus: any) {
-    console.log(supplierStatus)
-    this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, supplierStatus).subscribe();
+  changeStatus(data: any) {
+    console.log(data.IsActive)
+    this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, data.IsActive).subscribe();
   }
 
   //upload supplier logo
@@ -276,5 +322,8 @@ export class SupplierComponent implements OnInit {
       this.supplierLogo = this.baseURL[1];
       this.uploadedSupplierLogo = "data:image/png;base64," + this.supplierLogo;
     };
+  }
+  removeLogo(){
+    this.uploadedSupplierLogo = null;
   }
 }

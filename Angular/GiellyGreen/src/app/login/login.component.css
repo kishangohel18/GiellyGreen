@@ -27,6 +27,7 @@
     padding-right: 0px !important;
     overflow: hidden !important;
     position: relative;
+    font-family: 'Dax-Regular';
 }
 
 .LoginPageImage {
@@ -52,10 +53,7 @@
     letter-spacing: -0.02em;
     color: rgba(44, 43, 41, 0.7);
 }
-body{
-    font-family: 'Dax';
-    font-style: normal;
-}
+
 
 .loginFormParentDiv{
     position: relative;

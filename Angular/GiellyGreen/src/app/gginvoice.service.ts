@@ -13,7 +13,7 @@ export class GGInvoiceService {
   suppliers={
     "SupplierId": 0,
     "SupplierName": "",
-    "ReferenceNumber": "",
+    "SupplierReference": "",
     "BusinessAddress": "",
     "Email": "",
     "Phone": "",
@@ -21,13 +21,11 @@ export class GGInvoiceService {
     "CompanyRegNumber": "",
     "CompanyRegAddress": "",
     "VatNumber": "",
-    "CreatedDate": "",
-    "ModifiedDate": "",
     "LogoUrl": "",
     "IsActive": false
   }
 
-  apiURL = "http://5d35-106-201-236-89.ngrok.io"
+  apiURL = "http://429c-106-201-236-89.ngrok.io"
   constructor(private http: HttpClient) { }
 
   //to check whether username and password are correct
@@ -75,10 +73,9 @@ export class GGInvoiceService {
 
   //change active/inactive status of supplier
   updateSupplierStatus(id:number, userSessionToken:any, supplierStatus:any){
-    console.log(supplierStatus)
+    console.log("status "+supplierStatus)
     const header = {"Authorization":"bearer "+userSessionToken}
-    let newSupplierStatus = {"SupplierId" : id, "IsActive":supplierStatus}
-    return this.http.patch<unknown>(`${this.apiURL}/api/Suppliers/${id}`, newSupplierStatus, {headers:header});
+    return this.http.patch<unknown>(`${this.apiURL}/ToggleActive?id=${id}&IsActive=${supplierStatus}`, null , {headers:header});
   }
 
   //check whether mail is unique
@@ -102,26 +99,26 @@ export class GGInvoiceService {
   //check whether supplier reference is unique
   uniqueSupplierRef(id:number,supRef:any){
     //const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.post<unknown>(`${this.apiURL}/VarifyRefenceNumber?id=${id}&ReferenceNumber=${supRef}`, null);
+    return this.http.post<unknown>(`${this.apiURL}/VarifyRefenceNumber?id=${id}&SupplierReference=${supRef}`, null);
   }
 
   //get all active suppliers
   getActiveSuppliers(userSessionToken:any,month:any,year:any){
     console.log(month+year)
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.get<unknown>(`${this.apiURL}/GetAllSupplierByIsActive?month=${month}&year=${year}`,{headers:header});
+    return this.http.get<unknown>(`${this.apiURL}/GetInvoiceByDate?month=${month}&year=${year}`,{headers:header});
   }
 
   //get header custom service names
   getCustomHeaderNames(userSessionToken:any,month:any,year:any){
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.get<unknown>(`${this.apiURL}/GetCustomHeaderByDate?month=${month}&year=${year}`,{headers:header});
+    return this.http.get<unknown>(`${this.apiURL}/GetHeaderByDate?month=${month}&year=${year}`,{headers:header});
   }
 
   //add updated invoice data to DB
   addInvoiceData(userSessionToken:any, listOfData:any): Observable<unknown>{
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.post<unknown>(`${this.apiURL}/InsetUpdateMonthly_Invoice`, listOfData, {headers:header});
+    return this.http.post<unknown>(`${this.apiURL}/InsetUpdateInvoices`, listOfData, {headers:header});
   }
 
   //approve selected invoices
@@ -133,6 +130,6 @@ export class GGInvoiceService {
   //update header service names to DB
   updateCustomHeader(userSessionToken:any, headerBody:any): Observable<unknown>{
     const header = {"Authorization":"bearer "+userSessionToken}
-    return this.http.post<unknown>(`${this.apiURL}/InsertUpdateCustomHeader`, headerBody , {headers:header});
+    return this.http.post<unknown>(`${this.apiURL}/InsertUpdateMonthHeader`, headerBody , {headers:header});
   }
 }
