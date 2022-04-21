@@ -1,15 +1,17 @@
-﻿using System;
+﻿using DataAccessLayer.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+
 
 namespace GiellyGreenApi.Models
 {
     public class CombineSupplierInvoice
     {
-        public SupplierViewModel SupplierViewModel { get; set; }
-        public InvoiceViewModel InvoiceViewModel { get; set; }
-        public Month_HeaderViewModel Month_HeaderViewModel { get; set; }
+        public Supplier Supplier { get; set; }
+        public Invoice Invoice { get; set; }
+        public Month_Header Month_Header { get; set; }
 
     }
 }

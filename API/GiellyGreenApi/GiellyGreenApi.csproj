@@ -317,6 +317,7 @@
     <Content Include="Views\PDF\Supplier.cshtml" />
     <Content Include="Views\Shared\PDFReader.cshtml" />
     <Content Include="Views\SupplierPDF.cshtml" />
+    <Content Include="Views\PDF\PDFForInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

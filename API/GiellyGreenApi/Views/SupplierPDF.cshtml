@@ -4,16 +4,16 @@
 @{
     Layout = "";
 }
-
+@*<a href="~/Views/SupplierPDF.cshtml">~/Views/SupplierPDF.cshtml</a>*@
 
 <div class="container">
 
     <div class="row">
         <div class="col-md-4">
-            @if (Model.SupplierViewModel.LogoUrl != null)
+            @*@if (@Model.SupplierViewModel.LogoUrl != null)
             {
-                <span>@Html.DisplayFor(model => model.SupplierViewModel.LogoUrl)</span>
-            }
+                <span></span>
+            }*@
         </div>
         <div class="col-md-8">
            <h3 class="text-secondary">Self-Billed Invoice</h3>
@@ -31,14 +31,14 @@
             <span>
                 Invoice Ref:  @Html.DisplayFor(model => model.Month_HeaderViewModel.InvoiceReferance)
             </span>
-            @if (Model.SupplierViewModel.TaxReference != null)
+            @*@if (Model.SupplierViewModel.TaxReference != null)
             {
                 <span>Tax Ref:  @Html.DisplayFor(model => model.SupplierViewModel.TaxReference)</span>
             }
             @if (Model.SupplierViewModel.VatNumber != null)
             {
                 <span>VAT Number:  @Html.DisplayFor(model => model.SupplierViewModel.VatNumber)</span>
-            }            
+            }*@            
         </div>
     </div>
 
@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <table class="table-bordered">
+    <table class="table table-bordered" style="border:1px solid black;">
         <tr>
             <td>Hair Services</td>
             <td></td>

@@ -53,7 +53,19 @@
     <Compile Include="Model\DeleteSupplier_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\GetActiveSupplier_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\GetAllSupplier_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GetHeaderByDate_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GetInvoiceByDate_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GetInvoiceByMonth_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GiellyGreen_SelfInvoice.Context.cs">
@@ -71,10 +83,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GiellyGreen_SelfInvoice.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\InsertUpdateMonthHeader_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\InsertUpdateSupplier_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\InsetUpdateInvoices_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\InsetUpdateInvoices_Result1.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Invoice.cs">

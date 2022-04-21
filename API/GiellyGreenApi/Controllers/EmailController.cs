@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Web;
 using System.Web.Http;
+using System.Web.Routing;
 
 namespace GiellyGreenApi.Controllers
 {
     public class EmailController : ApiController
     {
-
         public void Email_Attachment(string ToEmail, string Subj, string Message)
         {
             var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
@@ -24,27 +26,28 @@ namespace GiellyGreenApi.Controllers
             mailMessage.Subject = Subj;
             mailMessage.Body = Message;
             mailMessage.Body = Message;
-            mailMessage.IsBodyHtml = true;            
+            mailMessage.IsBodyHtml = true;
 
 
-            string file = @"C:\Users\User42\Documents\GitHub\GiellyGreen\Images\logo5.jpg";
-            Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
+            //string file = @"C:\Users\User42\Documents\GitHub\GiellyGreen\Images\logo5.jpg";
+            //Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
 
-            ContentDisposition disposition = data.ContentDisposition;
-            disposition.CreationDate = System.IO.File.GetCreationTime(file);
-            disposition.ModificationDate = System.IO.File.GetLastWriteTime(file);
-            disposition.ReadDate = System.IO.File.GetLastAccessTime(file);
+            //ContentDisposition disposition = data.ContentDisposition;
+            //disposition.CreationDate = System.IO.File.GetCreationTime(file);
+            //disposition.ModificationDate = System.IO.File.GetLastWriteTime(file);
+            //disposition.ReadDate = System.IO.File.GetLastAccessTime(file);
 
-            mailMessage.Attachments.Add(data);
+            //mailMessage.Attachments.Add(data);
 
-            //var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
-
-            //var pdfBytes = htmlToPdf.GeneratePdfFromFile("http://{siteName}/templates/PasswordResetEmail2.cshtml", null);
-
-            //var stream = new System.IO.MemoryStream(pdfBytes);
-            //email.Attachments.Add(new Attachment(stream, "invoice.pdf"));
-
-
+            PDFController pdfController = new PDFController();
+            RouteData route = new RouteData();
+            route.Values.Add("action", "ViewAsPdf"); // ActionName
+            route.Values.Add("controller", "PDF"); // Controller Name
+            System.Web.Mvc.ControllerContext newContext = new
+            System.Web.Mvc.ControllerContext(new HttpContextWrapper(System.Web.HttpContext.Current), route, pdfController);
+            pdfController.ControllerContext = newContext;
+            //dynamic pdf = pdfController.ViewAsPdf(Contro);
+            //mailMessage.Attachments.Add(pdf);            
 
 
             string[] Multi = ToEmail.Split(',');

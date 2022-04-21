@@ -54,11 +54,42 @@
     <Property Name="LogoUrl" Type="nvarchar(max)" />
     <Property Name="IsActive" Type="bit" />
   </EntityType>
+  <Function Name="ApproveSelectedInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MonthlyInvoiceID" Type="int" Mode="In" />
+  </Function>
   <Function Name="DeleteSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SupplierId" Type="int" Mode="In" />
   </Function>
+  <Function Name="GetActiveSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="GetAllSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetEmailById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetHeaderByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CurrentMonth" Type="int" Mode="In" />
+    <Parameter Name="CurrentYear" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetInvoiceByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
+    <Parameter Name="InvoiceYear" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetInvoiceByMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
+    <Parameter Name="InvoiceYear" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertUpdateMonthHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="InvoiceRefrance" Type="nvarchar" Mode="In" />
+    <Parameter Name="Custom1" Type="nvarchar" Mode="In" />
+    <Parameter Name="Custom2" Type="nvarchar" Mode="In" />
+    <Parameter Name="Custom3" Type="nvarchar" Mode="In" />
+    <Parameter Name="Custom4" Type="nvarchar" Mode="In" />
+    <Parameter Name="Custom5" Type="nvarchar" Mode="In" />
+    <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
+    <Parameter Name="InvoiceYear" Type="int" Mode="In" />
+    <Parameter Name="InvoiceDate" Type="datetime" Mode="In" />
   </Function>
   <Function Name="InsertUpdateSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SupplierId" Type="int" Mode="In" />
