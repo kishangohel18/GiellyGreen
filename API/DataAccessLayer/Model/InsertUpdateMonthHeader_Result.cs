@@ -11,8 +11,8 @@ namespace DataAccessLayer.Model
 {
     using System;
     
-    public partial class DeleteConstrainedSupplier_Result
+    public partial class InsertUpdateMonthHeader_Result
     {
-        public Nullable<int> ResponseStatus { get; set; }
+        public Nullable<int> MonthHeader { get; set; }
     }
 }

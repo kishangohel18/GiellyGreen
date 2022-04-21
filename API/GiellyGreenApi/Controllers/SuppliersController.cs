@@ -16,12 +16,12 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-        public JsonResponse Get(int id = 0)
+        public JsonResponse Get()
         {
             var ObjResponse = new JsonResponse();
             try
             {
-                var ObjSupplierList = ObjDataAccess.GetAllSupplier(id).ToList();
+                var ObjSupplierList = ObjDataAccess.GetAllSupplier(0).ToList();
 
                 ObjSupplierList.ForEach(supplier =>
                 {
@@ -59,7 +59,6 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
                     if (!Directory.Exists(path))
@@ -69,36 +68,17 @@ namespace GiellyGreenApi.Controllers
 
                     if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
-                        string imageName = Guid.NewGuid().ToString("N") + ".jpg";
-
+                        string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
                         string imgPath = Path.Combine(path, imageName);
-
                         byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
-
                         File.WriteAllBytes(imgPath, imageBytes);
-
                         model.LogoUrl = imgPath;
-                    }
+                    }                   
 
-                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber && s.SupplierId != model.SupplierId) && model.ReferenceNumber != null && model.ReferenceNumber != "")
+                    ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
+                    if (ObjResponse.ResponseStatus != 0)
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
-                    }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email) && model.Email != null && model.Email != "")
-                    {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
-                    }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber) && model.VatNumber != null && model.VatNumber != "")
-                    {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
-                    }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference) && model.TaxReference != null && model.TaxReference != "")
-                    {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
-                    }
-                    else
-                    {
-                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive, model.IsInvoiced).FirstOrDefault();
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
                     }
                 }
@@ -123,7 +103,6 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
                     if (!Directory.Exists(path))
@@ -131,35 +110,18 @@ namespace GiellyGreenApi.Controllers
                         Directory.CreateDirectory(path);
                     }
 
-                    string imageName = Guid.NewGuid().ToString("N") + ".jpg";
-
-                    string imgPath = Path.Combine(path, imageName);
-
-                    byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
-
-                    File.WriteAllBytes(imgPath, imageBytes);
-
-                    model.LogoUrl = imgPath;
-
-                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == model.ReferenceNumber && s.SupplierId != id) && model.ReferenceNumber != null && model.ReferenceNumber != "")
+                    if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
+                        string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
+                        string imgPath = Path.Combine(path, imageName);
+                        byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
+                        File.WriteAllBytes(imgPath, imageBytes);
+                        model.LogoUrl = imgPath;
                     }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id) && model.Email != null && model.Email != "")
+                   
+                    if (SupplierHelper.CheckDuplicate(id, model).ResponseStatus != 0)
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
-                    }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id) && model.VatNumber != null && model.VatNumber != "")
-                    {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
-                    }
-                    else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id) && model.TaxReference != null && model.TaxReference != "")
-                    {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
-                    }
-                    else
-                    {
-                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.ReferenceNumber, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.CreatedDate, model.ModifiedDate, model.LogoUrl, model.IsActive, model.IsInvoiced).FirstOrDefault();
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
 
                         if (ObjDataAccess.Suppliers.Find(id) == null)
                         {
@@ -185,14 +147,16 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
-        public JsonResponse Patch(int id, IsActiveUpdateModel model)
+
+        [Route("ToggleActive")]
+        public JsonResponse ToggleActive(int id, bool IsActive)
         {
             var ObjResponse = new JsonResponse();
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var ObjProd = ObjDataAccess.UpdateByIsActive(id, model.IsActive);
+                    var ObjProd = ObjDataAccess.UpdateStatus(id, IsActive);
                     if (ObjDataAccess.Suppliers.Find(id) == null)
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
@@ -221,9 +185,8 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
-                var DeletedSupplier = ObjDataAccess.Suppliers.Find(id);
-                var ObjSupplier = ObjDataAccess.DeleteConstrainedSupplier(id).FirstOrDefault();
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted.", DeletedSupplier);
+                var CurrentSupplier = ObjDataAccess.Suppliers.Find(id);
+                var ObjSupplier = ObjDataAccess.DeleteSupplier(id).FirstOrDefault();
 
                 if (ObjSupplier.ResponseStatus == 0)
                 {
@@ -231,11 +194,11 @@ namespace GiellyGreenApi.Controllers
                 }
                 else if (ObjSupplier.ResponseStatus == 1)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted", null);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record deleted", CurrentSupplier);
                 }
                 else if (ObjSupplier.ResponseStatus == 2)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record cannot delete. Because invoice present for this supplier.", null);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record cannot delete. Because invoice present for this supplier.", CurrentSupplier);
                 }
                 else
                 {
@@ -249,7 +212,7 @@ namespace GiellyGreenApi.Controllers
             }
 
             return ObjResponse;
-        }
+        }       
 
     }
 }

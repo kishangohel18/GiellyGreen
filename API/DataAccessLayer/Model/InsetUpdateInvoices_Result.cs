@@ -11,8 +11,8 @@ namespace DataAccessLayer.Model
 {
     using System;
     
-    public partial class GetSupplierEmailById_Result
+    public partial class InsetUpdateInvoices_Result
     {
-        public string EMAIL { get; set; }
+        public Nullable<int> Id { get; set; }
     }
 }

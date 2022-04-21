@@ -12,9 +12,9 @@ namespace DataAccessLayer.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Monthly_Invoice
+    public partial class Invoice
     {
-        public int MonthlyInvoiceId { get; set; }
+        public int Id { get; set; }
         public Nullable<int> SupplierId { get; set; }
         public string SupplierName { get; set; }
         public Nullable<decimal> HairService { get; set; }
@@ -29,11 +29,7 @@ namespace DataAccessLayer.Model
         public Nullable<decimal> Gross { get; set; }
         public Nullable<decimal> AdvancePaid { get; set; }
         public Nullable<decimal> Balance { get; set; }
-        public string InvoiceReference { get; set; }
         public Nullable<bool> IsApproved { get; set; }
-        public Nullable<System.DateTime> InvoiceDate { get; set; }
-        public Nullable<int> CurrentYear { get; set; }
-        public Nullable<int> CurrentMonth { get; set; }
-        public Nullable<bool> IsSelected { get; set; }
+        public Nullable<int> MonthHeaderId { get; set; }
     }
 }

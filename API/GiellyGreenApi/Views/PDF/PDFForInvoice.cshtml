@@ -1,0 +1,133 @@
+﻿@model GiellyGreenApi.Models.CombineSupplierInvoice
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    @{
+        Layout = "";
+    }
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                @*@if (@Model.Supplier.LogoUrl != null)
+                    {
+                        <span></span>
+                    }*@
+            </div>
+            <div class="col-md-8">
+                <h3 class="text-secondary">Self-Billed Invoice</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <span>@Html.DisplayFor(model => model.Supplier.BusinessAddress)</span>
+            </div>
+            <div class="col-md-6">
+                <span>
+                    Invoice Date:  @Html.DisplayFor(model => model.Month_Header.InvoiceDate)
+                </span>
+                <span>
+                    Invoice Ref:  @Html.DisplayFor(model => model.Month_Header.InvoiceReferance)
+                </span>
+                <span>Tax Ref:  @Html.DisplayFor(model => model.Supplier.TaxReference)</span>
+                @*@if (Model.Supplier.TaxReference != null)
+                    {
+                        <span>Tax Ref:  @Html.DisplayFor(model => model.Supplier.TaxReference)</span>
+                    }
+                    @if (Model.Supplier.VatNumber != null)
+                    {
+                        <span>VAT Number:  @Html.DisplayFor(model => model.Supplier.VatNumber)</span>
+                    }*@
+                <span>VAT Number:  @Html.DisplayFor(model => model.Supplier.VatNumber)</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <span>To: </span>
+                <span>@Html.DisplayFor(model => model.Supplier.CompanyRegAddress)</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 text-center font-weight-bold">
+                <span>Description</span>
+            </div>
+            <div class="col-md-2 text-center font-weight-bold">
+                <span>Amount(GBP)</span>
+            </div>
+        </div>
+
+        <table class="table table-bordered" style="border:1px solid black;">
+            <tr>
+                <td>Hair Services</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.HairService)</td>
+            </tr>
+            <tr>
+                <td>Beauty Services</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.BeautyService)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Month_Header.Custom1)</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.Custom1)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Month_Header.Custom2)</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.Custom2)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Month_Header.Custom3)</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.Custom3)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Month_Header.Custom4)</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.Custom4)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Month_Header.Custom5)</td>
+                <td></td>
+                <td>@Html.DisplayFor(model => model.Invoice.Custom5)</td>
+            </tr>
+            <tr class="text-right">
+                <td>Subtotal (Net)</td>
+                <td>111.00</td>
+            </tr>
+            <tr class="text-right">
+                <td>Vat</td>
+                <td>111.00</td>
+            </tr>
+            <tr class="text-right">
+                <td>Advance paid</td>
+                <td>111.00</td>
+            </tr>
+            <tr class="text-right text-danger">
+                <td>Balance due</td>
+                <td>&#163; 111.00</td>
+            </tr>
+        </table>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>

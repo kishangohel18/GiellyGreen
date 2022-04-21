@@ -11,8 +11,8 @@ namespace DataAccessLayer.Model
 {
     using System;
     
-    public partial class InsertUpdateCustomHeader_Result
+    public partial class InsetUpdateInvoices_Result1
     {
-        public Nullable<int> CustomHeaderId { get; set; }
+        public Nullable<int> Id { get; set; }
     }
 }

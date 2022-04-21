@@ -1,0 +1,117 @@
+﻿@model GiellyGreenApi.Models.CombineSupplierInvoice
+
+@*@model DataAccessLayer.Model.*@
+@{
+    Layout = "";
+}
+@*<a href="~/Views/SupplierPDF.cshtml">~/Views/SupplierPDF.cshtml</a>*@
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4">
+            @*@if (@Model.SupplierViewModel.LogoUrl != null)
+            {
+                <span></span>
+            }*@
+        </div>
+        <div class="col-md-8">
+           <h3 class="text-secondary">Self-Billed Invoice</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <span>@Html.DisplayFor(model => model.SupplierViewModel.BusinessAddress)</span>
+        </div>
+        <div class="col-md-6">
+            <span>
+                Invoice Date:  @Html.DisplayFor(model => model.Month_HeaderViewModel.InvoiceDate)
+            </span>
+            <span>
+                Invoice Ref:  @Html.DisplayFor(model => model.Month_HeaderViewModel.InvoiceReferance)
+            </span>
+            @*@if (Model.SupplierViewModel.TaxReference != null)
+            {
+                <span>Tax Ref:  @Html.DisplayFor(model => model.SupplierViewModel.TaxReference)</span>
+            }
+            @if (Model.SupplierViewModel.VatNumber != null)
+            {
+                <span>VAT Number:  @Html.DisplayFor(model => model.SupplierViewModel.VatNumber)</span>
+            }*@            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span>To: </span>
+            <span>@Html.DisplayFor(model => model.SupplierViewModel.CompanyRegAddress)</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 text-center font-weight-bold">
+            <span>Description</span>
+        </div>
+        <div class="col-md-2 text-center font-weight-bold">
+            <span>Amount(GBP)</span>
+        </div>
+    </div>
+
+    <table class="table table-bordered" style="border:1px solid black;">
+        <tr>
+            <td>Hair Services</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.HairService)</td>
+        </tr>
+        <tr>
+            <td>Beauty Services</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.BeautyService)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Month_HeaderViewModel.Custom1)</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.Custom1)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Month_HeaderViewModel.Custom2)</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.Custom2)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Month_HeaderViewModel.Custom3)</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.Custom3)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Month_HeaderViewModel.Custom4)</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.Custom4)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Month_HeaderViewModel.Custom5)</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.InvoiceViewModel.Custom5)</td>
+        </tr>
+        <tr class="text-right">
+            <td>Subtotal (Net)</td>
+            <td>111.00</td>
+        </tr>
+        <tr class="text-right">
+            <td>Vat</td>
+            <td>111.00</td>
+        </tr>
+        <tr class="text-right">
+            <td>Advance paid</td>
+            <td>111.00</td>
+        </tr>
+        <tr class="text-right text-danger">
+            <td>Balance due</td>
+            <td>&#163; 111.00</td>
+        </tr>
+    </table>
+
+</div>
+
+

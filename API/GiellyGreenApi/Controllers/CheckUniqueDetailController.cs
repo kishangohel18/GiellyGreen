@@ -56,31 +56,31 @@ namespace GiellyGreenApi.Controllers
 
 
         [Route("VarifyRefenceNumber")]
-        public JsonResponse CheckReferenceNumber(int id, string ReferenceNumber)
+        public JsonResponse CheckReferenceNumber(int id, string SupplierReference)
         {
             var ObjResponse = new JsonResponse();
             try
             {
                 if (id == 0)
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == ReferenceNumber) && ReferenceNumber != null && ReferenceNumber != "")
+                    if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == SupplierReference) && SupplierReference != null && SupplierReference != "")
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", ReferenceNumber);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", SupplierReference);
                     }
                     else
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", ReferenceNumber);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", SupplierReference);
                     }
                 }
                 else
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.ReferenceNumber == ReferenceNumber && s.SupplierId != id) && ReferenceNumber != null && ReferenceNumber != "")
+                    if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == SupplierReference && s.SupplierId != id) && SupplierReference != null && SupplierReference != "")
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", ReferenceNumber);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", SupplierReference);
                     }
                     else
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", ReferenceNumber);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Correct email", SupplierReference);
                     }
                 }
             }
