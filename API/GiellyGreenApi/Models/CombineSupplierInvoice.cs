@@ -9,6 +9,7 @@ namespace GiellyGreenApi.Models
     {
         public SupplierViewModel SupplierViewModel { get; set; }
         public InvoiceViewModel InvoiceViewModel { get; set; }
+        public Month_HeaderViewModel Month_HeaderViewModel { get; set; }
 
     }
 }
