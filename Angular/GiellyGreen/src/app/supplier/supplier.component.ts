@@ -14,6 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class SupplierComponent implements OnInit {
 
+  //#region properties
   apiSuppliersData: GGInvoiceService["suppliers"][] = [];
   faPen = faPen;
   faTrash = faTrash;
@@ -25,38 +26,47 @@ export class SupplierComponent implements OnInit {
   baseURL: any;
   data: any;
   uploadedSupplierLogo: any
-  file: File;
-  // isEdited = false;
+  file: File;;
   searchText: any;
+
+  //to sort column data of table
   sortNameFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.SupplierName.localeCompare(b.SupplierName);
   sortRefFn = (a: GGInvoiceService["suppliers"], b: GGInvoiceService["suppliers"]) => a.ReferenceNumber.localeCompare(b.ReferenceNumber);
+  
+  //get user from session
   userSessionToken = sessionStorage.getItem("User");
 
+  //constructor to inject services and validate modal form
   constructor(private message: NzMessageService, private fb: FormBuilder, private _gs: GGInvoiceService, private router: Router, private http: HttpClient) {
     this.validateForm = this.fb.group({
       supplierName: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+[ ]?[a-zA-Z]+$")]],
       supplierReference: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9]{1,15}$")]],
-      businessAddress: ['', [Validators.required, Validators.pattern("^[A-Za-z0-9 .-]{3,150}$")]],
+      businessAddress: ['', [Validators.required, Validators.pattern("^[A-Za-z,0-9 .-]{3,150}$")]],
       emailAddress: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.pattern("^[0-9]{1,15}$")],
       companyRegisteredNumber: ['', [Validators.pattern("^[0-9a-zA-Z]{1,15}$")]],
       VATNumber: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
       taxReference: ['', [Validators.pattern("^[a-zA-Z0-9]{1,15}$")]],
-      companyRegisteredAddress: ['', [Validators.pattern("[A-Za-z0-9 ]{3,150}$")]],
+      companyRegisteredAddress: ['', [Validators.pattern("[A-Za-z,0-9 .-]{3,150}$")]],
       activeSupplier: [''],
       supplierLogo: [''],
     });
   }
+
+  //get all suppliers from DB
   onGetSuppliers() {
     if (this.userSessionToken) {
       this._gs.getSuppliers(this.userSessionToken).subscribe(
         (response: any) => {
           this.apiSuppliersData = response.Result
+          console.log(this.apiSuppliersData)
         }
       );
     }
   }
-  onDeleteProduct(data: any) {
+
+  //delete supplier or inactivate supplier from DB
+  onDeleteSupplier(data: any) {
     Swal.fire({
       title: 'Are You Sure?',
       showDenyButton: true,
@@ -67,9 +77,7 @@ export class SupplierComponent implements OnInit {
       confirmButtonText: 'Delete',
       confirmButtonColor: '#FF8080',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        // if(data.MonthlyInvoice.length == 0){
         this._gs.deletetSupplier(data.SupplierId, this.userSessionToken).subscribe(
           (response: any) => {
             if (response.ResponseStatus == 2) {
@@ -88,21 +96,28 @@ export class SupplierComponent implements OnInit {
       }
     });
   }
+
+  //get suppliers on initialization
   ngOnInit() {
     this.onGetSuppliers();
   }
+
+  //modal form cancel button to close modal
   handleCancelTop(): void {
     this.isVisibleTop = false;
     this.validateForm.reset();
   }
+
+  //modal ok button to save data to DB
   handleOkTop(): void {
     if (this.validateForm.valid) {
+      //if modal has data already edit current data
       if (this.data) {
-        console.log(this.data)
         this.editSupplier(this.data);
         this.validateForm.reset();
       }
       else {
+        //function to add new data to DB
         this.addSupplierToDB();
         this.validateForm.reset();
       }
@@ -117,6 +132,8 @@ export class SupplierComponent implements OnInit {
       });
     }
   }
+
+  //add supplier data to database
   addSupplierToDB() {
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = formValue.supplierName;
@@ -133,8 +150,10 @@ export class SupplierComponent implements OnInit {
     } else {
       this._gs.suppliers.IsActive = formValue.activeSupplier;
     }
+    debugger
     this._gs.suppliers.LogoUrl = this.supplierLogo
-    console.log(this._gs.suppliers)
+
+    //check validations
     this._gs.uniqueMail(0, this._gs.suppliers.Email).subscribe(
       (response: any) => {
         if (response.ResponseStatus == 0) {
@@ -162,6 +181,7 @@ export class SupplierComponent implements OnInit {
                               }
                             );
                             this.isVisibleTop = false;
+                            debugger
                             this.onGetSuppliers();
                           }
                         }
@@ -175,7 +195,10 @@ export class SupplierComponent implements OnInit {
         }
       }
     );
+    console.log(this._gs.suppliers)
   }
+
+  //to show modal
   showModalTop($event: any): void {
     this.isVisibleTop = true;
     if (!$event) {
@@ -183,10 +206,10 @@ export class SupplierComponent implements OnInit {
       //this.validateForm.reset();
     }
     else {
-
       this.data = $event;
-
       console.log(this.data)
+
+      //patch value to modal while editing
       this.validateForm.patchValue({
         supplierName: this.data.SupplierName,
         supplierReference: this.data.ReferenceNumber,
@@ -202,7 +225,11 @@ export class SupplierComponent implements OnInit {
       });
     }
   }
+
+  //to edit supplier
   editSupplier(data: any) {
+    console.log(data)
+    this.uploadedSupplierLogo = "data:image/png;base64," + this.data.LogoUrl;
     const formValue = this.validateForm.value;
     this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
     this._gs.suppliers.ReferenceNumber = this.data.ReferenceNumber = formValue.supplierReference;
@@ -217,14 +244,14 @@ export class SupplierComponent implements OnInit {
     } else {
       this._gs.suppliers.IsActive = this.data.IsActive = formValue.activeSupplier;
     }
+    this._gs.suppliers.LogoUrl = this.data.LogoUrl;
     this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
     this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
     // this.isEdited = true;
     this.isVisibleTop = false;
   }
-  closeAlert() {
-    // this.isEdited = false;
-  }
+
+  //search supplier
   searchSupplier() {
     this.searchedData = this.apiSuppliersData;
     this.apiSuppliersData = this.searchedData.filter((item: any) => item.SupplierName.indexOf(this.searchText) !== -1);
@@ -232,11 +259,14 @@ export class SupplierComponent implements OnInit {
       this.onGetSuppliers();
     }
   }
+
+  //change status of supplier from mail screen table
   changeStatus(data: any, supplierStatus: any) {
     console.log(supplierStatus)
     this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, supplierStatus).subscribe();
   }
 
+  //upload supplier logo
   UploadLogo(event: any) {
     this.file = event.target.files[0];
     const reader: any = new FileReader();

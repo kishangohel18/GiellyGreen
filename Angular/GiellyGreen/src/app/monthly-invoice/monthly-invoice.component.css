@@ -98,7 +98,7 @@
   }
   .scrollableTable{
     overflow-y: scroll;
-      height: 490px;
+      height: 400px;
       padding: 3px;
   }
   .inner-content{
@@ -107,3 +107,22 @@
   .pr{
     padding-right: 6%;
   }
+.saveButton{
+  background: #C99D4A;
+border: 3px solid #C99D4A;
+box-sizing: border-box;
+border-radius: 7px;
+width: 30%;
+    font-size: larger;
+    padding-bottom: 10%;
+    padding-top: 0px;
+}
+.printButton{
+  background: #C99D4A;
+border: 3px solid #C99D4A;
+box-sizing: border-box;
+border-radius: 7px;
+width: 38%;
+    font-size: medium;
+    padding-top: 2px;
+}
