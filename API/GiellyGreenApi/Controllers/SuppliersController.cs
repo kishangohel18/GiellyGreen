@@ -2,11 +2,13 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
+
 
 namespace GiellyGreenApi.Controllers
 {
@@ -73,12 +75,14 @@ namespace GiellyGreenApi.Controllers
                         byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imgPath;
-                    }                   
+                    }
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
                     if (ObjResponse.ResponseStatus != 0)
                     {
-                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
+                        model = SupplierHelper.RemoveExtraSpace(model);
+
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.BusinessAddress?.Trim(), model.Email?.ToLower().Trim(), model.Phone?.Trim(), model.TaxReference?.Trim(), model.CompanyRegNumber?.Trim(), model.CompanyRegAddress?.Trim(), model.VatNumber?.Trim(), model.LogoUrl, model.IsActive).FirstOrDefault();
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
                     }
                 }
@@ -118,10 +122,13 @@ namespace GiellyGreenApi.Controllers
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imgPath;
                     }
-                   
+
                     if (SupplierHelper.CheckDuplicate(id, model).ResponseStatus != 0)
                     {
-                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
+
+                        model = SupplierHelper.RemoveExtraSpace(model);
+
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.BusinessAddress?.Trim(), model.Email?.ToLower().Trim(), model.Phone?.Trim(), model.TaxReference?.Trim(), model.CompanyRegNumber?.Trim(), model.CompanyRegAddress?.Trim(), model.VatNumber?.Trim(), model.LogoUrl, model.IsActive).FirstOrDefault();
 
                         if (ObjDataAccess.Suppliers.Find(id) == null)
                         {
@@ -159,7 +166,7 @@ namespace GiellyGreenApi.Controllers
                     var ObjProd = ObjDataAccess.UpdateStatus(id, IsActive);
                     if (ObjDataAccess.Suppliers.Find(id) == null)
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record not found.", null);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
                     }
                     else
                     {
@@ -169,7 +176,7 @@ namespace GiellyGreenApi.Controllers
                 else
                 {
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Error.", allErrors);
                 }
             }
             catch (Exception ex)
@@ -198,12 +205,12 @@ namespace GiellyGreenApi.Controllers
                 }
                 else if (ObjSupplier.ResponseStatus == 2)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record cannot delete. Because invoice present for this supplier.", CurrentSupplier);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record cannot delete. Because invoice present for this supplier.", CurrentSupplier);
                 }
                 else
                 {
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error", allErrors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Error", allErrors);
                 }
             }
             catch (Exception ex)
@@ -212,7 +219,7 @@ namespace GiellyGreenApi.Controllers
             }
 
             return ObjResponse;
-        }       
+        }
 
     }
 }

@@ -60,7 +60,7 @@
           <Property Name="IsActive" Type="bit" />
         </EntityType>
         <Function Name="ApproveSelectedInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="MonthlyInvoiceID" Type="int" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierId" Type="int" Mode="In" />
@@ -77,10 +77,6 @@
           <Parameter Name="CurrentYear" Type="int" Mode="In" />
         </Function>
         <Function Name="GetInvoiceByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
-          <Parameter Name="InvoiceYear" Type="int" Mode="In" />
-        </Function>
-        <Function Name="GetInvoiceByMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
           <Parameter Name="InvoiceYear" Type="int" Mode="In" />
         </Function>
@@ -190,11 +186,11 @@
             <Parameter Name="IsActive" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="ApproveSelectedInvoice">
-            <Parameter Name="MonthlyInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="SupplierID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetActiveSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetActiveSupplier_Result)" />
           <FunctionImport Name="GetEmailById" ReturnType="Collection(String)">
-            <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+          <Parameter Name="SupplierId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetHeaderByDate" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetHeaderByDate_Result)">
             <Parameter Name="CurrentMonth" Mode="In" Type="Int32" />
@@ -491,28 +487,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="HairService" ColumnName="HairService" />
-                <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
-                <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-                <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-                <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-                <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-                <ScalarProperty Name="Custom5" ColumnName="Custom5" />
-                <ScalarProperty Name="Net" ColumnName="Net" />
-                <ScalarProperty Name="Vat" ColumnName="Vat" />
-                <ScalarProperty Name="Gross" ColumnName="Gross" />
-                <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetInvoiceByMonth" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetInvoiceByMonth">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetInvoiceByMonth_Result">
-                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="HairService" ColumnName="HairService" />
                 <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
                 <ScalarProperty Name="Custom1" ColumnName="Custom1" />

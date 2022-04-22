@@ -14,55 +14,39 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-
-        // GET: PDF
         public ActionResult Index()
         {
             return View();
-        }
-
-
-        //[Route("Supplier")]
-        public ActionResult SupplierPDF()
-        {
-            //var AllSupplierData = ObjDataAccess..ToList();
-            return View("~/Views/SupplierPDF.cshtml");
-        }
-
-        [Obsolete]
-        public dynamic PrintAllEmployee()
-        {
-            //var actionPDF = new Rotativa.ViewAsPdf("~/Views/SupplierPDF.cshtml");
-            var actionPDF = new Rotativa.ActionAsPdf("SupplierPDF");
-            byte[] applicationPDFData = actionPDF.BuildPdf(ControllerContext);
-            Attachment att = new Attachment(new MemoryStream(applicationPDFData), "Invoice.pdf");
-
-
-
-            //var report = new Rotativa.ActionAsPdf("SupplierPDF");
-            //return report;
-            return att;
-        }
-
-
-        public static CombineSupplierInvoice combineSupplierInvoiceData;
+        }        
 
         public dynamic ViewAsPdf(CombineSupplierInvoice combineSupplierInvoice)
         {
-            combineSupplierInvoiceData = combineSupplierInvoice;
 
-            var actionPDF = new Rotativa.ViewAsPdf("PDFForInvoice");
+            var actionPDF = new Rotativa.ViewAsPdf("PDFForInvoice", combineSupplierInvoice);
             byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
             Attachment att = new Attachment(new MemoryStream(applicationPDFData), "Invoice.pdf");
 
             return att;
         }
 
-
         public ActionResult PDFForInvoice(CombineSupplierInvoice combineSupplierInvoice)
         {
 
-            combineSupplierInvoice = combineSupplierInvoiceData;
+            return View(combineSupplierInvoice);
+        }
+
+
+        public string CombinePDF(List<CombineSupplierInvoice> combineSupplierInvoice)
+        {
+            var actionPDF = new Rotativa.ViewAsPdf("CombinePDFView", combineSupplierInvoice);
+            byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
+            string Base64StringPDF = Convert.ToBase64String(applicationPDFData);
+
+            return Base64StringPDF;
+        }
+
+        public ActionResult CombinePDFView(List<CombineSupplierInvoice> combineSupplierInvoice)
+        {
 
             return View(combineSupplierInvoice);
         }
