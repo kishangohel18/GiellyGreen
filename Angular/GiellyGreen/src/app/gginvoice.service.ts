@@ -25,7 +25,7 @@ export class GGInvoiceService {
     "IsActive": false
   }
 
-  apiURL = "http://429c-106-201-236-89.ngrok.io"
+  apiURL = "https://localhost:44341"
   constructor(private http: HttpClient) { }
 
   //to check whether username and password are correct
@@ -80,6 +80,7 @@ export class GGInvoiceService {
 
   //check whether mail is unique
   uniqueMail(id:number,email:any){
+    debugger
     //const header = {"Authorization":"bearer "+userSessionToken}
     return this.http.post<unknown>(`${this.apiURL}/VarifyEmail?id=${id}&email=${email}`,null);
   }
@@ -104,7 +105,6 @@ export class GGInvoiceService {
 
   //get all active suppliers
   getActiveSuppliers(userSessionToken:any,month:any,year:any){
-    console.log(month+year)
     const header = {"Authorization":"bearer "+userSessionToken}
     return this.http.get<unknown>(`${this.apiURL}/GetInvoiceByDate?month=${month}&year=${year}`,{headers:header});
   }
@@ -126,7 +126,14 @@ export class GGInvoiceService {
     const header = {"Authorization":"bearer "+userSessionToken}
     return this.http.post<unknown>(`${this.apiURL}/ApproveSelectedInvoice`, checkedIds, {headers:header});
   }
-
+  sendEmails(userSessionToken:any,checkedIds:any): Observable<unknown>{
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.post<unknown>(`${this.apiURL}/SendEmail`, checkedIds, {headers:header});
+  }
+  combineAndDownloadPDF(userSessionToken:any,checkedIds:any): Observable<unknown>{
+    const header = {"Authorization":"bearer "+userSessionToken}
+    return this.http.post<unknown>(`${this.apiURL}/CombinePDF`, checkedIds, {headers:header});
+  }
   //update header service names to DB
   updateCustomHeader(userSessionToken:any, headerBody:any): Observable<unknown>{
     const header = {"Authorization":"bearer "+userSessionToken}

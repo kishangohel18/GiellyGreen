@@ -6,6 +6,7 @@ import { GGInvoiceService } from '../gginvoice.service';
 import { HttpClient } from '@angular/common/http';
 import { faPen, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-supplier',
@@ -138,6 +139,8 @@ export class SupplierComponent implements OnInit {
   //add supplier data to database
   addSupplierToDB() {
     const formValue = this.validateForm.value;
+    console.log(this.validateForm);
+    this._gs.suppliers.SupplierId = 0;
     this._gs.suppliers.SupplierName = formValue.supplierName;
     this._gs.suppliers.SupplierReference = formValue.supplierReference;
     this._gs.suppliers.BusinessAddress = formValue.businessAddress;
@@ -156,53 +159,33 @@ export class SupplierComponent implements OnInit {
       this._gs.suppliers.LogoUrl = this.supplierLogo
     }
 
-    //check validations
-    this._gs.uniqueMail(0, this._gs.suppliers.Email).subscribe(
+    debugger
+    // var isEmailUnique:any = this.checkUniqueEmail(0,this._gs.suppliers.Email)
+    // var isTaxUnique:any = this.checkUniqueTax(0,this._gs.suppliers.TaxReference)
+    // var isSupplierRefUnique:any = this.checkUniqueSupplierRef(0,this._gs.suppliers.SupplierReference)
+    // var isVatUnique:any = this.checkUniqueVat(0,this._gs.suppliers.VatNumber)
+
+    // if(!isEmailUnique || !isTaxUnique || !isSupplierRefUnique || !isVatUnique){
+    //   this.message.create('error', 'Please check all the fields again!')
+    // }else{
+
+    this._gs.addSupplier(this.userSessionToken).subscribe(
       (response: any) => {
-        if (response.ResponseStatus == 0) {
-          this.message.create('error', 'This Email already taken, please enter another one.')
-        } else {
-          this._gs.uniqueTaxRef(0, this._gs.suppliers.TaxReference).subscribe(
-            (response: any) => {
-              if (response.ResponseStatus == 0) {
-                this.message.create('error', 'Tax reference number already taken, please enter another one.')
-              } else {
-                this._gs.uniqueVAT(0, this._gs.suppliers.VatNumber).subscribe(
-                  (response: any) => {
-                    if (response.ResponseStatus == 0) {
-                      this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
-                    } else {
-                      this._gs.uniqueSupplierRef(0, this._gs.suppliers.SupplierReference).subscribe(
-                        (response: any) => {
-                          if (response.ResponseStatus == 0) {
-                            this.message.create('error', 'Supplier reference number already taken, please enter another one.')
-                          } else {
-                            this._gs.addSupplier(this.userSessionToken).subscribe(
-                              (response: any) => {
-                                console.log(this.apiSuppliersData)
-                                this.apiSuppliersData.push(response.Result)
-                                console.log(response)
-                                this.onGetSuppliers();
-                              },
-                              (error:any)=>{
-                                this.message.create("error","Data cannot be saved, check your fields again!");
-                              }
-                            );
-                            this.isVisibleTop = false;
-                            this.validateForm.reset();
-                            this.uploadedSupplierLogo = null
-                          }
-                        }
-                      );
-                    }
-                  }
-                );
-              }
-            }
-          );
-        }
+        debugger
+        console.log(this.apiSuppliersData)
+        console.log(response)
+        this.onGetSuppliers();
+      },
+      (error: any) => {
+        this.message.create("error", "Data cannot be saved, check your fields again!");
       }
     );
+    this.isVisibleTop = false;
+    this.uploadedSupplierLogo = null;
+    this.validateForm.reset();
+    //}
+    //check validations
+
     console.log(this._gs.suppliers)
   }
 
@@ -240,68 +223,46 @@ export class SupplierComponent implements OnInit {
     console.log(data)
     this.uploadedSupplierLogo = "data:image/png;base64," + this.data.LogoUrl;
     const formValue = this.validateForm.value;
-    this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
-    this._gs.suppliers.SupplierReference = this.data.supplierReference = formValue.supplierReference;
+    // this._gs.suppliers.SupplierName = this.data.SupplierName = formValue.supplierName;
+    // this._gs.suppliers.SupplierReference = this.data.supplierReference = formValue.supplierReference;
     this._gs.suppliers.BusinessAddress = this.data.BusinessAddress = formValue.businessAddress;
     this._gs.suppliers.Email = this.data.Email = formValue.emailAddress;
     this._gs.suppliers.Phone = this.data.Phone = formValue.phoneNumber;
     this._gs.suppliers.CompanyRegNumber = this.data.CompanyRegNumber = formValue.companyRegisteredNumber;
     this._gs.suppliers.VatNumber = this.data.VatNumber = formValue.VATNumber;
     this._gs.suppliers.TaxReference = this.data.taxReference = formValue.taxReference;
+
+    this._gs.suppliers.SupplierName = formValue.supplierName;
+    this._gs.suppliers.SupplierReference = formValue.supplierReference;
+
     if (formValue.activeSupplier == null) {
       this._gs.suppliers.IsActive = false;
     } else {
       this._gs.suppliers.IsActive = this.data.IsActive = formValue.activeSupplier;
     }
-    //this._gs.suppliers.LogoUrl = this.data.LogoUrl = formValue.LogoUrl;
-      // this._gs.uniqueMail(0, this._gs.suppliers.Email).subscribe(
-      //   (response: any) => {
-      //     if (response.ResponseStatus == 0) {
-      //       this.message.create('error', 'This Email already taken, please enter another one.')
-      //     } else {
-      //       this._gs.uniqueTaxRef(0, this._gs.suppliers.TaxReference).subscribe(
-      //         (response: any) => {
-      //           if (response.ResponseStatus == 0) {
-      //             this.message.create('error', 'Tax reference number already taken, please enter another one.')
-      //           } else {
-      //             this._gs.uniqueVAT(0, this._gs.suppliers.VatNumber).subscribe(
-      //               (response: any) => {
-      //                 if (response.ResponseStatus == 0) {
-      //                   this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
-      //                 } else {
-      //                   this._gs.uniqueSupplierRef(0, this._gs.suppliers.SupplierReference).subscribe(
-      //                     (response: any) => {
-      //                       if (response.ResponseStatus == 0) {
-      //                         this.message.create('error', 'Supplier reference number already taken, please enter another one.')
-      //                       } else {
-      //                         this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
-      // this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
-      // // this.isEdited = true;
-      // this.isVisibleTop = false;
-      //                       }
-      //                     }
-      //                   );
-      //                 }
-      //               }
-      //             );
-      //           }
-      //         }
-      //       );
-      //     }
-      //   }
-      // );
+
+    var isEmailUnique:any = this.checkUniqueEmail(data.SupplierId,this._gs.suppliers.Email)
+    var isTaxUnique:any = this.checkUniqueTax(data.SupplierId,this._gs.suppliers.TaxReference)
+    var isSupplierRefUnique:any = this.checkUniqueSupplierRef(data.SupplierId,this._gs.suppliers.SupplierReference)
+    var isVatUnique:any = this.checkUniqueVat(data.SupplierId,this._gs.suppliers.VatNumber)
+
+    if(!isEmailUnique || !isTaxUnique || !isSupplierRefUnique || !isVatUnique){
+      this.message.create('error', 'Please check all the fields again!')
+    }else{
+
     this._gs.updateSupplierStatus(data.SupplierId, this.userSessionToken, formValue.activeSupplier).subscribe();
     this._gs.updateSupplier(data.SupplierId, this.userSessionToken).subscribe();
     // this.isEdited = true;
     this.isVisibleTop = false;
-    
+    }
+
   }
 
   //search supplier
   searchSupplier() {
     this.searchedData = this.apiSuppliersData;
     this.apiSuppliersData = this.searchedData.filter((item: any) => item.SupplierName.indexOf(this.searchText) !== -1);
-    if(this.searchText.length == 0) {
+    if (this.searchText.length == 0) {
       this.onGetSuppliers();
     }
   }
@@ -323,7 +284,103 @@ export class SupplierComponent implements OnInit {
       this.uploadedSupplierLogo = "data:image/png;base64," + this.supplierLogo;
     };
   }
-  removeLogo(){
+  removeLogo() {
     this.uploadedSupplierLogo = null;
+  }
+  // checkUniqueFields(formValue:any):any{
+  //   this._gs.suppliers.LogoUrl = this.data.LogoUrl = formValue.LogoUrl;
+  //     this._gs.uniqueMail(this._gs.suppliers.SupplierId, this._gs.suppliers.Email).subscribe(
+  //       (response: any) => {
+  //         if (response.ResponseStatus == 0) {
+  //           this.message.create('error', 'This Email already taken, please enter another one.')
+  //           return false;
+  //         } else {
+  //           this._gs.uniqueTaxRef(this._gs.suppliers.SupplierId, this._gs.suppliers.TaxReference).subscribe(
+  //             (response: any) => {
+  //               if (response.ResponseStatus == 0) {
+  //                 this.message.create('error', 'Tax reference number already taken, please enter another one.')
+  //                 return false;
+  //               } else {
+  //                 this._gs.uniqueVAT(this._gs.suppliers.SupplierId, this._gs.suppliers.VatNumber).subscribe(
+  //                   (response: any) => {
+  //                     if (response.ResponseStatus == 0) {
+  //                       this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
+  //                       return false;
+  //                     } else {
+  //                       this._gs.uniqueSupplierRef(this._gs.suppliers.SupplierId, this._gs.suppliers.SupplierReference).subscribe(
+  //                         (response: any) => {
+  //                           if (response.ResponseStatus == 0) {
+  //                             this.message.create('error', 'Supplier reference number already taken, please enter another one.')
+  //                             return false;
+  //                           }else{
+  //                             return true;
+  //                           }
+  //                         }
+  //                       );
+  //                       return true;
+  //                     }
+  //                   }
+  //                 );
+  //               }
+  //               return true;
+  //             }
+  //           );
+  //         }
+  //         return true;
+  //       }
+  //     );
+  // }
+  checkUniqueEmail(supplierId:any,supplierEmail:any){
+    this._gs.uniqueMail(supplierId,supplierEmail).subscribe(
+      (response: any) => {
+        console.log(response);
+            if (response.ResponseStatus == 0) {
+              this.message.create('error', 'This Email already taken, please enter another one.')
+              return false;
+            }
+            else{
+              return true;
+            }
+          }
+    );
+  }
+  checkUniqueTax(supplierId:any,supplierTax:any){
+    this._gs.uniqueTaxRef(supplierId,supplierTax).subscribe(
+      (response: any) => {
+            if (response.ResponseStatus == 0) {
+              this.message.create('error', 'Tax reference number already taken, please enter another one.')
+              return false;
+            }
+            else{
+              return true;
+            }
+          }
+    );
+  }
+  checkUniqueVat(supplierId:any,supplierVat:any){
+    this._gs.uniqueVAT(supplierId,supplierVat).subscribe(
+      (response: any) => {
+            if (response.ResponseStatus == 0) {
+              this.message.create('error', 'This VAT number is used, Please enter unique VAT Number.')
+              return false;
+            }
+            else{
+              return true;
+            }
+          }
+    );
+  }
+  checkUniqueSupplierRef(supplierId:any,supplierSupplierRef:any){
+    this._gs.uniqueSupplierRef(supplierId,supplierSupplierRef).subscribe(
+      (response: any) => {
+            if (response.ResponseStatus == 0) {
+              this.message.create('error', 'Supplier reference number already taken, please enter another one.')
+              return false;
+            }
+            else{
+              return true;
+            }
+          }
+    );
   }
 }

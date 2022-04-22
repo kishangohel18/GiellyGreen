@@ -203,9 +203,10 @@
                           </button>
                         </div>
                         <div *ngIf="uploadedSupplierLogo!= null">
-                          <div style="float: right;">
-                            <i nz-icon nzType="close" nzTheme="outline" (click)="removeLogo()"></i>
+                          
                           <img [src]="uploadedSupplierLogo" height="200" width="200">
+                          <div style="float: right;">
+                          <i nz-icon nzType="close" nzTheme="outline" (click)="removeLogo()"></i>
                           </div>
                         </div>
                       </nz-form-control>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { GGInvoiceService } from '../gginvoice.service';
 import Swal from 'sweetalert2';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-invoice',
@@ -24,23 +25,27 @@ export class MonthlyInvoiceComponent implements OnInit {
   Custom3: any;
   Custom4: any;
   Custom5: any;
-  listOfData: any;
+  listOfData: any[] = [];
   currentHeaderId: any;
   chosenMonthString: any;
   chosenYear: any
   editId: any;
   arrayOfCheckedId: any;
   loading = true;
-  checkedApproved = false;
+  curMonth: any;
+  individualNet: any;
+  individualVat: any;
+
 
   userSessionToken = sessionStorage.getItem("User");
-  constructor(public router: Router, private fb: FormBuilder, private _gs: GGInvoiceService) {
+  constructor(public router: Router, private fb: FormBuilder, private _gs: GGInvoiceService, public decimal: DecimalPipe) {
 
   }
   ngOnInit(): void {
-
   }
   onChange(result: Date): void {
+    this.curMonth = result.getMonth() + 1
+    this.chosenYear = result.getFullYear();
     const chosenMonth = String(result.getMonth() + 1);
     if (chosenMonth.length == 1) {
       this.chosenMonthString = "0" + chosenMonth;
@@ -48,14 +53,13 @@ export class MonthlyInvoiceComponent implements OnInit {
     else {
       this.chosenMonthString = chosenMonth + "";
     }
-    this.date = new Date();
-    const curYear = this.date.getUTCFullYear();
-    this.invoiceRef = this.date.toLocaleString('en-us', { month: 'long' }) + "" + curYear;
-    this.chosenYear = result.getFullYear();
+    this.date = new Date(this.chosenYear,result.getMonth() + 1,0);
+
+    this.invoiceRef = result.toLocaleString('en-us', { month: 'long' }) + "" + this.chosenYear;
+
     this.getCustomHeaders(this.chosenMonthString, this.chosenYear);
     this.getAllActiveSuppliers(this.chosenMonthString, this.chosenYear);
   }
-
   //for editable cells
   startEdit(id: any): void {
     this.editId = id;
@@ -84,7 +88,7 @@ export class MonthlyInvoiceComponent implements OnInit {
 
   //check all suppliers
   onAllChecked(value: boolean): void {
-    this.listOfData.forEach((item: any) => this.updateCheckedSet(item.Id, value));
+    this.listOfData.forEach((item: any) => this.updateCheckedSet(item.SupplierId, value));
     this.refreshCheckedStatus();
   }
   onCurrentPageDataChange($event: any): void {
@@ -98,8 +102,8 @@ export class MonthlyInvoiceComponent implements OnInit {
   //refresh status of checked suppliers
   refreshCheckedStatus(): void {
     if (this.listOfData) {
-      this.checked = this.listOfData.every((item: any) => this.setOfCheckedId.has(item.Id));
-      this.indeterminate = this.listOfData.some((item: any) => this.setOfCheckedId.has(item.Id)) && !this.checked;
+      this.checked = this.listOfData.every((item: any) => this.setOfCheckedId.has(item.SupplierId));
+      this.indeterminate = this.listOfData.some((item: any) => this.setOfCheckedId.has(item.SupplierId)) && !this.checked;
     }
   }
 
@@ -109,13 +113,10 @@ export class MonthlyInvoiceComponent implements OnInit {
       this.loading = true;
       this._gs.getActiveSuppliers(this.userSessionToken, month, year).subscribe(
         (response: any) => {
+          console.log(response)
           this.listOfData = response.Result
           this.onCurrentPageDataChange(response.Result)
           this.loading = false;
-          console.log(response)
-          // this.listOfData.forEach((element:any) => {
-          //   console.log(element)
-          // });
         }
       );
     }
@@ -125,8 +126,6 @@ export class MonthlyInvoiceComponent implements OnInit {
   getCustomHeaders(month: any, year: any) {
     this._gs.getCustomHeaderNames(this.userSessionToken, month, year).subscribe(
       (response: any) => {
-        debugger
-        console.log(response)
         if (response.Result != null) {
           this.currentHeaderId = response.Result[0].Id;
           this.Custom1 = (response.Result[0].Custom1 != null) ? response.Result[0].Custom1 : "Custom 1";
@@ -142,7 +141,7 @@ export class MonthlyInvoiceComponent implements OnInit {
   //add invoice data to database
   addInvoiceDataToDB() {
     this._gs.addInvoiceData(this.userSessionToken, this.listOfData).subscribe(
-      (response: any) => console.log(response)
+      //(response: any) => console.log(response)
     );
     const updateHeader = {
       "Id": this.currentHeaderId,
@@ -158,7 +157,6 @@ export class MonthlyInvoiceComponent implements OnInit {
     }
     this._gs.updateCustomHeader(this.userSessionToken, updateHeader).subscribe(
       (response: any) => {
-        console.log(response)
         Swal.fire('Invoices Saved!', '', 'success')
       }
     );
@@ -167,13 +165,101 @@ export class MonthlyInvoiceComponent implements OnInit {
   //approve selected invoices
   approveInvoices() {
     this._gs.approveInvoices(this.userSessionToken, this.arrayOfCheckedId).subscribe(
-      (response: any) => console.log(response)
+      //(response: any) => console.log(response)
     );
-    this.checked = true;
+    //this.checked = true;
+  }
+  emailInvoices(){
+    debugger
+    console.log(this.arrayOfCheckedId)
+    this._gs.sendEmails(this.userSessionToken, this.arrayOfCheckedId).subscribe(
+      (response)=>{
+
+        console.log(response)
+      }
+    )
   }
 
   //t print report
   printPage() {
     window.print();
+  }
+  getNet(data: any) { 
+    return data.Net=data.HairService + data.BeautyService + data.Custom1 +
+      data.Custom2
+      + data.Custom3 + data.Custom4 + data.Custom5;
+  }
+  getVat(data: any) {
+    return data.Vat || (data.HairService +
+      data.BeautyService + data.Custom1 + data.Custom2
+      + data.Custom3 + data.Custom4 + data.Custom5) * (0.2)
+  }
+  getGross(data: any) {
+    return data.Gross || (data.HairService + data.BeautyService + data.Custom1 +
+      data.Custom2
+      + data.Custom3 + data.Custom4 + data.Custom5) + (data.HairService +
+        data.BeautyService + data.Custom1 + data.Custom2
+        + data.Custom3 + data.Custom4 + data.Custom5) * (0.2)
+  }
+  countTotalNet() {
+    let totalNet=0;
+    this.listOfData.forEach((data: any) => {
+      if (data.Net != null) {
+        totalNet += data.Net
+      }
+    });
+    return totalNet
+  }
+  countTotalVat() {
+    let totalVat=0;
+    this.listOfData.forEach((data: any) => {
+      if (data.Vat != null) {
+        totalVat += data.Vat
+      }
+    });
+    return totalVat
+  }
+  countTotalGross(){
+    let totalGross=0;
+    this.listOfData.forEach((data: any) => {
+      if (data.Vat != null) {
+        totalGross += data.Gross
+      }
+    });
+    return totalGross
+  }
+  countTotalAdvancedPaid(){
+    let totalAdvanced=0;
+    this.listOfData.forEach((data: any) => {
+      if (data.Vat != null) {
+        totalAdvanced += data.Gross
+      }
+    });
+    return totalAdvanced
+  }
+  countTotalBalanceDue(){
+    let totalBalance=0;
+    this.listOfData.forEach((data: any) => {
+      if (data.Vat != null) {
+        totalBalance += data.Gross
+      }
+    });
+    return totalBalance
+  }
+  downloadCombinedPDF(){
+    this._gs.combineAndDownloadPDF(this.userSessionToken,this.arrayOfCheckedId).subscribe(
+      (response:any)=>{
+        console.log(response)
+        let base64String = response.Result;
+        this.downloadPdf(base64String,"Combined");
+      }
+    );
+  }
+  downloadPdf(base64String:any, fileName:any) {
+    const source = `data:application/pdf;base64,${base64String}`;
+    const link = document.createElement("a");
+    link.href = source;
+    link.download = `${fileName}.pdf`
+    link.click();
   }
 }
