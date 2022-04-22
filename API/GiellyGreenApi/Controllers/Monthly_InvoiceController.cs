@@ -106,7 +106,6 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
-
                 var ObjSupplierList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
@@ -137,7 +136,7 @@ namespace GiellyGreenApi.Controllers
                 if (ModelState.IsValid)
                 {
                     if (model.Id == 0)
-                    {
+                    {                                               
                         var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", null);
                     }
