@@ -198,95 +198,6 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        //[Route("PDF")]
-        //public JsonResponse PDF()
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    try
-        //    {
-
-        //        var file = @"D:\PrintAllEmployee1.pdf";
-
-        //        var PDFFile = Convert.ToBase64String(File.ReadAllBytes(file));
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", PDFFile);
-
-        //        string PDFName = Guid.NewGuid().ToString("N") + ".pdf";
-
-        //        using (FileStream stream = File.Create("D:\\All_PDF\\" + PDFName))
-        //        {
-        //            Byte[] byteArray = Convert.FromBase64String(PDFFile);
-        //            stream.Write(byteArray, 0, byteArray.Length);
-        //        }
-
-
-        //        //if (ListOfId.Length > 0)
-        //        //{
-        //        //    for (int i = 0; i < ListOfId.Length; i++)
-        //        //    {
-        //        //        if (ListOfId[i] > 0)
-        //        //        {
-        //        //            var file = @"D:\PrintAllEmployee1.pdf";
-
-        //        //            //var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(ListOfId[i]);
-        //        //            var PDFFile = Convert.ToBase64String(File.ReadAllBytes(file));
-
-        //        //        }
-        //        //    }
-        //        //    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);
-        //        //}
-        //        //else
-        //        //{
-        //        //    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
-        //        //}
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-        //    }
-
-        //    return ObjResponse;
-        //}
-
-
-        //[Route("SendEmail")]
-        //public JsonResponse SendEmail(int[] SupplierId)
-        //{
-        //    var ObjResponse = new JsonResponse();
-        //    EmailController EmailController = new EmailController();
-        //    try
-        //    {
-        //        for (int i = 0; i < SupplierId.Length; i++)
-        //        {
-        //            if (SupplierId[i] > 0)
-        //            {
-        //                var GetSupplierEmail = ObjDataAccess.GetSupplierEmailById(SupplierId[i]).FirstOrDefault();
-        //                string Email = GetSupplierEmail.EMAIL;
-
-        //            }
-
-
-        //            //var actionPDF = new Rotativa.ViewAsPdf("Supplier");
-        //            //byte[] applicationPDFData = actionPDF.BuildPdf(ControllerContext);
-
-
-        //            //var getMonthlyInvoice = ObjDataAccess.Monthly_Invoice.Where(s => s.SupplierId == getSupplier.SupplierId).FirstOrDefault();
-
-        //            //emailController.Email_Attachment(getEmail, "Your invoice for the <month>, <year>", "");
-        //            //EmailList[i] = getEmail;
-        //        }
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
-        //    }
-
-        //    return ObjResponse;
-        //}
-
-
-
         [Route("SendEmail")]
         public JsonResponse SendEmail(int[] ListOfId)
         {
@@ -376,7 +287,6 @@ namespace GiellyGreenApi.Controllers
 
             return ObjResponse;
         }
-
 
     }
 }

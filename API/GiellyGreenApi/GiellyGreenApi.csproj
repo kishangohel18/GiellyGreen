@@ -313,8 +313,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\PDF\Supplier.cshtml" />
-    <Content Include="Views\Shared\PDFReader.cshtml" />
     <Content Include="Views\SupplierPDF.cshtml" />
     <Content Include="Views\PDF\PDFForInvoice.cshtml" />
     <Content Include="Views\PDF\CombinePDFView.cshtml" />
@@ -322,7 +320,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ImageStorage\" />
-    <Folder Include="Views\UniqueVerify\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

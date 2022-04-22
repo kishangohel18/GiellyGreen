@@ -3,56 +3,58 @@
     Layout = "";
 }
 
-@foreach (var item in Model)
-{
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
+@*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
+@*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")*@
 
-        <link href='https://fonts.googleapis.com/css?family=Mulish' rel='stylesheet'>
-        <style>
-            body {
-                font-family: 'Mulish';
-                font-size: 20px;
-                margin-bottom:100px;
-            }
-            @@media print {
-                .PageBreak {
-                    clear: both;
-                    page-break-after: always;
+@*@foreach (var item in Model)
+    {*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href='https://fonts.googleapis.com/css?family=Mulish' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Mulish';
+            font-size: 20px;
+        }
+
+        .PaddingTop {
+            height: 32px;
+        }
+
+        .AddBorder {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    @foreach (var item in Model)
+    {
+        <div class="container " style="margin-bottom: 700px;">
+            @{
+                string strDate = "";
+                if (item.Month_Header.InvoiceDate != null)
+                {
+                    var ArrayDate = item.Month_Header.InvoiceDate.ToString().Split('-');
+                    string getDay = ArrayDate[0];
+                    strDate = String.Format("{0}/{1}/{2}", getDay, item.Month_Header.InvoiceMonth.ToString(), item.Month_Header.InvoiceYear.ToString());
+                }
+
+                string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
                 }
             }
-            .PaddingTop {
-                height: 32px;
-            }
-
-            .AddBorder {
-                border: 1px solid black;
-            }
-        </style>
-    </head>
-    <body>
-        @{
-            string strDate = "";
-            if (item.Month_Header.InvoiceDate != null)
-            {
-                var ArrayDate = item.Month_Header.InvoiceDate.ToString().Split('-');
-                string getDay = ArrayDate[0];
-                strDate = String.Format("{0}/{1}/{2}", getDay, item.Month_Header.InvoiceMonth.ToString(), item.Month_Header.InvoiceYear.ToString());
-            }
-
-            string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-        }
-        <div class="container PageBreak">
             <table width="100%">
                 <tr>
                     <td width="40%">
@@ -179,11 +181,7 @@
                 </tbody>
             </table>
         </div>
-        
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-    </body>
+
+    }
+</body>
 </html>
-
-
-}

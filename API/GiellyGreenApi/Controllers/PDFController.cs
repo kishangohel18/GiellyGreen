@@ -14,35 +14,10 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-
-        // GET: PDF
         public ActionResult Index()
         {
             return View();
-        }
-
-
-        public ActionResult SupplierPDF()
-        {
-            return View("~/Views/SupplierPDF.cshtml");
-        }
-
-        [Obsolete]
-        public dynamic PrintAllEmployee()
-        {
-            //var actionPDF = new Rotativa.ViewAsPdf("~/Views/SupplierPDF.cshtml");
-            var actionPDF = new Rotativa.ActionAsPdf("SupplierPDF");
-            byte[] applicationPDFData = actionPDF.BuildPdf(ControllerContext);
-            Attachment att = new Attachment(new MemoryStream(applicationPDFData), "Invoice.pdf");
-
-
-
-            //var report = new Rotativa.ActionAsPdf("SupplierPDF");
-            //return report;
-            return att;
-        }
-
-
+        }        
 
         public dynamic ViewAsPdf(CombineSupplierInvoice combineSupplierInvoice)
         {
