@@ -126,3 +126,38 @@ width: 38%;
     font-size: medium;
     padding-top: 2px;
 }
+/* .check {
+  -webkit-appearance: none; /*hides the default checkbox*/
+  /* height: 20px;
+  width: 20px;
+  position: relative;
+  top: 20px;
+  left: 20px;
+  transition: 0.10s;
+  background-color: #FE0006;
+  text-align: center;
+  font-weight: 600;
+  color: white;
+  border-radius: 3px;
+  outline: none;
+} */
+
+/* .check:checked {
+  background-color: #0E9700;
+}
+
+.check:before {
+  content: "✖";
+}
+.check:checked:before {
+  content: "✔";
+} */ 
+
+@media print {
+  .notPrintable {
+    display: none;
+  }
+  .notPrintable {
+    color: red;
+  }
+}

@@ -1,5 +1,5 @@
 <nz-layout class="layout">
-    <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0">
+    <nz-sider nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0" class="notPrintable">
         <div class="logo pt-2"><img src="/assets/innerLogoGolden.png" width="250" /></div>
         <div class="text-center py-3"><a routerLink="/monthly-invoice">MONTHLY INVOICE</a></div>
         <div class="text-center"><a routerLink="/supplier">SUPPLIERS LIST</a></div>
@@ -7,7 +7,7 @@
     <nz-layout>
         <nz-content>
             <div class="inner-content">
-                <div class="row">
+                <div class="row notPrintable">
                     <div class="col-md-3 MothlyInvoiceTitle">
                         Monthly Invoice
                     </div>
@@ -21,7 +21,8 @@
                     </div>
                     <div class="col-md-4" *ngIf="invoiceRef">
                         <div class="w-100" style="text-align:right">
-                            <button class="printButton" nz-button nzType="primary" (click)="printPage()">PRINT REPORT</button>
+                            <button class="printButton" nz-button nzType="primary" (click)="printPage()">PRINT
+                                REPORT</button>
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,8 @@
                 <div class="row pt-2" *ngIf="date">
                     <div class="scrollableTable">
                         <nz-table [nzScroll]="{ x: '2000px', y: '400px' }" #editRowTable [nzData]="listOfData"
-                            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+                            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzSize]="'small'"
+                            [nzPageSize]="100" [nzOuterBordered]="true" [nzLoading]="loading">
                             <thead>
                                 <tr>
                                     <th [nzIndeterminate]="indeterminate" [(nzChecked)]="checked" nzLeft
@@ -92,7 +94,7 @@
                             <tbody>
                                 <tr *ngFor="let data of listOfData" class="editable-row">
                                     <td nzLeft [nzChecked]="setOfCheckedId.has(data.SupplierId)"
-                                        (nzCheckedChange)="onItemChecked(data.MonthlyInvoiceId, $event)"></td>
+                                        (nzCheckedChange)="onItemChecked(data.Id, $event)"></td>
                                     <td nzLeft>
                                         {{ data.SupplierName}}
                                     </td>
@@ -101,84 +103,90 @@
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.HairService || 0 }}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.HairService" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.HairService" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.BeautyService || 0 }}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.BeautyService" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.BeautyService" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.Custom1 || 0 }}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.Custom1" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom1" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.Custom2 || 0}}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.Custom2" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom2" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.Custom3 || 0}}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.Custom3" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom3" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.Custom4 || 0}}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.Custom4" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom4" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.Custom5 || 0}}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.Custom5" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom5" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
-                                            {{ data.Net || 0}}
+                                            {{ data.Net || (data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                                +data.Custom3 + data.Custom4 + data.Custom5)}}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.Net" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Net" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
-                                        {{""}}
+                                        {{ data.Vat || (data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                            +data.Custom3 + data.Custom4 + data.Custom5)* (0.2) }}
                                     </td>
                                     <td>
-                                        {{""}}
+                                        {{data.Gross || (data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                            +data.Custom3 + data.Custom4 + data.Custom5)+(data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                        +data.Custom3 + data.Custom4 + data.Custom5)* (0.2) }}
                                     </td>
                                     <td>
                                         <div class="editable-cell" [hidden]="editId === data.SupplierId"
                                             (click)="startEdit(data.SupplierId)">
                                             {{ data.AdvancePaid || 0 }}
                                         </div>
-                                        <input [hidden]="editId !== data.SupplierId" type="text" nz-input
-                                            [(ngModel)]="data.AdvancePaid" (blur)="stopEdit()" />
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.AdvancePaid" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
                                     </td>
                                     <td>
-                                        {{""}}
+                                        {{(data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                            +data.Custom3 + data.Custom4 + data.Custom5)+(data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                        +data.Custom3 + data.Custom4 + data.Custom5)* (0.2)-data.AdvancePaid}}
                                     </td>
-                                    <td nzRight class="text-center"><label nz-checkbox nzDisabled
-                                            [ngModel]="true"></label></td>
+                                    <td nzRight class="text-center check"><label nz-checkbox nzDisabled
+                                             [nzChecked]="data.IsApproved"></label></td>
                                 </tr>
                                 <!-- <tr>
                               <td colspan="2">
@@ -209,20 +217,23 @@
                 </div>
                 <div class="d-flex pt-4" *ngIf="date">
                     <div class="m-2">
-                        <button nz-button nzType="default" (click)="approveInvoices()">
-                            <i nz-icon nzType="check"></i>
+                        <button nz-button nzType="default" class="notPrintable" (click)="approveInvoices()">
+                            <img src="/assets/check.png" height="25" class="p-1">
                             APPROVE SELECTED INVOICES
                         </button>
                     </div>
                     <div class="m-2">
-                        <button nz-button nzType="default"><i nz-icon nzType="download"></i>COMBINE AND DOWNLOAD
+                        <button nz-button nzType="default" class="notPrintable"><img src="/assets/combine.png"
+                                height="25" class="p-1">COMBINE AND DOWNLOAD
                             SELECTED INVOICES</button>
                     </div>
                     <div class="m-2">
-                        <button nz-button nzType="default"><i nz-icon nzType="mail"></i>EMAIL SELECTED INVOICES</button>
+                        <button nz-button nzType="default" class="notPrintable"><img src="/assets/mail.png" height="25"
+                                class="p-1">EMAIL SELECTED INVOICES</button>
                     </div>
-                    <div class="m-2 w-100" style="text-align:right">
-                        <button class="saveButton" (click)="addInvoiceDataToDB()" nz-button nzType="primary">SAVE</button>
+                    <div class="m-2 w-100 notPrintable" style="text-align:right">
+                        <button class="saveButton" (click)="addInvoiceDataToDB()" nz-button
+                            nzType="primary">SAVE</button>
                     </div>
                 </div>
             </div>
@@ -230,3 +241,151 @@
         <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
     </nz-layout>
 </nz-layout>
+<!-- <div style="display: none;"> -->
+<div class="printInvoiceTable">
+<table>
+    <thead>
+        <tr style="background-color: black;color:white;height: 10px;padding:2%">
+            <!-- <th [nzIndeterminate]="indeterminate" [(nzChecked)]="checked" nzLeft
+            (nzCheckedChange)="onAllChecked($event)"></th> -->
+        <th nzLeft>Supplier Name</th>
+        <th>Hair Services</th>
+        <th>Beauty Services</th>
+        <th>
+            <div class="editable-cell" [hidden]="editId === 'c1'" (click)="startEdit('c1')">
+                {{Custom1}}
+            </div>
+            <input [hidden]="editId !== 'c1'" type="text" nz-input [(ngModel)]="Custom1"
+                (blur)="stopEdit()" />
+        </th>
+        <th>
+            <div class="editable-cell" [hidden]="editId === 2" (click)="startEdit(2)">
+                {{Custom2}}
+            </div>
+            <input [hidden]="editId !== 2" type="text" nz-input [(ngModel)]="Custom2"
+                (blur)="stopEdit()" />
+        </th>
+        <th>
+            <div class="editable-cell" [hidden]="editId === 3" (click)="startEdit(3)">
+                {{Custom3}}
+            </div>
+            <input [hidden]="editId !== 3" type="text" nz-input [(ngModel)]="Custom3"
+                (blur)="stopEdit()" />
+        </th>
+        <th>
+            <div class="editable-cell" [hidden]="editId === 4" (click)="startEdit(4)">
+                {{Custom4}}
+            </div>
+            <input [hidden]="editId !== 4" type="text" nz-input [(ngModel)]="Custom4"
+                (blur)="stopEdit()" />
+        </th>
+        <th>
+            <div class="editable-cell" [hidden]="editId === 5" (click)="startEdit(5)">
+                {{Custom5}}
+            </div>
+            <input [hidden]="editId !== 5" type="text" nz-input [(ngModel)]="Custom5"
+                (blur)="stopEdit()" />
+        </th>
+        <th>Net</th>
+        <th>VAT</th>
+        <th>GROSS</th>
+        <th>Advanced Paid</th>
+        <th>Balance Due</th>
+        <!-- <th nzRight>Approved</th> -->
+        </tr>
+        <tr *ngFor="let data of listOfData" class="editable-row">
+            <!-- <td nzLeft [nzChecked]="setOfCheckedId.has(data.SupplierId)"
+                                        (nzCheckedChange)="onItemChecked(data.Id, $event)"></td> -->
+                                    <td nzLeft>
+                                        {{ data.SupplierName}}
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.HairService || 0 }}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.HairService" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.BeautyService || 0 }}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.BeautyService" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.Custom1 || 0 }}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom1" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.Custom2 || 0}}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom2" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.Custom3 || 0}}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom3" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.Custom4 || 0}}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom4" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.Custom5 || 0}}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Custom5" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.Net || 0}}
+                                            {{""}}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.Net" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number>
+                                    </td>
+                                    <td>
+                                        {{(data.HairService + data.BeautyService + data.Custom1 + data.Custom2
+                                        +data.Custom3 + data.Custom4 + data.Custom5)* (0.2)}}
+                                    </td>
+                                    <td>
+                                        {{"" }}
+                                    </td>
+                                    <td>
+                                        <div class="editable-cell" [hidden]="editId === data.SupplierId"
+                                            (click)="startEdit(data.SupplierId)">
+                                            {{ data.AdvancePaid || 0 }}
+                                        </div>
+                                        <nz-input-number [hidden]="editId !== data.SupplierId" type="text" nz-input
+                                            [(ngModel)]="data.AdvancePaid" (blur)="stopEdit()" [disabled]="data.IsApproved"></nz-input-number> 
+                                    </td>
+                                    <td>
+                                        {{""}}
+                                    </td>
+                                    <!-- <td nzRight class="text-center"><label nz-checkbox nzDisabled
+                                            [nzChecked]="data.IsApproved"></label></td> -->
+        </tr>
+    </thead>
+</table>
+</div>
+<!-- </div> -->
