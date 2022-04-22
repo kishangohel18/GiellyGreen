@@ -35,11 +35,19 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
-                var ObjSupplierList = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
-
-                if (ObjSupplierList != null && ObjSupplierList.Count > 0)
+                var ObjSupplierListDetails = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
+                var ObjSupplierListHeader = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
+                /*                List<> ObjSupplierList = [{ ObjSupplierListHeader},{ ObjSupplierListDetails}];
+                */
+                /*SupplierInvoiceData ObjSupplierList = new List<SupplierInvoiceData> 
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + ObjSupplierList.Count + " records found.", ObjSupplierList);
+                    InvoiceViewModel = ObjSupplierListDetails,
+                    Month_HeaderViewModel = ObjSupplierListHeader
+                };*/
+
+                if (ObjSupplierListDetails != null && ObjSupplierListDetails.Count > 0)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + ObjSupplierListDetails.Count + " records found.", ObjSupplierListDetails);
                 }
                 else
                 {
@@ -130,7 +138,7 @@ namespace GiellyGreenApi.Controllers
                 {
                     if (model.Id == 0)
                     {
-                        var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear,model.InvoiceDate).FirstOrDefault();
+                        var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", null);
                     }
                     else
@@ -279,14 +287,12 @@ namespace GiellyGreenApi.Controllers
         public JsonResponse SendEmail(int SupplierId)
         {
             var ObjResponse = new JsonResponse();
-            //EmailController EmailController = new EmailController();
+
             try
             {
 
                 var SupplierInfo = ObjDataAccess.Suppliers.Find(SupplierId);
-                
-                var InvoiceInfo = ObjDataAccess.Invoices.Where(s => s.SupplierId == SupplierId).FirstOrDefault();   
-
+                var InvoiceInfo = ObjDataAccess.Invoices.Where(s => s.SupplierId == SupplierId).FirstOrDefault();
                 var MonthInfo = ObjDataAccess.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
 
                 CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
@@ -296,13 +302,10 @@ namespace GiellyGreenApi.Controllers
                     Month_Header = MonthInfo
                 };
 
-
-                //Redirect()
                 string ToEmail = SupplierInfo.Email;
 
-                string Subj = "Your invoice for the 04,2022";
-                string Message = "Please find attached a self-billed invoice to Gielly Green Limited, prepared on your behalf, as per the agreement.Regard Gielly Green Limited";              
-
+                string Subj = "Your invoice for the " + MonthInfo.InvoiceMonth + "," + MonthInfo.InvoiceYear;
+                string Message = "Please find attached a self-billed invoice to Gielly Green Limited, prepared on your behalf, as per the agreement.Regard Gielly Green Limited";
 
                 var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
                 var FromEmailid = ConfigurationManager.AppSettings["FromEmail"].ToString();
@@ -317,14 +320,13 @@ namespace GiellyGreenApi.Controllers
 
                 PDFController pdfController = new PDFController();
                 RouteData route = new RouteData();
-                route.Values.Add("action", "ViewAsPdf"); 
-                route.Values.Add("controller", "PDF");  
+                route.Values.Add("action", "ViewAsPdf");
+                route.Values.Add("controller", "PDF");
                 System.Web.Mvc.ControllerContext newContext = new
                 System.Web.Mvc.ControllerContext(new HttpContextWrapper(HttpContext.Current), route, pdfController);
                 pdfController.ControllerContext = newContext;
                 dynamic pdf = pdfController.ViewAsPdf(combineSupplierInvoice);
                 mailMessage.Attachments.Add(pdf);
-
 
                 string[] Multi = ToEmail.Split(',');
                 foreach (string Multiemailid in Multi)
@@ -342,7 +344,7 @@ namespace GiellyGreenApi.Controllers
                 smtp.Credentials = NetworkCred;
                 smtp.Port = 587;
                 smtp.Send(mailMessage);
-
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Email sent successfully.", null);
 
             }
             catch (Exception ex)
@@ -352,7 +354,6 @@ namespace GiellyGreenApi.Controllers
 
             return ObjResponse;
         }
-
 
 
     }

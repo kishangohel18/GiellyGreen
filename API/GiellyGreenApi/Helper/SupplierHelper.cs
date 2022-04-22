@@ -3,6 +3,7 @@ using GiellyGreenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace GiellyGreenApi.Helper
@@ -34,6 +35,20 @@ namespace GiellyGreenApi.Helper
             }
 
             return ObjResponse;
+        }
+
+        public static SupplierViewModel RemoveExtraSpace(SupplierViewModel model)
+        {
+            model.SupplierName = Regex.Replace(model.SupplierName, @"\s+", " ");
+            model.SupplierReference = Regex.Replace(model.SupplierReference, @"\s+", " ");
+            model.BusinessAddress = Regex.Replace(model.BusinessAddress ?? "", @"\s+", " ");
+            model.Email = Regex.Replace(model.Email, @"\s+", " ");
+            model.TaxReference = Regex.Replace(model.TaxReference ?? "", @"\s+", " ");
+            model.CompanyRegNumber = Regex.Replace(model.CompanyRegNumber ?? "", @"\s+", " ");
+            model.CompanyRegAddress = Regex.Replace(model.CompanyRegAddress ?? "", @"\s+", " ");
+            model.VatNumber = Regex.Replace(model.VatNumber ?? "", @"\s+", " ");
+
+            return model;
         }
     }
 }

@@ -22,10 +22,8 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        //[Route("Supplier")]
         public ActionResult SupplierPDF()
         {
-            //var AllSupplierData = ObjDataAccess..ToList();
             return View("~/Views/SupplierPDF.cshtml");
         }
 
@@ -45,24 +43,19 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        public static CombineSupplierInvoice combineSupplierInvoiceData;
 
         public dynamic ViewAsPdf(CombineSupplierInvoice combineSupplierInvoice)
         {
-            combineSupplierInvoiceData = combineSupplierInvoice;
 
-            var actionPDF = new Rotativa.ViewAsPdf("PDFForInvoice");
+            var actionPDF = new Rotativa.ViewAsPdf("PDFForInvoice", combineSupplierInvoice);
             byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
             Attachment att = new Attachment(new MemoryStream(applicationPDFData), "Invoice.pdf");
 
             return att;
         }
 
-
         public ActionResult PDFForInvoice(CombineSupplierInvoice combineSupplierInvoice)
         {
-
-            combineSupplierInvoice = combineSupplierInvoiceData;
 
             return View(combineSupplierInvoice);
         }
