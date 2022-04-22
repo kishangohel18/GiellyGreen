@@ -242,7 +242,6 @@
     <Compile Include="Models\CombineSupplierInvoice.cs" />
     <Compile Include="Models\Month_HeaderViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\IsActiveUpdateModel.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\InvoiceViewModel.cs" />

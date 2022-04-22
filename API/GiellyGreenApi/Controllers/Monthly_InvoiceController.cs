@@ -37,13 +37,10 @@ namespace GiellyGreenApi.Controllers
             {
                 var ObjSupplierListDetails = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
                 var ObjSupplierListHeader = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
-                /*                List<> ObjSupplierList = [{ ObjSupplierListHeader},{ ObjSupplierListDetails}];
-                */
-                /*SupplierInvoiceData ObjSupplierList = new List<SupplierInvoiceData> 
-                {
-                    InvoiceViewModel = ObjSupplierListDetails,
-                    Month_HeaderViewModel = ObjSupplierListHeader
-                };*/
+                
+
+
+
 
                 if (ObjSupplierListDetails != null && ObjSupplierListDetails.Count > 0)
                 {
@@ -135,16 +132,25 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (model.Id == 0)
-                    {                                               
-                        var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", null);
+                    //var GetDateInfo = Obj
+                    if(ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth == model.InvoiceMonth && d.InvoiceYear == model.InvoiceYear))
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
+
                     }
                     else
                     {
-                        var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record " + ObjSupplierList.MonthHeader + " updated.", null);
-                    }
+                        if (model.Id == 0)
+                        {
+                            var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
+                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", model);
+                        }
+                        else
+                        {
+                            var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
+                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record " + ObjSupplierList.MonthHeader + " updated.", model);
+                        }
+                    }                    
                 }
                 else
                 {
@@ -283,67 +289,28 @@ namespace GiellyGreenApi.Controllers
 
 
         [Route("SendEmail")]
-        public JsonResponse SendEmail(int SupplierId)
+        public JsonResponse SendEmail(int[] ListOfId)
         {
             var ObjResponse = new JsonResponse();
 
             try
             {
-
-                var SupplierInfo = ObjDataAccess.Suppliers.Find(SupplierId);
-                var InvoiceInfo = ObjDataAccess.Invoices.Where(s => s.SupplierId == SupplierId).FirstOrDefault();
-                var MonthInfo = ObjDataAccess.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
-
-                CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
+                if (ListOfId.Length > 0)
                 {
-                    Supplier = SupplierInfo,
-                    Invoice = InvoiceInfo,
-                    Month_Header = MonthInfo
-                };
-
-                string ToEmail = SupplierInfo.Email;
-
-                string Subj = "Your invoice for the " + MonthInfo.InvoiceMonth + "," + MonthInfo.InvoiceYear;
-                string Message = "Please find attached a self-billed invoice to Gielly Green Limited, prepared on your behalf, as per the agreement.Regard Gielly Green Limited";
-
-                var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
-                var FromEmailid = ConfigurationManager.AppSettings["FromEmail"].ToString();
-                var Pass = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
-
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress(FromEmailid);
-                mailMessage.Subject = Subj;
-                mailMessage.Body = Message;
-                mailMessage.Body = Message;
-                mailMessage.IsBodyHtml = true;
-
-                PDFController pdfController = new PDFController();
-                RouteData route = new RouteData();
-                route.Values.Add("action", "ViewAsPdf");
-                route.Values.Add("controller", "PDF");
-                System.Web.Mvc.ControllerContext newContext = new
-                System.Web.Mvc.ControllerContext(new HttpContextWrapper(HttpContext.Current), route, pdfController);
-                pdfController.ControllerContext = newContext;
-                dynamic pdf = pdfController.ViewAsPdf(combineSupplierInvoice);
-                mailMessage.Attachments.Add(pdf);
-
-                string[] Multi = ToEmail.Split(',');
-                foreach (string Multiemailid in Multi)
-                {
-                    mailMessage.To.Add(new MailAddress(Multiemailid));
+                    for (int i = 0; i < ListOfId.Length; i++)
+                    {
+                        if (ListOfId[i] > 0)
+                        {
+                            int CurrentId = ListOfId[i];
+                            ObjResponse = MonthlyInvoiceHelper.SendMailWithPDF(CurrentId);
+                        }
+                    }
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Email sent successfully.", null);
                 }
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = HostAdd;
-
-                smtp.EnableSsl = true;
-                NetworkCredential NetworkCred = new NetworkCredential();
-                NetworkCred.UserName = mailMessage.From.Address;
-                NetworkCred.Password = Pass;
-                smtp.UseDefaultCredentials = true;
-                smtp.Credentials = NetworkCred;
-                smtp.Port = 587;
-                smtp.Send(mailMessage);
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Email sent successfully.", null);
+                else
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                }
 
             }
             catch (Exception ex)
