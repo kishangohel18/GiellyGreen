@@ -61,5 +61,21 @@ namespace GiellyGreenApi.Controllers
         }
 
 
+        public string CombinePDF(List<CombineSupplierInvoice> combineSupplierInvoice)
+        {
+            var actionPDF = new Rotativa.ViewAsPdf("CombinePDFView", combineSupplierInvoice);
+            byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
+            string Base64StringPDF = Convert.ToBase64String(applicationPDFData);
+
+            return Base64StringPDF;
+        }
+
+        public ActionResult CombinePDFView(List<CombineSupplierInvoice> combineSupplierInvoice)
+        {
+
+            return View(combineSupplierInvoice);
+        }
+
+
     }
 }

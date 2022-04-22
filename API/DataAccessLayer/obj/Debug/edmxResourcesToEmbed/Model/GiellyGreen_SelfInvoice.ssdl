@@ -75,10 +75,6 @@
     <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
     <Parameter Name="InvoiceYear" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetInvoiceByMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
-    <Parameter Name="InvoiceYear" Type="int" Mode="In" />
-  </Function>
   <Function Name="InsertUpdateMonthHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Id" Type="int" Mode="In" />
     <Parameter Name="InvoiceRefrance" Type="nvarchar" Mode="In" />

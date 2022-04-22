@@ -71,14 +71,14 @@ namespace GiellyGreenApi.Controllers
                 {
                     foreach (var Item in ListOfSupplierInvoice)
                     {
-                        if (Item.Id == 0)
-                        {
-                            var ObjSupplierList = ObjDataAccess.InsetUpdateInvoices(0, Item.MonthHeaderId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.IsApproved).ToList();
-                        }
-                        else
-                        {
+                        //if (Item.Id == 0)
+                        //{
+                            //var ObjSupplierList = ObjDataAccess.InsetUpdateInvoices(0, Item.MonthHeaderId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.IsApproved).ToList();
+                        //}
+                        //else
+                        //{
                             var ObjSupplierList = ObjDataAccess.InsetUpdateInvoices(Item.Id, Item.MonthHeaderId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.IsApproved).ToList();
-                        }
+                        //}
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", ListOfSupplierInvoice);
                 }
@@ -132,7 +132,6 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //var GetDateInfo = Obj
                     if(ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth == model.InvoiceMonth && d.InvoiceYear == model.InvoiceYear))
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
@@ -306,6 +305,63 @@ namespace GiellyGreenApi.Controllers
                         }
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Email sent successfully.", null);
+                }
+                else
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
+            }
+
+            return ObjResponse;
+        }
+
+
+        [Route("CombinePDF")]
+        public JsonResponse CombinePDF(int[] ListOfId)
+        {
+            var ObjResponse = new JsonResponse();
+            List<CombineSupplierInvoice> AllSupplierDetail = new List<CombineSupplierInvoice>();
+
+            try
+            {
+                if (ListOfId.Length > 0)
+                {
+                    for (int i = 0; i < ListOfId.Length; i++)
+                    {
+                        if (ListOfId[i] > 0)
+                        {
+                            int CurrentId = ListOfId[i];
+
+                            var SupplierInfo = ObjDataAccess.Suppliers.Find(CurrentId);
+                            var InvoiceInfo = ObjDataAccess.Invoices.Where(s => s.SupplierId == CurrentId).FirstOrDefault();
+                            var MonthInfo = ObjDataAccess.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+
+                            CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
+                            {
+                                Supplier = SupplierInfo,
+                                Invoice = InvoiceInfo,
+                                Month_Header = MonthInfo
+                            };
+
+                            AllSupplierDetail.Add(combineSupplierInvoice);
+                        }
+                    }
+
+                    PDFController pdfController = new PDFController();
+                    RouteData route = new RouteData();
+                    route.Values.Add("action", "CombinePDF");
+                    route.Values.Add("controller", "PDF");
+                    System.Web.Mvc.ControllerContext newContext = new
+                    System.Web.Mvc.ControllerContext(new HttpContextWrapper(HttpContext.Current), route, pdfController);
+                    pdfController.ControllerContext = newContext;
+                    string PdfBase64String = pdfController.CombinePDF(AllSupplierDetail);
+
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Combined PDF sent successfully.", PdfBase64String);
                 }
                 else
                 {
