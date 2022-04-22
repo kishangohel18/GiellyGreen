@@ -188,13 +188,13 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateStatus", supplierIdParameter, isActiveParameter);
         }
     
-        public virtual int ApproveSelectedInvoice(Nullable<int> monthlyInvoiceID)
+        public virtual int ApproveSelectedInvoice(Nullable<int> supplierID)
         {
-            var monthlyInvoiceIDParameter = monthlyInvoiceID.HasValue ?
-                new ObjectParameter("MonthlyInvoiceID", monthlyInvoiceID) :
-                new ObjectParameter("MonthlyInvoiceID", typeof(int));
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ApproveSelectedInvoice", monthlyInvoiceIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ApproveSelectedInvoice", supplierIDParameter);
         }
     
         public virtual ObjectResult<GetActiveSupplier_Result> GetActiveSupplier()

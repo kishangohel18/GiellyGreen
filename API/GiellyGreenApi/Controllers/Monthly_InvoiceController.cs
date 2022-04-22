@@ -38,10 +38,6 @@ namespace GiellyGreenApi.Controllers
                 var ObjSupplierListDetails = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
                 var ObjSupplierListHeader = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
                 
-
-
-
-
                 if (ObjSupplierListDetails != null && ObjSupplierListDetails.Count > 0)
                 {
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + ObjSupplierListDetails.Count + " records found.", ObjSupplierListDetails);
@@ -113,7 +109,6 @@ namespace GiellyGreenApi.Controllers
                 {
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
                 }
-
             }
             catch (Exception ex)
             {
@@ -135,7 +130,6 @@ namespace GiellyGreenApi.Controllers
                     if(ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth == model.InvoiceMonth && d.InvoiceYear == model.InvoiceYear))
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
-
                     }
                     else
                     {
@@ -164,7 +158,6 @@ namespace GiellyGreenApi.Controllers
 
             return ObjResponse;
         }
-
 
 
         [Route("ApproveSelectedInvoice")]
@@ -247,7 +240,6 @@ namespace GiellyGreenApi.Controllers
                         if (ListOfId[i] > 0)
                         {
                             int CurrentId = ListOfId[i];
-
                             var SupplierInfo = ObjDataAccess.Suppliers.Find(CurrentId);
                             var InvoiceInfo = ObjDataAccess.Invoices.Where(s => s.SupplierId == CurrentId).FirstOrDefault();
                             var MonthInfo = ObjDataAccess.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
