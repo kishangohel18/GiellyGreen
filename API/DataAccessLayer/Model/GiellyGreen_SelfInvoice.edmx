@@ -60,7 +60,7 @@
           <Property Name="IsActive" Type="bit" />
         </EntityType>
         <Function Name="ApproveSelectedInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="MonthlyInvoiceID" Type="int" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierId" Type="int" Mode="In" />
@@ -186,7 +186,7 @@
             <Parameter Name="IsActive" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="ApproveSelectedInvoice">
-          <Parameter Name="MonthlyInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="SupplierID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetActiveSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetActiveSupplier_Result)" />
           <FunctionImport Name="GetEmailById" ReturnType="Collection(String)">
