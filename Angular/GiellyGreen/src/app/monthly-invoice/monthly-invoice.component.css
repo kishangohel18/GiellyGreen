@@ -1,10 +1,16 @@
 .layout {
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
   }
 
   .logo {
     margin: 16px;
   }
+
+.sidebarMenu{
+  position: sticky;
+  top: 0;
+}
 
   nz-header {
     background: #fff;
@@ -78,24 +84,7 @@
     background: #2C2B29!important;
     color: #fff !important;
   }
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
   
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #2C2B29; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #2C2B29; 
-  }
   .scrollableTable{
     overflow-y: scroll;
       height: 400px;
@@ -153,11 +142,3 @@ width: 38%;
   content: "✔";
 } */ 
 
-@media print {
-  .notPrintable {
-    display: none;
-  }
-  .notPrintable {
-    color: red;
-  }
-}
