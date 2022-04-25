@@ -19,7 +19,7 @@ namespace GiellyGreenApi.Helper
            
             if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id))
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Supplier reference should be unique", null);
             }
             else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id))
             {
