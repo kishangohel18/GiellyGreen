@@ -3,13 +3,6 @@
     Layout = "";
 }
 
-@*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
-@*@Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")*@
-
-@*@foreach (var item in Model)
-    {*@
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,11 +18,15 @@
             font-family: 'Mulish';
             font-size: 20px;
         }
-
         .PaddingTop {
             height: 32px;
         }
-
+        .print:last-child {
+            page-break-after: auto;
+        }
+        .print {
+            page-break-after: always;
+        }
         .AddBorder {
             border: 1px solid black;
         }
@@ -38,7 +35,7 @@
 <body>
     @foreach (var item in Model)
     {
-        <div class="container " style="margin-bottom: 700px;">
+        <div class="container print">
             @{
                 string strDate = "";
                 if (item.Month_Header.InvoiceDate != null)

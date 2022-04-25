@@ -10,3 +10,15 @@ C:\Users\User42\Documents\GitHub\GiellyGreen\API\DataAccessLayer\obj\Debug\DataA
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\DataAccessLayer\obj\Debug\DataAccessLayer.dll
 C:\Users\User42\Documents\GitHub\GiellyGreen\API\DataAccessLayer\obj\Debug\DataAccessLayer.pdb
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\DataAccessLayer.dll.config
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\DataAccessLayer.dll
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\DataAccessLayer.pdb
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\EntityFramework.dll
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\EntityFramework.xml
+D:\Friday_9.00\API\DataAccessLayer\bin\Debug\EntityFramework.SqlServer.xml
+D:\Friday_9.00\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.AssemblyReference.cache
+D:\Friday_9.00\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
+D:\Friday_9.00\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
+D:\Friday_9.00\API\DataAccessLayer\obj\Debug\DataAccessLayer.dll
+D:\Friday_9.00\API\DataAccessLayer\obj\Debug\DataAccessLayer.pdb

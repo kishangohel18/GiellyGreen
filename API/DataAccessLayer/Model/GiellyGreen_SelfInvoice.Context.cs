@@ -188,13 +188,13 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateStatus", supplierIdParameter, isActiveParameter);
         }
     
-        public virtual int ApproveSelectedInvoice(Nullable<int> supplierID)
+        public virtual int ApproveSelectedInvoice(Nullable<int> invoiceId)
         {
-            var supplierIDParameter = supplierID.HasValue ?
-                new ObjectParameter("SupplierID", supplierID) :
-                new ObjectParameter("SupplierID", typeof(int));
+            var invoiceIdParameter = invoiceId.HasValue ?
+                new ObjectParameter("InvoiceId", invoiceId) :
+                new ObjectParameter("InvoiceId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ApproveSelectedInvoice", supplierIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ApproveSelectedInvoice", invoiceIdParameter);
         }
     
         public virtual ObjectResult<GetActiveSupplier_Result> GetActiveSupplier()
@@ -293,6 +293,19 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("InvoiceDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateMonthHeader_Result>("InsertUpdateMonthHeader", idParameter, invoiceRefranceParameter, custom1Parameter, custom2Parameter, custom3Parameter, custom4Parameter, custom5Parameter, invoiceMonthParameter, invoiceYearParameter, invoiceDateParameter);
+        }
+    
+        public virtual ObjectResult<GetAllInvoiceByDate_Result> GetAllInvoiceByDate(Nullable<int> invoiceMonth, Nullable<int> invoiceYear)
+        {
+            var invoiceMonthParameter = invoiceMonth.HasValue ?
+                new ObjectParameter("InvoiceMonth", invoiceMonth) :
+                new ObjectParameter("InvoiceMonth", typeof(int));
+    
+            var invoiceYearParameter = invoiceYear.HasValue ?
+                new ObjectParameter("InvoiceYear", invoiceYear) :
+                new ObjectParameter("InvoiceYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllInvoiceByDate_Result>("GetAllInvoiceByDate", invoiceMonthParameter, invoiceYearParameter);
         }
     }
 }
