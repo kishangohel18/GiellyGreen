@@ -92,10 +92,13 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td><div class="h4 text-left">To : &nbsp;@Html.DisplayFor(model => item.Supplier.CompanyRegAddress)</div></td>
-                    <td></td>
-                </tr>
+                @if (item.Supplier.CompanyRegAddress != "")
+                {
+                    <tr>
+                        <td><div class="h4 text-left">To : &nbsp;@Html.DisplayFor(model => item.Supplier.CompanyRegAddress)</div></td>
+                        <td></td>
+                    </tr>
+                }
             </table>
             <br />
 
@@ -180,7 +183,7 @@
                         <td style="text-align:right;" class="AddBorder">@Html.DisplayFor(model => item.Invoice.Balance)&nbsp; </td>
                     </tr>
                 </tbody>
-            </table>           
+            </table>
         </div>
     }
 </body>

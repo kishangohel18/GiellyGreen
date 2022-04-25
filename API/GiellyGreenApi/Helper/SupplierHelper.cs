@@ -93,7 +93,6 @@ namespace GiellyGreenApi.Helper
                         }
                         else
                         {
-                            //handle nested Friend object here
 
                         }
                     }

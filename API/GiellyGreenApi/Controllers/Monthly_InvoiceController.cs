@@ -221,7 +221,6 @@ namespace GiellyGreenApi.Controllers
         public JsonResponse CombinePDF(int[] ListOfId)
         {
             var ObjResponse = new JsonResponse();
-            List<CombineSupplierInvoice> AllSupplierDetail = new List<CombineSupplierInvoice>();
 
             try
             {
