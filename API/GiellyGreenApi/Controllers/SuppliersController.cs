@@ -58,24 +58,25 @@ namespace GiellyGreenApi.Controllers
         {
             var ObjResponse = new JsonResponse();
             try
-            {
+            {             
                 if (ModelState.IsValid)
                 {
-                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    //string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
+                    //if (!Directory.Exists(path))
+                    //{
+                    //    Directory.CreateDirectory(path);
+                    //}
 
-                    if (!string.IsNullOrEmpty(model.LogoUrl))
-                    {
-                        string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
-                        string imgPath = Path.Combine(path, imageName);
-                        byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
-                        File.WriteAllBytes(imgPath, imageBytes);
-                        model.LogoUrl = imgPath;
-                    }
+                    //if (!string.IsNullOrEmpty(model.LogoUrl))
+                    //{
+                    //    string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
+                    //    string imgPath = Path.Combine(path, imageName);
+                    //    byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
+                    //    File.WriteAllBytes(imgPath, imageBytes);
+                    //    model.LogoUrl = imgPath;
+                    //}
+                    model.LogoUrl = SupplierHelper.setLogo(model.SupplierName.Trim(), model.SupplierReference.Trim(), model.LogoUrl.Trim());
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
                     if (ObjResponse.ResponseStatus != 0)
@@ -104,27 +105,16 @@ namespace GiellyGreenApi.Controllers
             var ObjResponse = new JsonResponse();
             try
             {
+                model = SupplierHelper.RemoveExtraSpace(model);
+                //ModelState.SetModelValue();
+                //Validate(model);
                 if (ModelState.IsValid)
                 {
-                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    if (!string.IsNullOrEmpty(model.LogoUrl))
-                    {
-                        string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
-                        string imgPath = Path.Combine(path, imageName);
-                        byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
-                        File.WriteAllBytes(imgPath, imageBytes);
-                        model.LogoUrl = imgPath;
-                    }
+                    model.LogoUrl = SupplierHelper.setLogo(model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.LogoUrl.Trim());
                     ObjResponse = SupplierHelper.CheckDuplicate(id, model);
                     if (ObjResponse.ResponseStatus != 0)
                     {
-                        model = SupplierHelper.RemoveExtraSpace(model);
-                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.BusinessAddress?.Trim(), model.Email?.ToLower().Trim(), model.Phone?.Trim(), model.TaxReference?.Trim(), model.CompanyRegNumber?.Trim(), model.CompanyRegAddress?.Trim(), model.VatNumber?.Trim(), model.LogoUrl, model.IsActive).FirstOrDefault();
+                        var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
 
                         if (ObjDataAccess.Suppliers.Find(id) == null)
                         {
@@ -134,7 +124,7 @@ namespace GiellyGreenApi.Controllers
                         {
                             ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", model);
                         }
-                    }                    
+                    }
                 }
                 else
                 {

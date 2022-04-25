@@ -58,10 +58,43 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ApproveSelectedInvoice" FunctionName="GiellyGreen_SelfInvoiceModel.Store.ApproveSelectedInvoice" />
     <FunctionImportMapping FunctionImportName="DeleteSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.DeleteSupplier">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.DeleteSupplier_Result">
           <ScalarProperty Name="ResponseStatus" ColumnName="ResponseStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAllInvoiceByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllInvoiceByDate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllInvoiceByDate_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="HairService" ColumnName="HairService" />
+          <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
+          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+          <ScalarProperty Name="Net" ColumnName="Net" />
+          <ScalarProperty Name="Vat" ColumnName="Vat" />
+          <ScalarProperty Name="Gross" ColumnName="Gross" />
+          <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="monthId" ColumnName="monthId" />
+          <ScalarProperty Name="Invoiceref" ColumnName="Invoiceref" />
+          <ScalarProperty Name="cus_1" ColumnName="cus_1" />
+          <ScalarProperty Name="cus_2" ColumnName="cus_2" />
+          <ScalarProperty Name="cus_3" ColumnName="cus_3" />
+          <ScalarProperty Name="cus_4" ColumnName="cus_4" />
+          <ScalarProperty Name="cus_5" ColumnName="cus_5" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="InvoiceYear" ColumnName="InvoiceYear" />
+          <ScalarProperty Name="InvoiceMonth" ColumnName="InvoiceMonth" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -83,22 +116,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="InsertUpdateSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateSupplier">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="InsetUpdateInvoices" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsetUpdateInvoices">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsetUpdateInvoices_Result1">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="UpdateStatus" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateStatus" />
-    <FunctionImportMapping FunctionImportName="ApproveSelectedInvoice" FunctionName="GiellyGreen_SelfInvoiceModel.Store.ApproveSelectedInvoice" />
     <FunctionImportMapping FunctionImportName="GetHeaderByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetHeaderByDate">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetHeaderByDate_Result">
@@ -134,6 +151,7 @@
           <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
           <ScalarProperty Name="Balance" ColumnName="Balance" />
           <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="MonthHeaderId" ColumnName="MonthHeaderId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -144,37 +162,20 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="GetAllInvoiceByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetAllInvoiceByDate">
+    <FunctionImportMapping FunctionImportName="InsertUpdateSupplier" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateSupplier">
       <ResultMapping>
-        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetAllInvoiceByDate_Result">
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-          <ScalarProperty Name="HairService" ColumnName="HairService" />
-          <ScalarProperty Name="BeautyService" ColumnName="BeautyService" />
-          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
-          <ScalarProperty Name="Net" ColumnName="Net" />
-          <ScalarProperty Name="Vat" ColumnName="Vat" />
-          <ScalarProperty Name="Gross" ColumnName="Gross" />
-          <ScalarProperty Name="AdvancePaid" ColumnName="AdvancePaid" />
-          <ScalarProperty Name="Balance" ColumnName="Balance" />
-          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-          <ScalarProperty Name="Id1" ColumnName="Id1" />
-          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
-          <ScalarProperty Name="Custom11" ColumnName="Custom11" />
-          <ScalarProperty Name="Custom21" ColumnName="Custom21" />
-          <ScalarProperty Name="Custom31" ColumnName="Custom31" />
-          <ScalarProperty Name="Custom41" ColumnName="Custom41" />
-          <ScalarProperty Name="Custom51" ColumnName="Custom51" />
-          <ScalarProperty Name="InvoiceMonth" ColumnName="InvoiceMonth" />
-          <ScalarProperty Name="InvoiceYear" ColumnName="InvoiceYear" />
-          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsetUpdateInvoices" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsetUpdateInvoices">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsetUpdateInvoices_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateStatus" FunctionName="GiellyGreen_SelfInvoiceModel.Store.UpdateStatus" />
   </EntityContainerMapping>
 </Mapping>

@@ -29,5 +29,6 @@ namespace DataAccessLayer.Model
         public Nullable<decimal> AdvancePaid { get; set; }
         public Nullable<decimal> Balance { get; set; }
         public Nullable<bool> IsApproved { get; set; }
+        public Nullable<int> MonthHeaderId { get; set; }
     }
 }

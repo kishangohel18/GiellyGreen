@@ -29,15 +29,15 @@ namespace DataAccessLayer.Model
         public Nullable<decimal> AdvancePaid { get; set; }
         public Nullable<decimal> Balance { get; set; }
         public Nullable<bool> IsApproved { get; set; }
-        public Nullable<int> Id1 { get; set; }
-        public string InvoiceReferance { get; set; }
-        public string Custom11 { get; set; }
-        public string Custom21 { get; set; }
-        public string Custom31 { get; set; }
-        public string Custom41 { get; set; }
-        public string Custom51 { get; set; }
-        public Nullable<int> InvoiceMonth { get; set; }
-        public Nullable<int> InvoiceYear { get; set; }
+        public Nullable<int> monthId { get; set; }
+        public string Invoiceref { get; set; }
+        public string cus_1 { get; set; }
+        public string cus_2 { get; set; }
+        public string cus_3 { get; set; }
+        public string cus_4 { get; set; }
+        public string cus_5 { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
+        public Nullable<int> InvoiceYear { get; set; }
+        public Nullable<int> InvoiceMonth { get; set; }
     }
 }
