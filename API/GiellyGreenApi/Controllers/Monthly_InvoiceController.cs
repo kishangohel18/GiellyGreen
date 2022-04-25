@@ -119,23 +119,30 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth == model.InvoiceMonth && d.InvoiceYear == model.InvoiceYear))
-                    {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
-                    }
-                    else
-                    {
+                    //if (ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth == model.InvoiceMonth && d.InvoiceYear == model.InvoiceYear))
+                    //{
+                    //    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
+                    //}
+                    //else
+                    //{
                         if (model.Id == 0)
                         {
-                            var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
-                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", model);
+                            if (ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth != model.InvoiceMonth && d.InvoiceYear != model.InvoiceYear))
+                            {
+                                var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
+                                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", model);
+                            }
+                            else
+                            {
+                                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
+                            }
                         }
                         else
                         {
                             var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
                             ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record " + ObjSupplierList.MonthHeader + " updated.", model);
                         }
-                    }
+                    //}
                 }
                 else
                 {
