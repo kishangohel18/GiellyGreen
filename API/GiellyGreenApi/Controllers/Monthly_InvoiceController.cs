@@ -1,20 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.Description;
 using System.Web.Routing;
 using DataAccessLayer.Model;
 using GiellyGreenApi.Helper;
@@ -27,11 +15,11 @@ namespace GiellyGreenApi.Controllers
     public class Monthly_InvoiceController : ApiController
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
+        public static JsonResponse ObjResponse = new JsonResponse();
 
         [Route("GetInvoiceByDate")]
         public JsonResponse GetInvoiceByDate(string month, string year)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 var InvoicesList = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
@@ -50,18 +38,14 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
-
 
         [Route("InsetUpdateInvoices")]
         public JsonResponse InsetUpdateInvoices(List<InvoiceViewModel> ListOfSupplierInvoice)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
-
                 if (ListOfSupplierInvoice != null && ListOfSupplierInvoice.Count > 0)
                 {
                     foreach (var Item in ListOfSupplierInvoice)
@@ -80,15 +64,12 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
-
 
         [Route("GetHeaderByDate")]
         public JsonResponse GetHeaderByDate(string month, string year)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 var ObjSupplierList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
@@ -106,7 +87,6 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
 
@@ -114,7 +94,6 @@ namespace GiellyGreenApi.Controllers
         [Route("InsertUpdateMonthHeader")]
         public JsonResponse InsertUpdateMonthHeader(Month_HeaderViewModel model)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 if (ModelState.IsValid)
@@ -147,15 +126,12 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
-
 
         [Route("ApproveSelectedInvoice")]
         public JsonResponse ApproveSelectedInvoice(int[] ListOfId)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 if (ListOfId.Length > 0)
@@ -179,16 +155,12 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
-
 
         [Route("SendEmail")]
         public JsonResponse SendEmail(int[] ListOfId)
         {
-            var ObjResponse = new JsonResponse();
-
             try
             {
                 if (ListOfId.Length > 0)
@@ -212,16 +184,12 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
-
 
         [Route("CombinePDF")]
         public JsonResponse CombinePDF(int[] ListOfId)
         {
-            var ObjResponse = new JsonResponse();
-
             try
             {
                 ObjResponse = MonthlyInvoiceHelper.CombinePDF(ListOfId);               
@@ -230,7 +198,6 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
-
             return ObjResponse;
         }
 

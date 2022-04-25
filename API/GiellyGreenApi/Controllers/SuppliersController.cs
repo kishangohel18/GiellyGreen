@@ -2,11 +2,9 @@
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using DataAccessLayer.Model;
-using GiellyGreenApi.ActionFilter;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 
@@ -18,10 +16,10 @@ namespace GiellyGreenApi.Controllers
     public class SuppliersController : ApiController
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
+        public static JsonResponse ObjResponse = new JsonResponse();
 
         public JsonResponse Get()
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 var ObjSupplierList = ObjDataAccess.GetAllSupplier(0).ToList();
@@ -57,7 +55,6 @@ namespace GiellyGreenApi.Controllers
 
         public JsonResponse Post(SupplierViewModel model)
         {
-            var ObjResponse = new JsonResponse();
             try
             {             
                 if (ModelState.IsValid)
@@ -82,14 +79,12 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
             }
-
             return ObjResponse;
         }
 
         public JsonResponse Put(int id, SupplierViewModel model)
         {
             SupplierHelper.TrimWhiteSpaceOnRequest(model);
-            var ObjResponse = new JsonResponse();
             try
             {
                 if (ModelState.IsValid)
@@ -120,15 +115,12 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
             }
-
             return ObjResponse;
         }
-
 
         [Route("ToggleActive")]
         public JsonResponse ToggleActive(int id, bool IsActive)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 if (ModelState.IsValid)
@@ -153,13 +145,11 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
             }
-
             return ObjResponse;
         }
 
         public JsonResponse Delete(int id)
         {
-            var ObjResponse = new JsonResponse();
             try
             {
                 var CurrentSupplier = ObjDataAccess.Suppliers.Find(id);
@@ -175,7 +165,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else if (ObjSupplier.ResponseStatus == 2)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record cannot delete. Because invoice present for this supplier.", CurrentSupplier);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record cannot delete. Because invoice present for this supplier.", CurrentSupplier);
                 }
                 else
                 {
@@ -187,7 +177,6 @@ namespace GiellyGreenApi.Controllers
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
             }
-
             return ObjResponse;
         }
 

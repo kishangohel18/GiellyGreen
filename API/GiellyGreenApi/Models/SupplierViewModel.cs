@@ -19,7 +19,7 @@ namespace GiellyGreenApi.Models
 
 
         [Required]
-        [RegularExpression(@"^[ a-zA-Z0-9 ]*$", ErrorMessage = "Supplier Reference must be alphanumeric")]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Supplier Reference must be alphanumeric and space not allowed")]
         [MaxLength(15, ErrorMessage = "Supplier Reference max length upto 15")]
         public string SupplierReference { get; set; }
 
