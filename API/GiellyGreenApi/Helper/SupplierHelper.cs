@@ -16,20 +16,20 @@ namespace GiellyGreenApi.Helper
         {
             var ObjResponse = new JsonResponse();
             ObjResponse.ResponseStatus = 2;
-
-            if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id) && model.SupplierReference != null && model.SupplierReference != "")
+           
+            if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Reference Number should be unique", null);
             }
-            else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id) && model.Email != null && model.Email != "")
+            else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
             }
-            else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id) && model.VatNumber != null && model.VatNumber != "")
+            else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
             }
-            else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id) && model.TaxReference != null && model.TaxReference != "")
+            else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
             }

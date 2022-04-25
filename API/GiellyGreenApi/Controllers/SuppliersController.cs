@@ -81,7 +81,6 @@ namespace GiellyGreenApi.Controllers
                     if (ObjResponse.ResponseStatus != 0)
                     {
                         model = SupplierHelper.RemoveExtraSpace(model);
-
                         var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.BusinessAddress?.Trim(), model.Email?.ToLower().Trim(), model.Phone?.Trim(), model.TaxReference?.Trim(), model.CompanyRegNumber?.Trim(), model.CompanyRegAddress?.Trim(), model.VatNumber?.Trim(), model.LogoUrl, model.IsActive).FirstOrDefault();
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", ObjDataAccess.Suppliers.Find(ObjProd.Id));
                     }
@@ -113,7 +112,6 @@ namespace GiellyGreenApi.Controllers
                     {
                         Directory.CreateDirectory(path);
                     }
-
                     if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
                         string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
@@ -122,12 +120,10 @@ namespace GiellyGreenApi.Controllers
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imgPath;
                     }
-
-                    if (SupplierHelper.CheckDuplicate(id, model).ResponseStatus != 0)
+                    ObjResponse = SupplierHelper.CheckDuplicate(id, model);
+                    if (ObjResponse.ResponseStatus != 0)
                     {
-
                         model = SupplierHelper.RemoveExtraSpace(model);
-
                         var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.BusinessAddress?.Trim(), model.Email?.ToLower().Trim(), model.Phone?.Trim(), model.TaxReference?.Trim(), model.CompanyRegNumber?.Trim(), model.CompanyRegAddress?.Trim(), model.VatNumber?.Trim(), model.LogoUrl, model.IsActive).FirstOrDefault();
 
                         if (ObjDataAccess.Suppliers.Find(id) == null)
@@ -136,9 +132,9 @@ namespace GiellyGreenApi.Controllers
                         }
                         else
                         {
-                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ObjDataAccess.Suppliers.Find(id));
+                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", model);
                         }
-                    }
+                    }                    
                 }
                 else
                 {

@@ -28,14 +28,12 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
-
         [Route("GetInvoiceByDate")]
         public JsonResponse GetInvoiceByDate(string month, string year)
         {
             var ObjResponse = new JsonResponse();
             try
             {
-
                 var InvoicesList = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
                 var HeaderList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
 

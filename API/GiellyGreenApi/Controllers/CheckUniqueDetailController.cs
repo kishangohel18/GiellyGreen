@@ -24,7 +24,7 @@ namespace GiellyGreenApi.Controllers
                 if (id == 0)
                 {
 
-                    if (ObjDataAccess.Suppliers.Any(s => s.Email == email) && email != null && email != "")
+                    if (ObjDataAccess.Suppliers.Any(s => s.Email == email) && email != null)
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", email);
                     }
@@ -35,7 +35,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.Email == email && s.SupplierId != id) && email != null && email != "")
+                    if (ObjDataAccess.Suppliers.Any(s => s.Email == email && s.SupplierId != id) && email != null)
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", email);
                     }
