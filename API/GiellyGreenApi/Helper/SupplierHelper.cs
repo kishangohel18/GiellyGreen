@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -68,17 +69,41 @@ namespace GiellyGreenApi.Helper
             model.BusinessAddress = model.BusinessAddress?.Trim();
             model.Phone = model.Phone?.Trim();
             model.CompanyRegNumber = model.CompanyRegNumber?.Trim();
-            model.CompanyRegAddress = model.CompanyRegAddress?.Trim();
+            model.CompanyRegAddress = model.CompanyRegAddress?.Trim();           
 
-            model.SupplierName = Regex.Replace(model.SupplierName, @"\s+", " ");
-            model.SupplierReference = Regex.Replace(model.SupplierReference, @"\s+", " ");
-            model.BusinessAddress = Regex.Replace(model.BusinessAddress ?? "", @"\s+", " ");
-            model.Email = Regex.Replace(model.Email, @"\s+", " ");
-            model.TaxReference = Regex.Replace(model.TaxReference ?? "", @"\s+", " ");
-            model.CompanyRegNumber = Regex.Replace(model.CompanyRegNumber ?? "", @"\s+", " ");
-            model.CompanyRegAddress = Regex.Replace(model.CompanyRegAddress ?? "", @"\s+", " ");
-            model.VatNumber = Regex.Replace(model.VatNumber ?? "", @"\s+", " ");
+            return model;
+        }
 
+        public static SupplierViewModel TrimWhiteSpaceOnRequest<SupplierViewModel>(SupplierViewModel model)
+        {
+            var ObjResponse = new JsonResponse();
+
+            if (model != null)
+            {
+                PropertyInfo[] properties = model.GetType().GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    try
+                    {
+                        if (property.PropertyType == typeof(string))
+                        {
+                            var o = property.GetValue(model, null) ?? "";
+                            string s = (string)o;
+                            property.SetValue(model, s.Trim());
+                        }
+                        else
+                        {
+                            //handle nested Friend object here
+
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                }
+
+            }
             return model;
         }
     }

@@ -18,15 +18,19 @@
             font-family: 'Mulish';
             font-size: 20px;
         }
+
         .PaddingTop {
             height: 32px;
         }
+
         .print:last-child {
             page-break-after: auto;
         }
+
         .print {
             page-break-after: always;
         }
+
         .AddBorder {
             border: 1px solid black;
         }
@@ -176,9 +180,8 @@
                         <td style="text-align:right;" class="AddBorder">@Html.DisplayFor(model => item.Invoice.Balance)&nbsp; </td>
                     </tr>
                 </tbody>
-            </table>
+            </table>           
         </div>
-
     }
 </body>
 </html>

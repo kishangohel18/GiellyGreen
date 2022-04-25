@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using DataAccessLayer.Model;
+using GiellyGreenApi.ActionFilter;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 
@@ -60,22 +61,7 @@ namespace GiellyGreenApi.Controllers
             try
             {             
                 if (ModelState.IsValid)
-                {
-                    //string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-
-                    //if (!Directory.Exists(path))
-                    //{
-                    //    Directory.CreateDirectory(path);
-                    //}
-
-                    //if (!string.IsNullOrEmpty(model.LogoUrl))
-                    //{
-                    //    string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
-                    //    string imgPath = Path.Combine(path, imageName);
-                    //    byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
-                    //    File.WriteAllBytes(imgPath, imageBytes);
-                    //    model.LogoUrl = imgPath;
-                    //}
+                {                   
                     model.LogoUrl = SupplierHelper.setLogo(model.SupplierName.Trim(), model.SupplierReference.Trim(), model.LogoUrl.Trim());
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
@@ -102,12 +88,10 @@ namespace GiellyGreenApi.Controllers
 
         public JsonResponse Put(int id, SupplierViewModel model)
         {
+            SupplierHelper.TrimWhiteSpaceOnRequest(model);
             var ObjResponse = new JsonResponse();
             try
             {
-                model = SupplierHelper.RemoveExtraSpace(model);
-                //ModelState.SetModelValue();
-                //Validate(model);
                 if (ModelState.IsValid)
                 {
                     model.LogoUrl = SupplierHelper.setLogo(model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.LogoUrl.Trim());
