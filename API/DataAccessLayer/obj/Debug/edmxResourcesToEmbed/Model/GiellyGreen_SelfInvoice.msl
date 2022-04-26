@@ -27,6 +27,7 @@
     <EntitySetMapping Name="Month_Header">
       <EntityTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.Month_Header">
         <MappingFragment StoreEntitySet="Month_Header">
+          <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
           <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
           <ScalarProperty Name="InvoiceYear" ColumnName="InvoiceYear" />
           <ScalarProperty Name="InvoiceMonth" ColumnName="InvoiceMonth" />
@@ -116,22 +117,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="GetHeaderByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetHeaderByDate">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetHeaderByDate_Result">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
-          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
-          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
-          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
-          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
-          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
-          <ScalarProperty Name="InvoiceMonth" ColumnName="InvoiceMonth" />
-          <ScalarProperty Name="invoiceYear" ColumnName="invoiceYear" />
-          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="GetInvoiceByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetInvoiceByDate">
       <ResultMapping>
         <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetInvoiceByDate_Result">
@@ -210,6 +195,29 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="InsertUpdateCompanyProfile" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateCompanyProfile" />
+    <FunctionImportMapping FunctionImportName="InsertUpdateCompanyProfile" FunctionName="GiellyGreen_SelfInvoiceModel.Store.InsertUpdateCompanyProfile">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.InsertUpdateCompanyProfile_Result">
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetHeaderByDate" FunctionName="GiellyGreen_SelfInvoiceModel.Store.GetHeaderByDate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GiellyGreen_SelfInvoiceModel.GetHeaderByDate_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceReferance" ColumnName="InvoiceReferance" />
+          <ScalarProperty Name="Custom1" ColumnName="Custom1" />
+          <ScalarProperty Name="Custom2" ColumnName="Custom2" />
+          <ScalarProperty Name="Custom3" ColumnName="Custom3" />
+          <ScalarProperty Name="Custom4" ColumnName="Custom4" />
+          <ScalarProperty Name="Custom5" ColumnName="Custom5" />
+          <ScalarProperty Name="InvoiceMonth" ColumnName="InvoiceMonth" />
+          <ScalarProperty Name="invoiceYear" ColumnName="invoiceYear" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

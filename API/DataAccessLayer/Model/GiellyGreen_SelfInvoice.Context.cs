@@ -72,19 +72,6 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllSupplier_Result>("GetAllSupplier", idParameter);
         }
     
-        public virtual ObjectResult<GetHeaderByDate_Result> GetHeaderByDate(Nullable<int> currentMonth, Nullable<int> currentYear)
-        {
-            var currentMonthParameter = currentMonth.HasValue ?
-                new ObjectParameter("CurrentMonth", currentMonth) :
-                new ObjectParameter("CurrentMonth", typeof(int));
-    
-            var currentYearParameter = currentYear.HasValue ?
-                new ObjectParameter("CurrentYear", currentYear) :
-                new ObjectParameter("CurrentYear", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHeaderByDate_Result>("GetHeaderByDate", currentMonthParameter, currentYearParameter);
-        }
-    
         public virtual ObjectResult<GetInvoiceByDate_Result> GetInvoiceByDate(Nullable<int> invoiceMonth, Nullable<int> invoiceYear)
         {
             var invoiceMonthParameter = invoiceMonth.HasValue ?
@@ -98,7 +85,7 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceByDate_Result>("GetInvoiceByDate", invoiceMonthParameter, invoiceYearParameter);
         }
     
-        public virtual ObjectResult<InsertUpdateMonthHeader_Result> InsertUpdateMonthHeader(Nullable<int> id, string invoiceRefrance, string custom1, string custom2, string custom3, string custom4, string custom5, Nullable<int> invoiceMonth, Nullable<int> invoiceYear, Nullable<System.DateTime> invoiceDate)
+        public virtual ObjectResult<InsertUpdateMonthHeader_Result> InsertUpdateMonthHeader(Nullable<int> id, string invoiceRefrance, string custom1, string custom2, string custom3, string custom4, string custom5, Nullable<int> invoiceMonth, Nullable<int> invoiceYear, Nullable<System.DateTime> invoiceDate, Nullable<decimal> vatPercentage)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -140,7 +127,11 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("InvoiceDate", invoiceDate) :
                 new ObjectParameter("InvoiceDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateMonthHeader_Result>("InsertUpdateMonthHeader", idParameter, invoiceRefranceParameter, custom1Parameter, custom2Parameter, custom3Parameter, custom4Parameter, custom5Parameter, invoiceMonthParameter, invoiceYearParameter, invoiceDateParameter);
+            var vatPercentageParameter = vatPercentage.HasValue ?
+                new ObjectParameter("VatPercentage", vatPercentage) :
+                new ObjectParameter("VatPercentage", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateMonthHeader_Result>("InsertUpdateMonthHeader", idParameter, invoiceRefranceParameter, custom1Parameter, custom2Parameter, custom3Parameter, custom4Parameter, custom5Parameter, invoiceMonthParameter, invoiceYearParameter, invoiceDateParameter, vatPercentageParameter);
         }
     
         public virtual ObjectResult<InsertUpdateSupplier_Result> InsertUpdateSupplier(Nullable<int> supplierId, string supplierName, string supplierRef, string businessAddress, string email, string phone, string taxReference, string companyRegNumber, string companyRegAddress, string vatNumber, string logoUrl, Nullable<bool> isActive)
@@ -292,7 +283,7 @@ namespace DataAccessLayer.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCompanyProfile_Result>("GetCompanyProfile");
         }
     
-        public virtual ObjectResult<Nullable<int>> InsertUpdateCompanyProfile(Nullable<int> profileId, string companyName, string addressLine, string city, string zipcode, string country, Nullable<decimal> defaultVAT)
+        public virtual ObjectResult<InsertUpdateCompanyProfile_Result> InsertUpdateCompanyProfile(Nullable<int> profileId, string companyName, string addressLine, string city, string zipcode, string country, Nullable<decimal> defaultVAT)
         {
             var profileIdParameter = profileId.HasValue ?
                 new ObjectParameter("ProfileId", profileId) :
@@ -322,7 +313,20 @@ namespace DataAccessLayer.Model
                 new ObjectParameter("DefaultVAT", defaultVAT) :
                 new ObjectParameter("DefaultVAT", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("InsertUpdateCompanyProfile", profileIdParameter, companyNameParameter, addressLineParameter, cityParameter, zipcodeParameter, countryParameter, defaultVATParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertUpdateCompanyProfile_Result>("InsertUpdateCompanyProfile", profileIdParameter, companyNameParameter, addressLineParameter, cityParameter, zipcodeParameter, countryParameter, defaultVATParameter);
+        }
+    
+        public virtual ObjectResult<GetHeaderByDate_Result> GetHeaderByDate(Nullable<int> currentMonth, Nullable<int> currentYear)
+        {
+            var currentMonthParameter = currentMonth.HasValue ?
+                new ObjectParameter("CurrentMonth", currentMonth) :
+                new ObjectParameter("CurrentMonth", typeof(int));
+    
+            var currentYearParameter = currentYear.HasValue ?
+                new ObjectParameter("CurrentYear", currentYear) :
+                new ObjectParameter("CurrentYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHeaderByDate_Result>("GetHeaderByDate", currentMonthParameter, currentYearParameter);
         }
     }
 }

@@ -13,7 +13,6 @@ using GiellyGreenApi.Models;
 using AutoMapper;
 
 
-
 namespace GiellyGreenApi.Controllers
 {
 
@@ -58,6 +57,7 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
+
         public JsonResponse Post(SupplierViewModel model)
         {
             SupplierHelper.TrimWhiteSpaceOnRequest(model);
@@ -92,7 +92,8 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
-        [CustomFilter]
+
+        //[CustomFilter]
         public JsonResponse Put(int id, SupplierViewModel model)
         {
             SupplierHelper.TrimWhiteSpaceOnRequest(model);
@@ -114,7 +115,7 @@ namespace GiellyGreenApi.Controllers
 
                         if (SupplierRepository.GetSupplierById(id) == null)
                         {
-                            ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
+                            ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not found.", null);
                         }
                         else
                         {
@@ -125,15 +126,16 @@ namespace GiellyGreenApi.Controllers
                 else
                 {
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2  , "Error.", allErrors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0  , "Error.", allErrors);
                 }
             }
             catch (Exception ex)
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
             return ObjResponse;
         }
+
 
         [Route("ToggleActive")]
         public JsonResponse ToggleActive(int id, bool IsActive)
@@ -145,7 +147,7 @@ namespace GiellyGreenApi.Controllers
                     SupplierRepository.ToggleActiveStatus(id, IsActive);
                     if (SupplierRepository.GetSupplierById(id) == null)
                     {
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not found.", null);
                     }
                     else
                     {
@@ -155,15 +157,16 @@ namespace GiellyGreenApi.Controllers
                 else
                 {
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Error.", allErrors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
             catch (Exception ex)
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(2, ex.Message, null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, ex.Message, null);
             }
             return ObjResponse;
         }
+
 
         public JsonResponse Delete(int id)
         {

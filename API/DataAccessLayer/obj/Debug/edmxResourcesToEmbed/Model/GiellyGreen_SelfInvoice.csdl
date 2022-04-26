@@ -17,10 +17,6 @@
     <FunctionImport Name="GetAllSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetAllSupplier_Result)">
       <Parameter Name="id" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="GetHeaderByDate" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetHeaderByDate_Result)">
-      <Parameter Name="CurrentMonth" Mode="In" Type="Int32" />
-      <Parameter Name="CurrentYear" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="GetInvoiceByDate" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetInvoiceByDate_Result)">
       <Parameter Name="InvoiceMonth" Mode="In" Type="Int32" />
       <Parameter Name="InvoiceYear" Mode="In" Type="Int32" />
@@ -36,6 +32,7 @@
       <Parameter Name="InvoiceMonth" Mode="In" Type="Int32" />
       <Parameter Name="InvoiceYear" Mode="In" Type="Int32" />
       <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+      <Parameter Name="VatPercentage" Mode="In" Type="Decimal" />
     </FunctionImport>
     <FunctionImport Name="InsertUpdateSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateSupplier_Result)">
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
@@ -77,7 +74,7 @@
     <EntitySet Name="CompanyProfiles" EntityType="GiellyGreen_SelfInvoiceModel.CompanyProfile" />
     <FunctionImport Name="GetActiveSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetActiveSupplier_Result)" />
     <FunctionImport Name="GetCompanyProfile" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetCompanyProfile_Result)" />
-    <FunctionImport Name="InsertUpdateCompanyProfile" ReturnType="Collection(Int32)">
+    <FunctionImport Name="InsertUpdateCompanyProfile" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.InsertUpdateCompanyProfile_Result)">
       <Parameter Name="ProfileId" Mode="In" Type="Int32" />
       <Parameter Name="CompanyName" Mode="In" Type="String" />
       <Parameter Name="AddressLine" Mode="In" Type="String" />
@@ -85,6 +82,10 @@
       <Parameter Name="Zipcode" Mode="In" Type="String" />
       <Parameter Name="Country" Mode="In" Type="String" />
       <Parameter Name="DefaultVAT" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="GetHeaderByDate" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetHeaderByDate_Result)">
+      <Parameter Name="CurrentMonth" Mode="In" Type="Int32" />
+      <Parameter Name="CurrentYear" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <EntityType Name="Invoice">
@@ -123,6 +124,7 @@
     <Property Name="InvoiceMonth" Type="Int32" />
     <Property Name="InvoiceYear" Type="Int32" />
     <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+    <Property Name="VatPercentage" Type="Decimal" Precision="4" Scale="2" />
   </EntityType>
   <EntityType Name="Supplier">
     <Key>
@@ -183,18 +185,6 @@
     <Property Type="String" Name="LogoUrl" Nullable="true" />
     <Property Type="Boolean" Name="IsActive" Nullable="true" />
   </ComplexType>
-  <ComplexType Name="GetHeaderByDate_Result">
-    <Property Type="Int32" Name="Id" Nullable="false" />
-    <Property Type="String" Name="InvoiceReferance" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="Custom1" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="Custom2" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="Custom3" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="Custom4" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="Custom5" Nullable="true" MaxLength="100" />
-    <Property Type="Int32" Name="InvoiceMonth" Nullable="true" />
-    <Property Type="Int32" Name="invoiceYear" Nullable="true" />
-    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" Precision="23" />
-  </ComplexType>
   <ComplexType Name="GetInvoiceByDate_Result">
     <Property Type="Int32" Name="Id" Nullable="true" />
     <Property Type="Int32" Name="SupplierId" Nullable="false" />
@@ -249,5 +239,21 @@
     <Property Type="String" Name="Zipcode" Nullable="true" MaxLength="10" />
     <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
     <Property Type="Decimal" Name="DefaultVat" Nullable="true" Precision="4" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="InsertUpdateCompanyProfile_Result">
+    <Property Type="Int32" Name="ProfileId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetHeaderByDate_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceReferance" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Custom1" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Custom2" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Custom3" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Custom4" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Custom5" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="InvoiceMonth" Nullable="true" />
+    <Property Type="Int32" Name="invoiceYear" Nullable="true" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="VatPercentage" Nullable="true" Precision="4" Scale="2" />
   </ComplexType>
 </Schema>

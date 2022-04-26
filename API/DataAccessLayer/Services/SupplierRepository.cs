@@ -14,26 +14,22 @@ namespace DataAccessLayer.Services
 
         public List<GetAllSupplier_Result> GetAllSupplier()
         {
-            var ObjSupplierList = ObjDataAccess.GetAllSupplier(0).ToList();
-            return ObjSupplierList;
+            return ObjDataAccess.GetAllSupplier(0).ToList();
         }
 
         public dynamic AddSupplier(Supplier model)
         {
-            var Obj = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
-            return Obj;
+            return ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
         }
 
         public dynamic UpdateSupplier(int id, Supplier model)
         {
-            var Obj = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
-            return Obj;
+            return ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
         }
 
         public Supplier GetSupplierById(int id)
         {
-            Supplier Supplier = ObjDataAccess.Suppliers.Find(id);
-            return Supplier;
+            return ObjDataAccess.Suppliers.Find(id);
         }
         public void ToggleActiveStatus(int id, bool isactive)
         {
@@ -41,14 +37,12 @@ namespace DataAccessLayer.Services
         }
         public dynamic DeleteSupplierById(int id)
         {
-            var ObjSupplier = ObjDataAccess.DeleteSupplier(id).FirstOrDefault();
-            return ObjSupplier;
+            return ObjDataAccess.DeleteSupplier(id).FirstOrDefault();
         }
 
         public dynamic ActiveSupplier()
         {
-            var ObjActiveSupplier = ObjDataAccess.GetActiveSupplier().ToList();
-            return ObjActiveSupplier;
+            return ObjDataAccess.GetActiveSupplier().ToList();
         }
 
     }

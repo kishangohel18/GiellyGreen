@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IInvoice.cs" />
+    <Compile Include="Interface\IProfile.cs" />
     <Compile Include="Interface\ISupplier.cs" />
     <Compile Include="Model\CompanyProfile.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
@@ -91,6 +92,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GiellyGreen_SelfInvoice.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\InsertUpdateCompanyProfile_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\InsertUpdateMonthHeader_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
@@ -111,6 +115,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\InvoiceRepository.cs" />
+    <Compile Include="Services\ProfileRepository.cs" />
     <Compile Include="Services\SupplierRepository.cs" />
   </ItemGroup>
   <ItemGroup />

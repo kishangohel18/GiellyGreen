@@ -23,5 +23,6 @@ namespace DataAccessLayer.Model
         public Nullable<int> InvoiceMonth { get; set; }
         public Nullable<int> invoiceYear { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
+        public Nullable<decimal> VatPercentage { get; set; }
     }
 }

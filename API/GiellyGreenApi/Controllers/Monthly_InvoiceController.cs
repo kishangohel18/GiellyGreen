@@ -11,6 +11,7 @@ using DataAccessLayer.Services;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 
+
 namespace GiellyGreenApi.Controllers
 {
 
@@ -20,6 +21,7 @@ namespace GiellyGreenApi.Controllers
         public static JsonResponse ObjResponse = new JsonResponse();
         private readonly IInvoice InvoiceRepository = new InvoiceRepository();
         private readonly ISupplier SupplierRepository = new SupplierRepository();
+
 
         [Route("GetInvoiceByDate")]
         public JsonResponse GetInvoiceByDate(int month, int year)
@@ -63,12 +65,12 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
+
         [Route("InsertUpdateInvoices")]
         public JsonResponse InsertUpdateInvoices(List<InvoiceViewModel> ListOfSupplierInvoice)
         {
             try
             {
-
                 if (ListOfSupplierInvoice != null && ListOfSupplierInvoice.Count > 0)
                 {
                     foreach (var Item in ListOfSupplierInvoice)
@@ -79,9 +81,7 @@ namespace GiellyGreenApi.Controllers
                         var mapper = config.CreateMapper();
                         var ObjInvoiceMapper = mapper.Map<Invoice>(Item);                        
                         InvoiceRepository.InsertUpdateInvoice(ObjInvoiceMapper);
-
                     }
-
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", ListOfSupplierInvoice);
                 }
                 else
@@ -96,6 +96,7 @@ namespace GiellyGreenApi.Controllers
             }
             return ObjResponse;
         }
+
 
         [Route("GetHeaderByDate")]
         public JsonResponse GetHeaderByDate(int month, int year)
@@ -125,8 +126,7 @@ namespace GiellyGreenApi.Controllers
         public JsonResponse InsertUpdateMonthHeader(Month_HeaderViewModel model)
         {
             try
-            {
-                
+            {                
                 if (ModelState.IsValid)
                 {
                     var config = new MapperConfiguration(cfg =>
@@ -138,7 +138,6 @@ namespace GiellyGreenApi.Controllers
                     ObjResponse.ResponseStatus = Response[0];
                     ObjResponse.Message = Response[1];
                     ObjResponse.Result = Response[2];
-
                 }
                 else
                 {
@@ -152,6 +151,7 @@ namespace GiellyGreenApi.Controllers
             }
             return ObjResponse;
         }
+
 
         [Route("ApproveSelectedInvoice")]
         public JsonResponse ApproveSelectedInvoice(int[] ListOfId)
@@ -182,6 +182,7 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
+
         [Route("SendEmail")]
         public JsonResponse SendEmail(int[] ListOfId)
         {
@@ -210,6 +211,7 @@ namespace GiellyGreenApi.Controllers
             }
             return ObjResponse;
         }
+
 
         [Route("CombinePDF")]
         public JsonResponse CombinePDF(int[] ListOfId)

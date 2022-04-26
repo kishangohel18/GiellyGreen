@@ -48,6 +48,7 @@
     <Property Name="InvoiceMonth" Type="int" />
     <Property Name="InvoiceYear" Type="int" />
     <Property Name="InvoiceDate" Type="datetime" />
+    <Property Name="VatPercentage" Type="decimal" Precision="4" Scale="2" />
   </EntityType>
   <EntityType Name="Supplier">
     <Key>
@@ -109,6 +110,7 @@
     <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
     <Parameter Name="InvoiceYear" Type="int" Mode="In" />
     <Parameter Name="InvoiceDate" Type="datetime" Mode="In" />
+    <Parameter Name="VatPercentage" Type="decimal" Mode="In" />
   </Function>
   <Function Name="InsertUpdateSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SupplierId" Type="int" Mode="In" />
