@@ -4,7 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Routing;
+using AutoMapper;
+using DataAccessLayer.Interface;
 using DataAccessLayer.Model;
+using DataAccessLayer.Services;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 
@@ -16,14 +19,18 @@ namespace GiellyGreenApi.Controllers
     {
         public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
         public static JsonResponse ObjResponse = new JsonResponse();
+        private readonly IInvoice InvoiceRepository = new InvoiceRepository();
+
 
         [Route("GetInvoiceByDate")]
-        public JsonResponse GetInvoiceByDate(string month, string year)
+        public JsonResponse GetInvoiceByDate(int month, int year)
         {
             try
             {
-                var InvoicesList = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
-                var HeaderList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
+                //var InvoicesList = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
+                var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
+                //var HeaderList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
+                var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
 
                 if (InvoicesList != null && InvoicesList.Count > 0)
                 {
@@ -41,17 +48,27 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
-        [Route("InsetUpdateInvoices")]
-        public JsonResponse InsetUpdateInvoices(List<InvoiceViewModel> ListOfSupplierInvoice)
+        [Route("InsertUpdateInvoices")]
+        public JsonResponse InsertUpdateInvoices(List<InvoiceViewModel> ListOfSupplierInvoice)
         {
             try
             {
+
                 if (ListOfSupplierInvoice != null && ListOfSupplierInvoice.Count > 0)
                 {
                     foreach (var Item in ListOfSupplierInvoice)
                     {
-                        var ObjSupplierList = ObjDataAccess.InsetUpdateInvoices(Item.Id, Item.MonthHeaderId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.IsApproved).ToList();
+                        var config = new MapperConfiguration(cfg =>
+                                  cfg.CreateMap<InvoiceViewModel, Invoice>());
+
+                        var mapper = config.CreateMapper();
+                        var ObjInvoiceMapper = mapper.Map<Invoice>(Item);
+                        //var ObjSupplierList = ObjDataAccess.InsetUpdateInvoices(Item.Id, Item.MonthHeaderId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.IsApproved).ToList();
+                        //var ObjSupplierList = InvoiceRepository.InsertUpdateInvoice();
+                        InvoiceRepository.InsertUpdateInvoice(ObjInvoiceMapper);
+
                     }
+
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", ListOfSupplierInvoice);
                 }
                 else
@@ -68,15 +85,16 @@ namespace GiellyGreenApi.Controllers
         }
 
         [Route("GetHeaderByDate")]
-        public JsonResponse GetHeaderByDate(string month, string year)
+        public JsonResponse GetHeaderByDate(int month, int year)
         {
             try
             {
-                var ObjSupplierList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
+                //var ObjSupplierList = ObjDataAccess.GetHeaderByDate(month, year).ToList();
+                var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
 
-                if (ObjSupplierList != null && ObjSupplierList.Count > 0)
+                if (HeaderList != null && HeaderList.Count > 0)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record found.", ObjSupplierList);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record found.", HeaderList);
                 }
                 else
                 {
@@ -192,7 +210,7 @@ namespace GiellyGreenApi.Controllers
         {
             try
             {
-                ObjResponse = MonthlyInvoiceHelper.CombinePDF(ListOfId);               
+                ObjResponse = MonthlyInvoiceHelper.CombinePDF(ListOfId);
             }
             catch (Exception ex)
             {

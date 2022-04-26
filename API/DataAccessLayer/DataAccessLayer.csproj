@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IInvoice.cs" />
+    <Compile Include="Interface\ISupplier.cs" />
     <Compile Include="Model\DeleteSupplier_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
@@ -99,6 +101,8 @@
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\InvoiceRepository.cs" />
+    <Compile Include="Services\SupplierRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
