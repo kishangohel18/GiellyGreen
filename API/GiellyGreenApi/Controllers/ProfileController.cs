@@ -13,6 +13,7 @@ using System.Web.Http;
 
 namespace GiellyGreenApi.Controllers
 {
+    [Authorize]
     public class ProfileController : ApiController
     {
 

@@ -65,7 +65,20 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    model.LogoUrl = SupplierHelper.setLogo(model.SupplierName, model.SupplierReference, model.LogoUrl);
+                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    if (!string.IsNullOrEmpty(model.LogoUrl))
+                    {
+                        string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
+                        string imgPath = Path.Combine(path, imageName);
+                        byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
+                        File.WriteAllBytes(imgPath, imageBytes);
+                        model.LogoUrl = imgPath;
+                    }                    
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
                     if (ObjResponse.ResponseStatus != 0)
@@ -106,7 +119,20 @@ namespace GiellyGreenApi.Controllers
                     var mapper = config.CreateMapper();
                     var ObjSupplierMapper = mapper.Map<Supplier>(model);
 
-                    model.LogoUrl = SupplierHelper.setLogo(model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.LogoUrl.Trim());
+                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    if (!string.IsNullOrEmpty(model.LogoUrl))
+                    {
+                        string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
+                        string imgPath = Path.Combine(path, imageName);
+                        byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
+                        File.WriteAllBytes(imgPath, imageBytes);
+                        model.LogoUrl = imgPath;
+                    }
                     ObjResponse = SupplierHelper.CheckDuplicate(id, model);
 
                     if (ObjResponse.ResponseStatus != 0)

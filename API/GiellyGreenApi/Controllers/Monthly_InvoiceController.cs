@@ -44,7 +44,7 @@ namespace GiellyGreenApi.Controllers
 
                         InvoicesList.Add(ObjInvoiceMapper);
                     }
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.",  InvoicesList );
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.", new { HeaderList, InvoicesList });
                 }
                 else
                 {
