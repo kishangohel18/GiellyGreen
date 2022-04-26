@@ -19,6 +19,7 @@ namespace GiellyGreenApi.Controllers
     {
         public static JsonResponse ObjResponse = new JsonResponse();
         private readonly IInvoice InvoiceRepository = new InvoiceRepository();
+        private readonly ISupplier SupplierRepository = new SupplierRepository();
 
         [Route("GetInvoiceByDate")]
         public JsonResponse GetInvoiceByDate(int month, int year)
@@ -27,14 +28,32 @@ namespace GiellyGreenApi.Controllers
             {
                 var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
                 var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
-
-                if (InvoicesList != null && InvoicesList.Count > 0)
+                var ActiveSupplier = SupplierRepository.ActiveSupplier();
+                if (HeaderList.Count == 0)
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.", new { HeaderList, InvoicesList });
+                    var config = new MapperConfiguration(cfg =>
+                                  cfg.CreateMap<GetActiveSupplier_Result, GetInvoiceByDate_Result>());
+
+                    var mapper = config.CreateMapper();
+                    InvoicesList.Clear();
+                    foreach (var supplier in ActiveSupplier)
+                    {
+                        var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
+
+                        InvoicesList.Add(ObjInvoiceMapper);
+                    }
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.",  InvoicesList );
                 }
                 else
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                    if (InvoicesList != null && InvoicesList.Count > 0)
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.", new { HeaderList, InvoicesList });
+                    }
+                    else
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
+                    }
                 }
             }
             catch (Exception ex)

@@ -74,6 +74,18 @@
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
       <Parameter Name="IsActive" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <EntitySet Name="CompanyProfiles" EntityType="GiellyGreen_SelfInvoiceModel.CompanyProfile" />
+    <FunctionImport Name="GetActiveSupplier" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetActiveSupplier_Result)" />
+    <FunctionImport Name="GetCompanyProfile" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetCompanyProfile_Result)" />
+    <FunctionImport Name="InsertUpdateCompanyProfile" ReturnType="Collection(Int32)">
+      <Parameter Name="ProfileId" Mode="In" Type="Int32" />
+      <Parameter Name="CompanyName" Mode="In" Type="String" />
+      <Parameter Name="AddressLine" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="Zipcode" Mode="In" Type="String" />
+      <Parameter Name="Country" Mode="In" Type="String" />
+      <Parameter Name="DefaultVAT" Mode="In" Type="Decimal" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Invoice">
     <Key>
@@ -213,5 +225,29 @@
   </ComplexType>
   <ComplexType Name="InsetUpdateInvoices_Result">
     <Property Type="Int32" Name="Id" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="CompanyProfile">
+    <Key>
+      <PropertyRef Name="ProfileId" />
+    </Key>
+    <Property Name="ProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AddressLine" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Zipcode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DefaultVat" Type="Decimal" Precision="4" Scale="2" />
+  </EntityType>
+  <ComplexType Name="GetActiveSupplier_Result">
+    <Property Type="Int32" Name="SupplierId" Nullable="false" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="GetCompanyProfile_Result">
+    <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="AddressLine" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Zipcode" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="DefaultVat" Nullable="true" Precision="4" Scale="2" />
   </ComplexType>
 </Schema>

@@ -45,5 +45,11 @@ namespace DataAccessLayer.Services
             return ObjSupplier;
         }
 
+        public dynamic ActiveSupplier()
+        {
+            var ObjActiveSupplier = ObjDataAccess.GetActiveSupplier().ToList();
+            return ObjActiveSupplier;
+        }
+
     }
 }
