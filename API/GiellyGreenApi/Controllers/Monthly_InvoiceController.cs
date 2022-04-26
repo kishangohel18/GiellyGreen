@@ -17,20 +17,16 @@ namespace GiellyGreenApi.Controllers
     [Authorize]
     public class Monthly_InvoiceController : ApiController
     {
-        public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
         public static JsonResponse ObjResponse = new JsonResponse();
         private readonly IInvoice InvoiceRepository = new InvoiceRepository();
-
 
         [Route("GetInvoiceByDate")]
         public JsonResponse GetInvoiceByDate(int month, int year)
         {
             try
             {
-                //var InvoicesList = ObjDataAccess.GetInvoiceByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
-                var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
-                //var HeaderList = ObjDataAccess.GetHeaderByDate(Convert.ToInt32(month), Convert.ToInt32(year)).ToList();
                 var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
+                var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
 
                 if (InvoicesList != null && InvoicesList.Count > 0)
                 {
@@ -62,9 +58,7 @@ namespace GiellyGreenApi.Controllers
                                   cfg.CreateMap<InvoiceViewModel, Invoice>());
 
                         var mapper = config.CreateMapper();
-                        var ObjInvoiceMapper = mapper.Map<Invoice>(Item);
-                        //var ObjSupplierList = ObjDataAccess.InsetUpdateInvoices(Item.Id, Item.MonthHeaderId, Item.SupplierId, Item.SupplierName, Item.HairService, Item.BeautyService, Item.Custom1, Item.Custom2, Item.Custom3, Item.Custom4, Item.Custom5, Item.Net, Item.Vat, Item.Gross, Item.AdvancePaid, Item.Balance, Item.IsApproved).ToList();
-                        //var ObjSupplierList = InvoiceRepository.InsertUpdateInvoice();
+                        var ObjInvoiceMapper = mapper.Map<Invoice>(Item);                        
                         InvoiceRepository.InsertUpdateInvoice(ObjInvoiceMapper);
 
                     }
@@ -89,7 +83,6 @@ namespace GiellyGreenApi.Controllers
         {
             try
             {
-                //var ObjSupplierList = ObjDataAccess.GetHeaderByDate(month, year).ToList();
                 var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
 
                 if (HeaderList != null && HeaderList.Count > 0)
@@ -114,25 +107,19 @@ namespace GiellyGreenApi.Controllers
         {
             try
             {
+                
                 if (ModelState.IsValid)
                 {
-                    if (model.Id == 0)
-                    {
-                        if (ObjDataAccess.Month_Header.Any(d => d.InvoiceMonth != model.InvoiceMonth && d.InvoiceYear != model.InvoiceYear))
-                        {
-                            var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
-                            ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", model);
-                        }
-                        else
-                        {
-                            ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "This record has same invoice month.", null);
-                        }
-                    }
-                    else
-                    {
-                        var ObjSupplierList = ObjDataAccess.InsertUpdateMonthHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate).FirstOrDefault();
-                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record " + ObjSupplierList.MonthHeader + " updated.", model);
-                    }
+                    var config = new MapperConfiguration(cfg =>
+                                    cfg.CreateMap<Month_HeaderViewModel, Month_Header>());
+                    var mapper = config.CreateMapper();
+                    var ObjInvoiceMapper = mapper.Map<Month_Header>(model);
+
+                    var Response = InvoiceRepository.InsertUpdateHeader(ObjInvoiceMapper);                   
+                    ObjResponse.ResponseStatus = Response[0];
+                    ObjResponse.Message = Response[1];
+                    ObjResponse.Result = Response[2];
+
                 }
                 else
                 {
@@ -159,7 +146,7 @@ namespace GiellyGreenApi.Controllers
                         if (ListOfId[i] > 0)
                         {
                             int InvoiceId = ListOfId[i];
-                            var UpdateApproveStatus = ObjDataAccess.ApproveSelectedInvoice(InvoiceId);
+                            InvoiceRepository.ApproveSelectedInvoice(InvoiceId);
                         }
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);

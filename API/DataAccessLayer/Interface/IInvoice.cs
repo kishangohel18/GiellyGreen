@@ -13,6 +13,7 @@ namespace DataAccessLayer.Interface
         List<GetInvoiceByDate_Result> GetInvoiceByDate(int month, int year);
         List<GetHeaderByDate_Result> GetHeaderByDate(int month, int year);
         dynamic InsertUpdateInvoice(Invoice Item);
-
+        dynamic InsertUpdateHeader(Month_Header model);
+        void ApproveSelectedInvoice(int invoiceid);
     }
 }

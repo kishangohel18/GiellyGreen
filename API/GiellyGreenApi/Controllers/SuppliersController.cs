@@ -20,7 +20,6 @@ namespace GiellyGreenApi.Controllers
     [Authorize]
     public class SuppliersController : ApiController
     {
-        //public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
         public static JsonResponse ObjResponse = new JsonResponse();
         private readonly ISupplier SupplierRepository = new SupplierRepository();
 
@@ -28,7 +27,6 @@ namespace GiellyGreenApi.Controllers
         {
             try
             {
-                //var ObjSupplierList = ObjDataAccess.GetAllSupplier(0).ToList();
                 var ObjSupplierList = SupplierRepository.GetAllSupplier();
 
                 ObjSupplierList.ForEach(supplier =>
@@ -74,10 +72,8 @@ namespace GiellyGreenApi.Controllers
                     {
                         var config = new MapperConfiguration(cfg =>
                     cfg.CreateMap<SupplierViewModel, Supplier>());
-
                         var mapper = config.CreateMapper();
                         var ObjSupplierMapper = mapper.Map<Supplier>(model);
-                        //var ObjProd = ObjDataAccess.InsertUpdateSupplier(0, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
                         var ObjSupplier = SupplierRepository.AddSupplier(ObjSupplierMapper);
 
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record created.", model);
@@ -106,15 +102,14 @@ namespace GiellyGreenApi.Controllers
                 {
                     var config = new MapperConfiguration(cfg =>
                           cfg.CreateMap<SupplierViewModel, Supplier>());
-
                     var mapper = config.CreateMapper();
                     var ObjSupplierMapper = mapper.Map<Supplier>(model);
 
                     model.LogoUrl = SupplierHelper.setLogo(model.SupplierName?.Trim(), model.SupplierReference?.Trim(), model.LogoUrl.Trim());
                     ObjResponse = SupplierHelper.CheckDuplicate(id, model);
+
                     if (ObjResponse.ResponseStatus != 0)
                     {
-                        //var ObjProd = ObjDataAccess.InsertUpdateSupplier(id, model.SupplierName, model.SupplierReference, model.BusinessAddress, model.Email, model.Phone, model.TaxReference, model.CompanyRegNumber, model.CompanyRegAddress, model.VatNumber, model.LogoUrl, model.IsActive).FirstOrDefault();
                         var ObjSupplier = SupplierRepository.UpdateSupplier(id, ObjSupplierMapper);
 
                         if (SupplierRepository.GetSupplierById(id) == null)
@@ -148,7 +143,6 @@ namespace GiellyGreenApi.Controllers
                 if (ModelState.IsValid)
                 {
                     SupplierRepository.ToggleActiveStatus(id, IsActive);
-                    //var ObjSupplier = ObjDataAccess.UpdateStatus(id, IsActive);
                     if (SupplierRepository.GetSupplierById(id) == null)
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Record not found.", null);
@@ -176,9 +170,7 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 var CurrentSupplier = SupplierRepository.GetSupplierById(id);
-                //var ObjSupplier = ObjDataAccess.DeleteSupplier(id).FirstOrDefault();
                 var ObjSupplier = SupplierRepository.DeleteSupplierById(id);
-
 
                 if (CurrentSupplier == null)
                 {
