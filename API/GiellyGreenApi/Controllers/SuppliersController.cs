@@ -33,10 +33,10 @@ namespace GiellyGreenApi.Controllers
                 ObjSupplierList.ForEach(supplier =>
                 {
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-
+                   
                     if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
                     {
-                        string imgPath = Path.Combine(path, supplier.LogoUrl);
+                        string imgPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);
                         byte[] imageByte = File.ReadAllBytes(imgPath);
                         supplier.LogoUrl = Convert.ToBase64String(imageByte);
                     }
@@ -68,20 +68,20 @@ namespace GiellyGreenApi.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    HttpResponseMessage result = null;
-                    var httpRequest = HttpContext.Current.Request;
-                    if (httpRequest.Files.Count > 0)
-                    {
-                        var docfiles = new List<string>();
-                        foreach (string file in httpRequest.Files)
-                        {
-                            var postedFile = httpRequest.Files[file];
-                            var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
-                            postedFile.SaveAs(filePath);
-                            docfiles.Add(filePath);
-                        }
-                        result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
-                    }
+                    //HttpResponseMessage result = null;
+                    //var httpRequest = HttpContext.Current.Request;
+                    //if (httpRequest.Files.Count > 0)
+                    //{
+                    //    var docfiles = new List<string>();
+                    //    foreach (string file in httpRequest.Files)
+                    //    {
+                    //        var postedFile = httpRequest.Files[file];
+                    //        var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+                    //        postedFile.SaveAs(filePath);
+                    //        docfiles.Add(filePath);
+                    //    }
+                    //    result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
+                    //}
 
 
 
@@ -97,7 +97,7 @@ namespace GiellyGreenApi.Controllers
                         string imgPath = Path.Combine(path, imageName);
                         byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
                         File.WriteAllBytes(imgPath, imageBytes);
-                        model.LogoUrl = imgPath;
+                        model.LogoUrl = imageName;
                     }                    
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
@@ -133,26 +133,23 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var config = new MapperConfiguration(cfg =>
-                          cfg.CreateMap<SupplierViewModel, Supplier>());
-                    var mapper = config.CreateMapper();
-                    var ObjSupplierMapper = mapper.Map<Supplier>(model);
-
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
+                   
                     if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
                         string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
                         string imgPath = Path.Combine(path, imageName);
                         byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
                         File.WriteAllBytes(imgPath, imageBytes);
-                        model.LogoUrl = imgPath;
+                        model.LogoUrl = imageName;
                     }
 
+                    var config = new MapperConfiguration(cfg =>
+                          cfg.CreateMap<SupplierViewModel, Supplier>());
+                    var mapper = config.CreateMapper();
+                    var ObjSupplierMapper = mapper.Map<Supplier>(model);
+
+                    
                     ObjResponse = SupplierHelper.CheckDuplicate(id, model);
 
                     if (ObjResponse.ResponseStatus != 0)

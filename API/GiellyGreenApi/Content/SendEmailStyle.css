@@ -1,0 +1,29 @@
+﻿body {
+    font-family: 'Dax';
+    font-size: 20px;
+}
+
+.PaddingTop {
+    height: 32px;
+}
+
+.AddBorder {
+    border: 1px solid black;
+}
+
+.footer {
+    margin-top: 200px;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.logo {
+    width: 200px;
+    height: 100px;
+}

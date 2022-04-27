@@ -1,0 +1,46 @@
+﻿body {
+    font-family: 'Dax';
+    font-size: 20px;
+}
+
+.fontSize {
+    font-size: 30px;
+}
+
+.PaddingTop {
+    height: 32px;
+}
+
+.LineBreak {
+    max-width: 225px;
+    word-wrap: break-word;
+}
+
+.AddBorder {
+    border: 1px solid black;
+}
+
+.footer {
+    margin-top: 200px;
+}
+
+.print:last-child {
+    page-break-after: auto;
+}
+
+.print {
+    page-break-after: always;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.logo {
+    width: 200px;
+    height: 100px;
+}

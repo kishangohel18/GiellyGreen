@@ -12,42 +12,10 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <link href="http://fonts.cdnfonts.com/css/dax" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Dax';
-            font-size: 20px;
-        }
+    <link href="http://fonts.cdnfonts.com/css/dax" rel="stylesheet">   
 
-        .fontSize {
-            font-size: 30px;
-        }
+<link href="~/Content/CombinePDFStyle.css" rel="stylesheet" />
 
-        .PaddingTop {
-            height: 32px;
-        }
-
-        .LineBreak {
-            max-width: 200px;
-            word-wrap: break-word;
-        }
-
-        .AddBorder {
-            border: 1px solid black;
-        }
-
-        .footer {
-            margin-top: 200px;            
-        }
-
-        .print:last-child {
-            page-break-after: auto;
-        }
-
-        .print {
-            page-break-after: always;
-        }
-    </style>
 </head>
 <body>
     @foreach (var item in Model)
@@ -78,7 +46,7 @@
                             byte[] imageByte = File.ReadAllBytes(imgPath);
                             item.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
 
-                            <div><img src='data:image/jpg;base64,@item.Supplier.LogoUrl' style="width:200px; height: 100px;" /></div>
+                            <div><img src='data:image/jpg;base64,@item.Supplier.LogoUrl' class="logo" /></div>
                         }
                     </td>
                     <td width="60%" class="text-right"><div class="text-right fontSize"><h1>Self Billed Invoice</h1></div></td>
@@ -113,10 +81,13 @@
                     <td>
                         <div class="text-left LineBreak">
                             <p>
-                              @item.Profile.AddressLine
+                                To : &nbsp; @item.Profile.CompanyName
                             </p>
-                            <p>@item.Profile.City - @item.Profile.Zipcode</p>
-                            <p>@item.Profile.Country</p>
+                            <p>
+                                &emsp;&emsp; @item.Profile.AddressLine
+                            </p>
+                            <p>&emsp;&emsp; @item.Profile.City - @item.Profile.Zipcode</p>
+                            <p>&emsp;&emsp; @item.Profile.Country</p>
                         </div>
                     </td>
                     <td></td>
@@ -127,21 +98,21 @@
             <table width="100%">
                 <thead>
                     <tr class="AddBorder PaddingTop">
-                        <th width="60%" style="text-align: center;">Description</th>
+                        <th width="60%" class="textCenter">Description</th>
                         <th width="20%"></th>
-                        <th width="20%" style="text-align: right;">Amount(GBP)&nbsp;</th>
+                        <th width="20%" class="textRight">Amount(GBP)&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="AddBorder PaddingTop">
                         <td class="AddBorder">&nbsp; Hair Services</td>
                         <td class="AddBorder"></td>
-                        <td style="text-align:right;" class="AddBorder">@item.Invoice.HairService &nbsp; </td>
+                        <td class="AddBorder textRight">@item.Invoice.HairService&nbsp; </td>
                     </tr>
                     <tr class="AddBorder PaddingTop">
                         <td class="AddBorder">&nbsp; Beauty Services</td>
                         <td class="AddBorder"></td>
-                        <td style="text-align:right;" class="AddBorder">@item.Invoice.BeautyService &nbsp; </td>
+                        <td class="AddBorder textRight">@item.Invoice.BeautyService&nbsp; </td>
                     </tr>
 
                     @if (item.Invoice.Custom1 != null && item.Invoice.Custom1 != 0)
@@ -149,7 +120,7 @@
                         <tr class="AddBorder PaddingTop">
                             <td class="AddBorder">&nbsp; @item.Month_Header.Custom1</td>
                             <td class="AddBorder"></td>
-                            <td style="text-align:right;" class="AddBorder">@item.Invoice.Custom1&nbsp; </td>
+                            <td class="AddBorder textRight">@item.Invoice.Custom1&nbsp; </td>
                         </tr>
                     }
                     @if (item.Invoice.Custom2 != null && item.Invoice.Custom2 != 0)
@@ -157,7 +128,7 @@
                         <tr class="AddBorder PaddingTop">
                             <td class="AddBorder">&nbsp; @Html.DisplayFor(model => item.Month_Header.Custom2)</td>
                             <td class="AddBorder"></td>
-                            <td style="text-align:right;" class="AddBorder">@item.Invoice.Custom2&nbsp; </td>
+                            <td class="AddBorder textRight">@item.Invoice.Custom2&nbsp; </td>
                         </tr>
                     }
                     @if (item.Invoice.Custom3 != null && item.Invoice.Custom3 != 0)
@@ -165,7 +136,7 @@
                         <tr class="AddBorder PaddingTop">
                             <td class="AddBorder">&nbsp; @item.Month_Header.Custom3</td>
                             <td class="AddBorder"></td>
-                            <td style="text-align:right;" class="AddBorder">@item.Invoice.Custom3&nbsp; </td>
+                            <td class="AddBorder textRight">@item.Invoice.Custom3&nbsp; </td>
                         </tr>
                     }
                     @if (item.Invoice.Custom4 != null && item.Invoice.Custom4 != 0)
@@ -173,7 +144,7 @@
                         <tr class="AddBorder PaddingTop">
                             <td class="AddBorder">&nbsp; @item.Month_Header.Custom4</td>
                             <td class="AddBorder"></td>
-                            <td style="text-align:right;" class="AddBorder">@item.Invoice.Custom4&nbsp; </td>
+                            <td class="AddBorder textRight">@item.Invoice.Custom4&nbsp; </td>
                         </tr>
                     }
                     @if (item.Invoice.Custom5 != null && item.Invoice.Custom5 != 0)
@@ -181,35 +152,35 @@
                         <tr class="AddBorder PaddingTop">
                             <td class="AddBorder">&nbsp; @item.Month_Header.Custom5</td>
                             <td class="AddBorder"></td>
-                            <td style="text-align:right;" class="AddBorder">@item.Invoice.Custom5&nbsp; </td>
+                            <td class="AddBorder textRight">@item.Invoice.Custom5&nbsp; </td>
                         </tr>
                     }
                     <tr class="text-right PaddingTop">
                         <td></td>
                         <td>Subtotal (Net)&nbsp; </td>
-                        <td style="text-align:right;" class="AddBorder">@Convert.ToDecimal(item.Invoice.Net).ToString("N2")&nbsp;</td>
+                        <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Net).ToString("N2")&nbsp;</td>
                     </tr>
                     <tr class="text-right PaddingTop">
                         <td></td>
                         <td>Vat&nbsp; </td>
-                        <td style="text-align:right;" class="AddBorder">@Convert.ToDecimal(item.Invoice.Vat).ToString("N2")&nbsp;</td>
+                        <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Vat).ToString("N2")&nbsp;</td>
                     </tr>
                     <tr class="text-right PaddingTop">
                         <td></td>
                         <td>Advance paid&nbsp; </td>
-                        <td style="text-align:right;" class="AddBorder"> @Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2")&nbsp;</td>
+                        <td class="AddBorder textRight"> @Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2")&nbsp;</td>
                     </tr>
                     <tr class="text-right PaddingTop">
                         <td></td>
                         <td>Balance due&nbsp; </td>
-                        <td style="text-align:right;" class="AddBorder">@Convert.ToDecimal(item.Invoice.Balance).ToString("N2")&nbsp;</td>
+                        <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Balance).ToString("N2")&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
             @if (item.Supplier.CompanyRegAddress != "")
             {
                 <div class="footer">                    
-                    <p class="LineBreak">To : &nbsp;@item.Supplier.CompanyRegAddress</p>
+                    <p>Company register number : &nbsp;@item.Supplier.CompanyRegNumber <br> Company register address : &nbsp; @item.Supplier.CompanyRegAddress</p>
                 </div>
             }
         </div>
