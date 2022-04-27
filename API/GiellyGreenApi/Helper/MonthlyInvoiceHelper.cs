@@ -26,7 +26,8 @@ namespace GiellyGreenApi.Helper
             {
                 Supplier = SupplierInfo,
                 Invoice = InvoiceInfo,
-                Month_Header = MonthInfo
+                Month_Header = MonthInfo,
+                Profile = db.CompanyProfiles.FirstOrDefault()
             };
 
             string ToEmail = SupplierInfo.Email;
