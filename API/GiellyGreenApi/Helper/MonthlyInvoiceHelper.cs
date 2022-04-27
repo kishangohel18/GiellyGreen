@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer.Model;
 using GiellyGreenApi.Controllers;
 using GiellyGreenApi.Models;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -14,14 +13,14 @@ namespace GiellyGreenApi.Helper
 {
     public class MonthlyInvoiceHelper
     {
-        public static GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
+        public static GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
 
         public static JsonResponse SendMailWithPDF(int CurrentID)
         {
             var ObjResponse = new JsonResponse();
-            var InvoiceInfo = ObjDataAccess.Invoices.Find(CurrentID);
-            var SupplierInfo = ObjDataAccess.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
-            var MonthInfo = ObjDataAccess.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+            var InvoiceInfo = db.Invoices.Find(CurrentID);
+            var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
+            var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
 
             CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
             {
@@ -91,9 +90,9 @@ namespace GiellyGreenApi.Helper
                     {
                         int CurrentId = ListOfId[i];
 
-                        var InvoiceInfo = ObjDataAccess.Invoices.Find(CurrentId);
-                        var SupplierInfo = ObjDataAccess.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
-                        var MonthInfo = ObjDataAccess.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+                        var InvoiceInfo = db.Invoices.Find(CurrentId);
+                        var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
+                        var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
 
                         CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
                         {

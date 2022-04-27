@@ -41,7 +41,6 @@ namespace GiellyGreenApi.Controllers
                     foreach (var supplier in ActiveSupplier)
                     {
                         var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
-
                         InvoicesList.Add(ObjInvoiceMapper);
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.", new { HeaderList, InvoicesList });

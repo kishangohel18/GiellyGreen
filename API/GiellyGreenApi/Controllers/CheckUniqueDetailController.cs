@@ -2,10 +2,7 @@
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace GiellyGreenApi.Controllers
@@ -13,7 +10,7 @@ namespace GiellyGreenApi.Controllers
     public class CheckUniqueDetailController : ApiController
     {
 
-        public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
+        public GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
 
         [Route("VarifyEmail")]
         public JsonResponse CheckEmail(int id, string email)
@@ -24,7 +21,7 @@ namespace GiellyGreenApi.Controllers
                 if (id == 0)
                 {
 
-                    if (ObjDataAccess.Suppliers.Any(s => s.Email == email) && email != null)
+                    if (db.Suppliers.Any(s => s.Email == email) && email != null)
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", email);
                     }
@@ -35,7 +32,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.Email == email && s.SupplierId != id) && email != null)
+                    if (db.Suppliers.Any(s => s.Email == email && s.SupplierId != id) && email != null)
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", email);
                     }
@@ -63,7 +60,7 @@ namespace GiellyGreenApi.Controllers
             {
                 if (id == 0)
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == SupplierReference) && SupplierReference != null && SupplierReference != "")
+                    if (db.Suppliers.Any(s => s.SupplierReference == SupplierReference) && SupplierReference != null && SupplierReference != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", SupplierReference);
                     }
@@ -74,7 +71,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == SupplierReference && s.SupplierId != id) && SupplierReference != null && SupplierReference != "")
+                    if (db.Suppliers.Any(s => s.SupplierReference == SupplierReference && s.SupplierId != id) && SupplierReference != null && SupplierReference != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", SupplierReference);
                     }
@@ -100,7 +97,7 @@ namespace GiellyGreenApi.Controllers
             {
                 if (id == 0)
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == VatNumber) && VatNumber != null && VatNumber != "")
+                    if (db.Suppliers.Any(s => s.VatNumber == VatNumber) && VatNumber != null && VatNumber != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", VatNumber);
                     }
@@ -111,7 +108,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == VatNumber && s.SupplierId != id) && VatNumber != null && VatNumber != "")
+                    if (db.Suppliers.Any(s => s.VatNumber == VatNumber && s.SupplierId != id) && VatNumber != null && VatNumber != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", VatNumber);
                     }
@@ -138,7 +135,7 @@ namespace GiellyGreenApi.Controllers
             {
                 if (id == 0)
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == TaxReference) && TaxReference != null && TaxReference != "")
+                    if (db.Suppliers.Any(s => s.TaxReference == TaxReference) && TaxReference != null && TaxReference != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", TaxReference);
                     }
@@ -149,7 +146,7 @@ namespace GiellyGreenApi.Controllers
                 }
                 else
                 {
-                    if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == TaxReference && s.SupplierId != id) && TaxReference != null && TaxReference != "")
+                    if (db.Suppliers.Any(s => s.TaxReference == TaxReference && s.SupplierId != id) && TaxReference != null && TaxReference != "")
                     {
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", TaxReference);
                     }

@@ -1,15 +1,9 @@
 ﻿using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Configuration;
 using System.Web.Http;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Web.Http.Cors;
 
 
 namespace GiellyGreenApi.Controllers

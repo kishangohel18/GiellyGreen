@@ -5,14 +5,12 @@ using DataAccessLayer.Services;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace GiellyGreenApi.Controllers
 {
+
     [Authorize]
     public class ProfileController : ApiController
     {

@@ -11,7 +11,9 @@ using GiellyGreenApi.ActionFilter;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 using AutoMapper;
-
+using System.Net.Http;
+using System.Collections.Generic;
+using System.Net;
 
 namespace GiellyGreenApi.Controllers
 {
@@ -65,6 +67,24 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
+                    HttpResponseMessage result = null;
+                    var httpRequest = HttpContext.Current.Request;
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        var docfiles = new List<string>();
+                        foreach (string file in httpRequest.Files)
+                        {
+                            var postedFile = httpRequest.Files[file];
+                            var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+                            postedFile.SaveAs(filePath);
+                            docfiles.Add(filePath);
+                        }
+                        result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
+                    }
+
+
+
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
                     if (!Directory.Exists(path))
@@ -106,7 +126,6 @@ namespace GiellyGreenApi.Controllers
         }
 
 
-        //[CustomFilter]
         public JsonResponse Put(int id, SupplierViewModel model)
         {
             SupplierHelper.TrimWhiteSpaceOnRequest(model);
@@ -133,6 +152,7 @@ namespace GiellyGreenApi.Controllers
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imgPath;
                     }
+
                     ObjResponse = SupplierHelper.CheckDuplicate(id, model);
 
                     if (ObjResponse.ResponseStatus != 0)

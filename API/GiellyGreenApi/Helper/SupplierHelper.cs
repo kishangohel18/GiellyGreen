@@ -12,7 +12,7 @@ namespace GiellyGreenApi.Helper
 {
     public class SupplierHelper
     {
-        public static GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
+        public static GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
 
         public static string setLogo(string SupplierName,string SupplierReference,string Base64String)
         {
@@ -39,45 +39,28 @@ namespace GiellyGreenApi.Helper
             var ObjResponse = new JsonResponse();
             ObjResponse.ResponseStatus = 2;
             
-            if (ObjDataAccess.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id))
+            if (db.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id))
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Supplier reference should be unique", null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Supplier reference should be unique", model.SupplierReference);
             }
-            else if (ObjDataAccess.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id))
+            else if (db.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id))
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", model.Email);
             }
-            else if (ObjDataAccess.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id))
+            else if (db.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id))
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", model.VatNumber);
             }
-            else if (ObjDataAccess.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id))
+            else if (db.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id))
             {
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", null);
+                ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", model.TaxReference);
             }
 
             return ObjResponse;
-        }
-
-        public static SupplierViewModel RemoveExtraSpace(SupplierViewModel model)
-        {
-            model.SupplierReference = model.SupplierReference?.Trim();
-            model.Email = model.Email?.ToLower().Trim();
-            model.VatNumber = model.VatNumber?.Trim();
-            model.TaxReference = model.TaxReference?.Trim();
-            model.SupplierName = model.SupplierName?.Trim();
-            model.BusinessAddress = model.BusinessAddress?.Trim();
-            model.Phone = model.Phone?.Trim();
-            model.CompanyRegNumber = model.CompanyRegNumber?.Trim();
-            model.CompanyRegAddress = model.CompanyRegAddress?.Trim();           
-
-            return model;
-        }
+        }       
 
         public static SupplierViewModel TrimWhiteSpaceOnRequest<SupplierViewModel>(SupplierViewModel model)
         {
-            var ObjResponse = new JsonResponse();
-
             if (model != null)
             {
                 PropertyInfo[] properties = model.GetType().GetProperties();
@@ -90,11 +73,7 @@ namespace GiellyGreenApi.Helper
                             var o = property.GetValue(model, null) ?? "";
                             string s = (string)o;
                             property.SetValue(model, s.Trim());
-                        }
-                        else
-                        {
-
-                        }
+                        }                        
                     }
                     catch (Exception)
                     {

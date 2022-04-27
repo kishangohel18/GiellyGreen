@@ -1,18 +1,14 @@
-﻿using DataAccessLayer.Model;
-using GiellyGreenApi.Models;
+﻿using GiellyGreenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GiellyGreenApi.Controllers
 {
     public class PDFController : Controller
     {
-        public GiellyGreen_SelfInvoiceEntities ObjDataAccess = new GiellyGreen_SelfInvoiceEntities();
 
         public ActionResult Index()
         {
@@ -30,7 +26,6 @@ namespace GiellyGreenApi.Controllers
 
         public ActionResult PDFForInvoice(CombineSupplierInvoice combineSupplierInvoice)
         {
-
             return View(combineSupplierInvoice);
         }
 
@@ -45,7 +40,6 @@ namespace GiellyGreenApi.Controllers
 
         public ActionResult CombinePDFView(List<CombineSupplierInvoice> combineSupplierInvoice)
         {
-
             return View(combineSupplierInvoice);
         }
 
