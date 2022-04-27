@@ -7,13 +7,9 @@ using System.Web.Http;
 using DataAccessLayer.Interface;
 using DataAccessLayer.Model;
 using DataAccessLayer.Services;
-using GiellyGreenApi.ActionFilter;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 using AutoMapper;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Net;
 
 namespace GiellyGreenApi.Controllers
 {
@@ -66,24 +62,7 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {
-
-                    //HttpResponseMessage result = null;
-                    //var httpRequest = HttpContext.Current.Request;
-                    //if (httpRequest.Files.Count > 0)
-                    //{
-                    //    var docfiles = new List<string>();
-                    //    foreach (string file in httpRequest.Files)
-                    //    {
-                    //        var postedFile = httpRequest.Files[file];
-                    //        var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
-                    //        postedFile.SaveAs(filePath);
-                    //        docfiles.Add(filePath);
-                    //    }
-                    //    result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
-                    //}
-
-
+                {                    
 
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 

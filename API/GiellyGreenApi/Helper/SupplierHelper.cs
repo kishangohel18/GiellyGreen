@@ -12,27 +12,7 @@ namespace GiellyGreenApi.Helper
 {
     public class SupplierHelper
     {
-        public static GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();
-
-        public static string setLogo(string SupplierName,string SupplierReference,string Base64String)
-        {
-            string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            if (!string.IsNullOrEmpty(Base64String))
-            {
-                string imageName = SupplierName + "_" + SupplierReference + ".jpg";
-                string imgPath = Path.Combine(path, imageName);
-                byte[] imageBytes = Convert.FromBase64String(Base64String);
-                File.WriteAllBytes(imgPath, imageBytes);
-                Base64String = imgPath;
-            }
-            return Base64String;
-        }
-
+        public static GiellyGreen_SelfInvoiceEntities db = new GiellyGreen_SelfInvoiceEntities();       
 
         public static JsonResponse CheckDuplicate(int id, SupplierViewModel model)
         {
@@ -80,7 +60,6 @@ namespace GiellyGreenApi.Helper
                         
                     }
                 }
-
             }
             return model;
         }

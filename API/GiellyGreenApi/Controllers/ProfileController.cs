@@ -40,7 +40,6 @@ namespace GiellyGreenApi.Controllers
             return ObjResponse;
         }
 
-
         public JsonResponse InsertUpdateCompanyProfile(CompanyProfileViewModel model)
         {
             try

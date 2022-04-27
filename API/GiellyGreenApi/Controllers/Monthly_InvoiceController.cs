@@ -31,15 +31,15 @@ namespace GiellyGreenApi.Controllers
                 var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
                 var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
                 var ActiveSupplier = SupplierRepository.ActiveSupplier();
-                if (HeaderList.Count == 0)
-                {
-                    var config = new MapperConfiguration(cfg =>
-                                  cfg.CreateMap<GetActiveSupplier_Result, GetInvoiceByDate_Result>());
+                var config = new MapperConfiguration(cfg =>
+                                 cfg.CreateMap<GetActiveSupplier_Result, GetInvoiceByDate_Result>());
 
-                    var mapper = config.CreateMapper();
+                var mapper = config.CreateMapper();
+                if (HeaderList.Count == 0)
+                {                   
                     InvoicesList.Clear();
                     foreach (var supplier in ActiveSupplier)
-                    {
+                    { 
                         var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
                         InvoicesList.Add(ObjInvoiceMapper);
                     }
@@ -49,6 +49,14 @@ namespace GiellyGreenApi.Controllers
                 {
                     if (InvoicesList != null && InvoicesList.Count > 0)
                     {
+                        foreach (var supplier in ActiveSupplier)
+                        {
+                            if(InvoicesList.Where(x=>x.SupplierId== supplier.SupplierId).FirstOrDefault()==null)
+                            {
+                                var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
+                                InvoicesList.Add(ObjInvoiceMapper);
+                            }
+                        }
                         ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.", new { HeaderList, InvoicesList });
                     }
                     else
@@ -79,7 +87,7 @@ namespace GiellyGreenApi.Controllers
                                   cfg.CreateMap<InvoiceViewModel, Invoice>());
 
                         var mapper = config.CreateMapper();
-                        var ObjInvoiceMapper = mapper.Map<Invoice>(Item);                        
+                        var ObjInvoiceMapper = mapper.Map<Invoice>(Item);
                         InvoiceRepository.InsertUpdateInvoice(ObjInvoiceMapper);
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record saved.", ListOfSupplierInvoice);
@@ -126,7 +134,7 @@ namespace GiellyGreenApi.Controllers
         public JsonResponse InsertUpdateMonthHeader(Month_HeaderViewModel model)
         {
             try
-            {                
+            {
                 if (ModelState.IsValid)
                 {
                     var config = new MapperConfiguration(cfg =>
@@ -134,8 +142,8 @@ namespace GiellyGreenApi.Controllers
                     var mapper = config.CreateMapper();
                     var ObjInvoiceMapper = mapper.Map<Month_Header>(model);
 
-                    var Response = InvoiceRepository.InsertUpdateHeader(ObjInvoiceMapper);             
-                   
+                    var Response = InvoiceRepository.InsertUpdateHeader(ObjInvoiceMapper);
+
                     ObjResponse.ResponseStatus = Response[0];
                     ObjResponse.Message = Response[1];
                     ObjResponse.Result = Response[2];
@@ -159,6 +167,8 @@ namespace GiellyGreenApi.Controllers
         {
             try
             {
+                int ResponseApprove = 0;
+                int ApproveCount = 0;
                 if (ListOfId.Length > 0)
                 {
                     for (int i = 0; i < ListOfId.Length; i++)
@@ -166,10 +176,21 @@ namespace GiellyGreenApi.Controllers
                         if (ListOfId[i] > 0)
                         {
                             int InvoiceId = ListOfId[i];
-                            InvoiceRepository.ApproveSelectedInvoice(InvoiceId);
+                            ResponseApprove = InvoiceRepository.ApproveSelectedInvoice(InvoiceId);
+                        }
+                        if (ResponseApprove == 0)
+                        {
+                            ApproveCount += 1;
                         }
                     }
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record updated.", ListOfId);
+                    if (ListOfId.Length == ApproveCount)
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Record not approved.", null);
+                    }
+                    else
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Record approved.", ListOfId);
+                    }
                 }
                 else
                 {
@@ -191,15 +212,31 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ListOfId.Length > 0)
                 {
+                    var mailCount = 0;
                     for (int i = 0; i < ListOfId.Length; i++)
                     {
                         if (ListOfId[i] > 0)
                         {
                             int CurrentId = ListOfId[i];
-                            ObjResponse = MonthlyInvoiceHelper.SendMailWithPDF(CurrentId);
+                            var objInvoiceNet = MonthlyInvoiceHelper.GetInvoiceData(CurrentId);
+                            if (objInvoiceNet != null && objInvoiceNet > 0)
+                            {
+                                ObjResponse = MonthlyInvoiceHelper.SendMailWithPDF(CurrentId);
+                            }
+                            else
+                            {
+                                mailCount += 1;
+                            }
                         }
                     }
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Email sent successfully.", null);
+                    if (mailCount == ListOfId.Length)
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Email cannot sent. Because all records empty.", null);
+                    }
+                    else
+                    {
+                        ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Email sent successfully.", null);
+                    }
                 }
                 else
                 {

@@ -31,11 +31,11 @@ namespace DataAccessLayer.Services
             dynamic[] Response = new dynamic[3];
             if (model.Id == 0)
             {
-                var objMonthData = db.Month_Header.Where(m => m.InvoiceMonth == model.InvoiceMonth && m.InvoiceYear == model.InvoiceYear).FirstOrDefault();                
+                var objMonthData = db.Month_Header.Where(m => m.InvoiceMonth == model.InvoiceMonth && m.InvoiceYear == model.InvoiceYear).FirstOrDefault();
                 if (objMonthData == null)
                 {
                     var ObjSupplierList = db.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate, model.VatPercentage).FirstOrDefault();
-                    
+
                     Response[0] = 1;
                     Response[1] = "Record created.";
                     Response[2] = ObjSupplierList.MonthHeader;
@@ -58,10 +58,22 @@ namespace DataAccessLayer.Services
             return Response;
         }
 
-        public void ApproveSelectedInvoice(int invoiceid)
+        public int ApproveSelectedInvoice(int invoiceid)
         {
-            db.ApproveSelectedInvoice(invoiceid);
+            int ResponseApprove;
+            var objSupplierData = db.Invoices.Where(s => s.Id == invoiceid).FirstOrDefault();
+
+            if (objSupplierData.Net > 0 && objSupplierData.Net != null) 
+            {
+                db.ApproveSelectedInvoice(invoiceid);
+                ResponseApprove = 1;
+            }
+            else
+            {
+                ResponseApprove = 0;
+            }
+            return ResponseApprove;
         }
-       
+
     }
 }

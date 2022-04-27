@@ -40,9 +40,9 @@
             <table width="100%">
                 <tr>
                     <td width="40%">
-                        @if (@item.Supplier.LogoUrl != null)
+                        @if (@item.Supplier.LogoUrl != null && @item.Supplier.LogoUrl != "")
                         {
-                            string imgPath = Path.Combine(path, item.Supplier.LogoUrl);
+                            string imgPath = Path.Combine(path, path + "\\" + item.Supplier.LogoUrl);
                             byte[] imageByte = File.ReadAllBytes(imgPath);
                             item.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
 

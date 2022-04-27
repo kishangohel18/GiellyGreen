@@ -31,21 +31,17 @@ namespace GiellyGreenApi.Helper
             };
 
             string ToEmail = SupplierInfo.Email;
-
             string Subj = "Your invoice for the " + MonthInfo.InvoiceMonth + "," + MonthInfo.InvoiceYear;
             string Message = "Please find attached a self-billed invoice to Gielly Green Limited, prepared on your behalf, as per the agreement.Regard Gielly Green Limited";
-
             var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
             var FromEmailid = ConfigurationManager.AppSettings["FromEmail"].ToString();
             var Pass = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
-
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(FromEmailid);
             mailMessage.Subject = Subj;
             mailMessage.Body = Message;
             mailMessage.Body = Message;
             mailMessage.IsBodyHtml = true;
-
             PDFController pdfController = new PDFController();
             RouteData route = new RouteData();
             route.Values.Add("action", "ViewAsPdf");
@@ -63,7 +59,6 @@ namespace GiellyGreenApi.Helper
             }
             SmtpClient smtp = new SmtpClient();
             smtp.Host = HostAdd;
-
             smtp.EnableSsl = true;
             NetworkCredential NetworkCred = new NetworkCredential();
             NetworkCred.UserName = mailMessage.From.Address;
@@ -90,11 +85,9 @@ namespace GiellyGreenApi.Helper
                     if (ListOfId[i] > 0)
                     {
                         int CurrentId = ListOfId[i];
-
-                        var InvoiceInfo = db.Invoices.Find(CurrentId);
+                        var InvoiceInfo = db.Invoices.Where(I => I.Id == CurrentId).FirstOrDefault();
                         var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
                         var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
-
                         CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
                         {
                             Supplier = SupplierInfo,
@@ -102,8 +95,10 @@ namespace GiellyGreenApi.Helper
                             Month_Header = MonthInfo,
                             Profile = db.CompanyProfiles.FirstOrDefault()
                         };
-
-                        AllSupplierDetail.Add(combineSupplierInvoice);
+                        if (InvoiceInfo.Net != null && InvoiceInfo.Net > 0)
+                        {
+                            AllSupplierDetail.Add(combineSupplierInvoice);
+                        }
                     }
                 }
 
@@ -115,14 +110,28 @@ namespace GiellyGreenApi.Helper
                 System.Web.Mvc.ControllerContext(new HttpContextWrapper(HttpContext.Current), route, pdfController);
                 pdfController.ControllerContext = newContext;
                 string PdfBase64String = pdfController.CombinePDF(AllSupplierDetail);
-
-                ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Combined PDF sent successfully.", PdfBase64String);
+                if (AllSupplierDetail.Count > 0)
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Combined PDF sent successfully.", PdfBase64String);
+                }
+                else
+                {
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Combined PDF cannot generate.", PdfBase64String);
+                }
             }
             else
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "No record found.", null);
             }
             return ObjResponse;
+        }
+
+
+        public static dynamic GetInvoiceData(int invoiceId)
+        {
+            var GetInvoiceData = db.Invoices.Where(i => i.Id == invoiceId).FirstOrDefault();
+            var GetNet = GetInvoiceData.Net;
+            return GetNet;
         }
 
     }

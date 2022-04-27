@@ -27,3 +27,8 @@
     width: 200px;
     height: 100px;
 }
+
+.LineBreak {
+    max-width: 300px;
+    word-wrap: break-word;
+}
