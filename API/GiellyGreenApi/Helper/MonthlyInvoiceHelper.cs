@@ -98,7 +98,8 @@ namespace GiellyGreenApi.Helper
                         {
                             Supplier = SupplierInfo,
                             Invoice = InvoiceInfo,
-                            Month_Header = MonthInfo
+                            Month_Header = MonthInfo,
+                            Profile = db.CompanyProfiles.FirstOrDefault()
                         };
 
                         AllSupplierDetail.Add(combineSupplierInvoice);

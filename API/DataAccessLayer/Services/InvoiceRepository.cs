@@ -1,10 +1,7 @@
 ﻿using DataAccessLayer.Interface;
 using DataAccessLayer.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace DataAccessLayer.Services
@@ -38,9 +35,10 @@ namespace DataAccessLayer.Services
                 if (objMonthData == null)
                 {
                     var ObjSupplierList = db.InsertUpdateMonthHeader(0, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate, model.VatPercentage).FirstOrDefault();
+                    
                     Response[0] = 1;
                     Response[1] = "Record created.";
-                    Response[2] = model;
+                    Response[2] = ObjSupplierList.MonthHeader;
                 }
                 else
                 {
@@ -54,7 +52,7 @@ namespace DataAccessLayer.Services
                 var ObjSupplierList = db.InsertUpdateMonthHeader(model.Id, model.InvoiceReferance, model.Custom1, model.Custom2, model.Custom3, model.Custom4, model.Custom5, model.InvoiceMonth, model.InvoiceYear, model.InvoiceDate, model.VatPercentage).FirstOrDefault();
                 Response[0] = 1;
                 Response[1] = "Record " + ObjSupplierList.MonthHeader + " updated.";
-                Response[2] = model;
+                Response[2] = model.Id;
             }
 
             return Response;

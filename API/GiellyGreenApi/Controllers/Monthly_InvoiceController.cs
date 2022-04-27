@@ -66,7 +66,7 @@ namespace GiellyGreenApi.Controllers
 
 
         [Route("InsertUpdateInvoices")]
-        public JsonResponse InsertUpdateInvoices(List<InvoiceViewModel> ListOfSupplierInvoice)
+        public JsonResponse InsertUpdateInvoices(List<InvoiceViewModel> ListOfSupplierInvoice, int MonthHeaderId)
         {
             try
             {
@@ -74,6 +74,7 @@ namespace GiellyGreenApi.Controllers
                 {
                     foreach (var Item in ListOfSupplierInvoice)
                     {
+                        Item.MonthHeaderId = MonthHeaderId;
                         var config = new MapperConfiguration(cfg =>
                                   cfg.CreateMap<InvoiceViewModel, Invoice>());
 
@@ -133,7 +134,8 @@ namespace GiellyGreenApi.Controllers
                     var mapper = config.CreateMapper();
                     var ObjInvoiceMapper = mapper.Map<Month_Header>(model);
 
-                    var Response = InvoiceRepository.InsertUpdateHeader(ObjInvoiceMapper);                   
+                    var Response = InvoiceRepository.InsertUpdateHeader(ObjInvoiceMapper);             
+                   
                     ObjResponse.ResponseStatus = Response[0];
                     ObjResponse.Message = Response[1];
                     ObjResponse.Result = Response[2];
