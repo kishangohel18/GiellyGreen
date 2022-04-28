@@ -13,7 +13,6 @@ namespace GiellyGreenApi.Models
         [Required]
         public string CompanyName { get; set; }
 
-        [Required]
         public string AddressLine { get; set; }
         public string City { get; set; }
         public string Zipcode { get; set; }

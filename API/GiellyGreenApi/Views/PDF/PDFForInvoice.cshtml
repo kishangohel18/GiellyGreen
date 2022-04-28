@@ -40,7 +40,9 @@
                             byte[] imageByte = File.ReadAllBytes(imgPath);
                             Model.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
 
-        <div><img src='data:image/jpg;base64,@Model.Supplier.LogoUrl' class="logo" /></div>}
+        <div>                    
+                    <img src="@imgPath" class="logo" />
+            </div>}
 }
                     <br>
                     <p> @Model.Supplier.SupplierName </p> <p>@Model.Supplier.BusinessAddress</p>
@@ -94,52 +96,61 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="AddBorder PaddingTop">
-                    <td class="AddBorder">&nbsp; Hair Services</td>
-                    <td class="AddBorder"></td>
-                    <td class="AddBorder textRight">@Model.Invoice.HairService&nbsp; </td>
-                </tr>
-                <tr class="AddBorder PaddingTop">
-                    <td class="AddBorder">&nbsp; Beauty Services</td>
-                    <td class="AddBorder"></td>
-                    <td class="AddBorder textRight">@Model.Invoice.BeautyService&nbsp; </td>
-                </tr>
+                @if (Model.Invoice.HairService != null && Model.Invoice.HairService != 0)
+                {
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; Hair Services</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.HairService&nbsp; </td>
+            </tr>}
+                @if (Model.Invoice.BeautyService != null && Model.Invoice.BeautyService != 0)
+                {
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; Beauty Services</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.BeautyService&nbsp; </td>
+            </tr>            }
 
                 @if (Model.Invoice.Custom1 != null && Model.Invoice.Custom1 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom1</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom1&nbsp; </td>
-    </tr>}
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; @Model.Month_Header.Custom1</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.Custom1&nbsp; </td>
+            </tr>
+}
                 @if (Model.Invoice.Custom2 != null && Model.Invoice.Custom2 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom2</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom2&nbsp; </td>
-    </tr>}
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; @Model.Month_Header.Custom2</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.Custom2&nbsp; </td>
+            </tr>
+}
                 @if (Model.Invoice.Custom3 != null && Model.Invoice.Custom3 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom3</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom3&nbsp; </td>
-    </tr>}
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; @Model.Month_Header.Custom3</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.Custom3&nbsp; </td>
+            </tr>
+}
                 @if (Model.Invoice.Custom4 != null && Model.Invoice.Custom4 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom4</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom4&nbsp; </td>
-    </tr>}
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; @Model.Month_Header.Custom4</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.Custom4&nbsp; </td>
+            </tr>
+}
                 @if (Model.Invoice.Custom5 != null && Model.Invoice.Custom5 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom5</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom5&nbsp; </td>
-    </tr>}
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; @Model.Month_Header.Custom5</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@Model.Invoice.Custom5&nbsp; </td>
+            </tr>
+}
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td>Subtotal (Net)&nbsp; </td>
@@ -158,7 +169,14 @@
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td>Balance due&nbsp; </td>
-                    <td class="AddBorder textRight"> @Convert.ToDecimal(Model.Invoice.Balance).ToString("N2")&nbsp; </td>
+                    @if (Model.Invoice.Balance > 0)
+                    {
+            <td class="AddBorder textRight"> @Convert.ToDecimal(Model.Invoice.Balance).ToString("N2")&nbsp; </td>
+ }
+        else
+        {
+            <td class="AddBorder textRight"> (@Convert.ToDecimal(Model.Invoice.Balance).ToString("N2"))&nbsp; </td>
+}
                 </tr>
             </tbody>
         </table>
