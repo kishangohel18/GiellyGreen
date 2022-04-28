@@ -86,18 +86,21 @@ namespace GiellyGreenApi.Helper
                     {
                         int CurrentId = ListOfId[i];
                         var InvoiceInfo = db.Invoices.Where(I => I.Id == CurrentId).FirstOrDefault();
-                        var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
-                        var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
-                        CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
+                        if (InvoiceInfo != null)
                         {
-                            Supplier = SupplierInfo,
-                            Invoice = InvoiceInfo,
-                            Month_Header = MonthInfo,
-                            Profile = db.CompanyProfiles.FirstOrDefault()
-                        };
-                        if (InvoiceInfo.Net != null && InvoiceInfo.Net > 0)
-                        {
-                            AllSupplierDetail.Add(combineSupplierInvoice);
+                            var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
+                            var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+                            CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
+                            {
+                                Supplier = SupplierInfo,
+                                Invoice = InvoiceInfo,
+                                Month_Header = MonthInfo,
+                                Profile = db.CompanyProfiles.FirstOrDefault()
+                            };
+                            if (InvoiceInfo.Net != null && InvoiceInfo.Net > 0)
+                            {
+                                AllSupplierDetail.Add(combineSupplierInvoice);
+                            }
                         }
                     }
                 }
@@ -116,7 +119,7 @@ namespace GiellyGreenApi.Helper
                 }
                 else
                 {
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Combined PDF cannot generate.", PdfBase64String);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(2, "Combined PDF cannot generated.", null);
                 }
             }
             else
@@ -130,8 +133,15 @@ namespace GiellyGreenApi.Helper
         public static dynamic GetInvoiceData(int invoiceId)
         {
             var GetInvoiceData = db.Invoices.Where(i => i.Id == invoiceId).FirstOrDefault();
-            var GetNet = GetInvoiceData.Net;
-            return GetNet;
+            if (GetInvoiceData != null)
+            {
+                var GetNet = GetInvoiceData.Net;
+                return GetNet;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
     }

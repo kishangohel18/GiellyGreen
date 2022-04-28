@@ -46,3 +46,15 @@ D:\A4\26_23.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\D
 D:\A4\26_23.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
 D:\A4\26_23.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.dll
 D:\A4\26_23.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.pdb
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\DataAccessLayer.dll.config
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\DataAccessLayer.dll
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\DataAccessLayer.pdb
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\EntityFramework.dll
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\EntityFramework.xml
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\bin\Debug\EntityFramework.SqlServer.xml
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.AssemblyReference.cache
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CopyComplete
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.dll
+D:\A4\27_04_2022__22.00\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\obj\Debug\DataAccessLayer.pdb

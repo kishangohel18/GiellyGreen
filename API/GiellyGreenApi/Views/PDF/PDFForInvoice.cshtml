@@ -10,7 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
     <link href="http://fonts.cdnfonts.com/css/dax" rel="stylesheet">
-   
+
     <link href="~/Content/SendEmailStyle.css" rel="stylesheet" />
 </head>
 <body>
@@ -35,16 +35,19 @@
                     @if (@Model.Supplier.LogoUrl != null && @Model.Supplier.LogoUrl != "")
                     {
                         string imgPath = Path.Combine(path, path + "\\" + Model.Supplier.LogoUrl);
-                        byte[] imageByte = File.ReadAllBytes(imgPath);
-                        @Model.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
+                        string FinalPath = imgPath.Replace(@"\\", @"\");
+                        byte[] imageByte = File.ReadAllBytes(FinalPath);
+                        Model.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
 
                         <div><img src='data:image/jpg;base64,@Model.Supplier.LogoUrl' class="logo" /></div>
                     }
+                    <br>
+                    <p> @Model.Supplier.SupplierName </p> <p>@Model.Supplier.BusinessAddress</p>
                 </td>
                 <td width="60%" class="text-right"><div class="text-right h1">Self Billed Invoice</div></td>
             </tr>
             <tr>
-                <td> <p> @Model.Supplier.SupplierName </p> <p>@Model.Supplier.BusinessAddress</p> </td>
+                <td> </td>
                 <td>
                     <div>
                         <div class="text-right h4">
@@ -56,10 +59,10 @@
                         <br />
                         @if (Model.Supplier.TaxReference != null)
                         {
-            <div class="text-right h4">Tax Ref :  @Model.Supplier.TaxReference</div>}
+                            <div class="text-right h4">Tax Ref :  @Model.Supplier.TaxReference</div>}
                         @if (Model.Supplier.VatNumber != null)
                         {
-            <div class="text-right h4">VAT Number :  @Model.Supplier.VatNumber</div>}
+                            <div class="text-right h4">VAT Number :  @Model.Supplier.VatNumber</div>}
                     </div>
                 </td>
             </tr>
@@ -93,7 +96,7 @@
                 <tr class="AddBorder PaddingTop">
                     <td class="AddBorder">&nbsp; Hair Services</td>
                     <td class="AddBorder"></td>
-                    <td class="AddBorder textRight">@Model.Invoice.BeautyService&nbsp; </td>
+                    <td class="AddBorder textRight">@Model.Invoice.HairService&nbsp; </td>
                 </tr>
                 <tr class="AddBorder PaddingTop">
                     <td class="AddBorder">&nbsp; Beauty Services</td>
@@ -103,44 +106,44 @@
 
                 @if (Model.Invoice.Custom1 != null && Model.Invoice.Custom1 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom1</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom1&nbsp; </td>
-    </tr>
-}
+                    <tr class="AddBorder PaddingTop">
+                        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom1</td>
+                        <td class="AddBorder"></td>
+                        <td class="AddBorder textRight">@Model.Invoice.Custom1&nbsp; </td>
+                    </tr>
+                }
                 @if (Model.Invoice.Custom2 != null && Model.Invoice.Custom2 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom2</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom2&nbsp; </td>
-    </tr>
-}
+                    <tr class="AddBorder PaddingTop">
+                        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom2</td>
+                        <td class="AddBorder"></td>
+                        <td class="AddBorder textRight">@Model.Invoice.Custom2&nbsp; </td>
+                    </tr>
+                }
                 @if (Model.Invoice.Custom3 != null && Model.Invoice.Custom3 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom3</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom3&nbsp; </td>
-    </tr>
-}
+                    <tr class="AddBorder PaddingTop">
+                        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom3</td>
+                        <td class="AddBorder"></td>
+                        <td class="AddBorder textRight">@Model.Invoice.Custom3&nbsp; </td>
+                    </tr>
+                }
                 @if (Model.Invoice.Custom4 != null && Model.Invoice.Custom4 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom4</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom4&nbsp; </td>
-    </tr>
-}
+                    <tr class="AddBorder PaddingTop">
+                        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom4</td>
+                        <td class="AddBorder"></td>
+                        <td class="AddBorder textRight">@Model.Invoice.Custom4&nbsp; </td>
+                    </tr>
+                }
                 @if (Model.Invoice.Custom5 != null && Model.Invoice.Custom5 != 0)
                 {
-    <tr class="AddBorder PaddingTop">
-        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom5</td>
-        <td class="AddBorder"></td>
-        <td class="AddBorder textRight">@Model.Invoice.Custom5&nbsp; </td>
-    </tr>
-}
+                    <tr class="AddBorder PaddingTop">
+                        <td class="AddBorder">&nbsp; @Model.Month_Header.Custom5</td>
+                        <td class="AddBorder"></td>
+                        <td class="AddBorder textRight">@Model.Invoice.Custom5&nbsp; </td>
+                    </tr>
+                }
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td>Subtotal (Net)&nbsp; </td>
@@ -165,9 +168,10 @@
         </table>
         @if (@Model.Supplier.CompanyRegAddress != "")
         {
-<div class="footer">
-    <p>To : &nbsp;@Model.Supplier.CompanyRegAddress</p>
-</div>}
+            <div class="footer">
+                <p>Company register number : &nbsp;@Model.Supplier.CompanyRegNumber <br> Company register address : &nbsp; @Model.Supplier.CompanyRegAddress</p>
+            </div>
+        }
     </div>
 
     @Scripts.Render("~/bundles/jquery")

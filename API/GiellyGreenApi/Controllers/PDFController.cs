@@ -9,7 +9,6 @@ namespace GiellyGreenApi.Controllers
 {
     public class PDFController : Controller
     {
-
         public ActionResult Index()
         {
             return View();
