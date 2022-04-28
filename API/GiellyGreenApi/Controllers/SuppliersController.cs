@@ -77,7 +77,9 @@ namespace GiellyGreenApi.Controllers
                         byte[] imageBytes = Convert.FromBase64String(model.LogoUrl);
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imageName;
-                    }                    
+                    }
+
+                    model = SupplierHelper.SetValueToNull(model);
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
                     if (ObjResponse.ResponseStatus != 0)
@@ -122,6 +124,8 @@ namespace GiellyGreenApi.Controllers
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imageName;
                     }
+
+                    model = SupplierHelper.SetValueToNull(model);
 
                     var config = new MapperConfiguration(cfg =>
                           cfg.CreateMap<SupplierViewModel, Supplier>());

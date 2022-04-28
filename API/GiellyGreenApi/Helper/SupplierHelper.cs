@@ -19,19 +19,19 @@ namespace GiellyGreenApi.Helper
             var ObjResponse = new JsonResponse();
             ObjResponse.ResponseStatus = 2;
             
-            if (db.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id))
+            if (db.Suppliers.Any(s => s.SupplierReference == model.SupplierReference && s.SupplierId != id && model.SupplierReference != ""))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Supplier reference should be unique", model.SupplierReference);
             }
-            else if (db.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id))
+            else if (db.Suppliers.Any(s => s.Email == model.Email && s.SupplierId != id && model.Email != ""))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Email should be unique", model.Email);
             }
-            else if (db.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id))
+            else if (db.Suppliers.Any(s => s.VatNumber == model.VatNumber && s.SupplierId != id && model.VatNumber != ""))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Vat number should be unique", model.VatNumber);
             }
-            else if (db.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id))
+            else if (db.Suppliers.Any(s => s.TaxReference == model.TaxReference && s.SupplierId != id && model.TaxReference != ""))
             {
                 ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Tax reference should be unique", model.TaxReference);
             }
@@ -63,5 +63,15 @@ namespace GiellyGreenApi.Helper
             }
             return model;
         }
+
+        public static SupplierViewModel SetValueToNull(SupplierViewModel model)
+        {
+            if(model.LogoUrl == "")
+            {
+                model.LogoUrl = null;
+            }
+            return model;
+        }
+
     }
 }
