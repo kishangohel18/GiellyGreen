@@ -44,3 +44,7 @@
     width: 200px;
     height: 100px;
 }
+
+.textTop{
+    vertical-align: top !important;
+}
