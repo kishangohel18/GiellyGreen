@@ -10,6 +10,7 @@ using DataAccessLayer.Services;
 using GiellyGreenApi.Helper;
 using GiellyGreenApi.Models;
 using AutoMapper;
+using System.Configuration;
 
 namespace GiellyGreenApi.Controllers
 {
@@ -28,7 +29,8 @@ namespace GiellyGreenApi.Controllers
 
                 ObjSupplierList.ForEach(supplier =>
                 {
-                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    //string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    string path = ConfigurationManager.AppSettings["path"].ToString();
                     string IsExistPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);            
 
                     if (File.Exists(IsExistPath))
@@ -67,7 +69,8 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    string path = ConfigurationManager.AppSettings["path"].ToString();
+                    //string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
                     if (!Directory.Exists(path))
                     {
@@ -116,7 +119,8 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    //string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    string path = ConfigurationManager.AppSettings["path"].ToString();
 
                     if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
