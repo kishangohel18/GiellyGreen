@@ -149,21 +149,21 @@ namespace GiellyGreenApi.Helper
             {
                 model.Custom1 = "Custom_1";
             }
-            if (string.IsNullOrEmpty(model.Custom1))
+            if (string.IsNullOrEmpty(model.Custom2))
             {
-                model.Custom1 = "Custom_2";
+                model.Custom2 = "Custom_2";
             }
-            if (string.IsNullOrEmpty(model.Custom1))
+            if (string.IsNullOrEmpty(model.Custom3))
             {
-                model.Custom1 = "Custom_3";
+                model.Custom3 = "Custom_3";
             }
-            if (string.IsNullOrEmpty(model.Custom1))
+            if (string.IsNullOrEmpty(model.Custom4))
             {
-                model.Custom1 = "Custom_4";
+                model.Custom4 = "Custom_4";
             }
-            if (string.IsNullOrEmpty(model.Custom1))
+            if (string.IsNullOrEmpty(model.Custom5))
             {
-                model.Custom1 = "Custom_5";
+                model.Custom5 = "Custom_5";
             }
 
             return model;
