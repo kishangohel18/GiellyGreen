@@ -29,13 +29,17 @@ namespace GiellyGreenApi.Controllers
                 ObjSupplierList.ForEach(supplier =>
                 {
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-                   
-                    if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
+                    string IsExistPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);
+
+                    if (Directory.Exists(IsExistPath))
                     {
-                        string imgPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);
-                        byte[] imageByte = File.ReadAllBytes(imgPath);
-                        supplier.LogoUrl = Convert.ToBase64String(imageByte);
-                    }
+                        if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
+                        {
+                            string imgPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);
+                            byte[] imageByte = File.ReadAllBytes(imgPath);
+                            supplier.LogoUrl = Convert.ToBase64String(imageByte);
+                        }
+                    }                    
                 });
 
                 if (ObjSupplierList != null && ObjSupplierList.Count > 0)
@@ -62,7 +66,7 @@ namespace GiellyGreenApi.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {                    
+                {
 
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
@@ -115,7 +119,7 @@ namespace GiellyGreenApi.Controllers
                 if (ModelState.IsValid)
                 {
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-                   
+
                     if (!string.IsNullOrEmpty(model.LogoUrl))
                     {
                         string imageName = model.SupplierName + "_" + model.SupplierReference + ".jpg";
@@ -132,7 +136,7 @@ namespace GiellyGreenApi.Controllers
                     var mapper = config.CreateMapper();
                     var ObjSupplierMapper = mapper.Map<Supplier>(model);
 
-                    
+
                     ObjResponse = SupplierHelper.CheckDuplicate(id, model);
 
                     if (ObjResponse.ResponseStatus != 0)
@@ -152,7 +156,7 @@ namespace GiellyGreenApi.Controllers
                 else
                 {
                     var allErrors = ModelState.Values.SelectMany(E => E.Errors).Select(E => E.ErrorMessage).ToList();
-                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0  , "Error.", allErrors);
+                    ObjResponse = JsonResponseHelper.JsonResponseMessage(0, "Error.", allErrors);
                 }
             }
             catch (Exception ex)

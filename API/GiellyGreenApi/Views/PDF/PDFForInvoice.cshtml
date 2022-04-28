@@ -35,10 +35,13 @@
                     @if (@Model.Supplier.LogoUrl != null && @Model.Supplier.LogoUrl != "")
                     {
                         string imgPath = Path.Combine(path, path + "\\" + Model.Supplier.LogoUrl);
-                        byte[] imageByte = File.ReadAllBytes(imgPath);
-                        Model.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
+                        if (System.IO.File.Exists(imgPath))
+                        {
+                            byte[] imageByte = File.ReadAllBytes(imgPath);
+                            Model.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
 
         <div><img src='data:image/jpg;base64,@Model.Supplier.LogoUrl' class="logo" /></div>}
+}
                     <br>
                     <p> @Model.Supplier.SupplierName </p> <p>@Model.Supplier.BusinessAddress</p>
                 </td>
@@ -108,40 +111,35 @@
         <td class="AddBorder">&nbsp; @Model.Month_Header.Custom1</td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom1&nbsp; </td>
-    </tr>
-}
+    </tr>}
                 @if (Model.Invoice.Custom2 != null && Model.Invoice.Custom2 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; @Model.Month_Header.Custom2</td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom2&nbsp; </td>
-    </tr>
-}
+    </tr>}
                 @if (Model.Invoice.Custom3 != null && Model.Invoice.Custom3 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; @Model.Month_Header.Custom3</td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom3&nbsp; </td>
-    </tr>
-}
+    </tr>}
                 @if (Model.Invoice.Custom4 != null && Model.Invoice.Custom4 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; @Model.Month_Header.Custom4</td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom4&nbsp; </td>
-    </tr>
-}
+    </tr>}
                 @if (Model.Invoice.Custom5 != null && Model.Invoice.Custom5 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; @Model.Month_Header.Custom5</td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom5&nbsp; </td>
-    </tr>
-}
+    </tr>}
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td>Subtotal (Net)&nbsp; </td>

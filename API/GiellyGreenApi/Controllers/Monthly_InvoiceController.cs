@@ -137,6 +137,9 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
+                    model = MonthlyInvoiceHelper.SetValueToCustom(model);                    
+
                     var config = new MapperConfiguration(cfg =>
                                     cfg.CreateMap<Month_HeaderViewModel, Month_Header>());
                     var mapper = config.CreateMapper();

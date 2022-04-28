@@ -129,7 +129,6 @@ namespace GiellyGreenApi.Helper
             return ObjResponse;
         }
 
-
         public static dynamic GetInvoiceData(int invoiceId)
         {
             var GetInvoiceData = db.Invoices.Where(i => i.Id == invoiceId).FirstOrDefault();
@@ -144,5 +143,30 @@ namespace GiellyGreenApi.Helper
             }
         }
 
+        public static Month_HeaderViewModel SetValueToCustom(Month_HeaderViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.Custom1))
+            {
+                model.Custom1 = "Custom_1";
+            }
+            if (string.IsNullOrEmpty(model.Custom1))
+            {
+                model.Custom1 = "Custom_2";
+            }
+            if (string.IsNullOrEmpty(model.Custom1))
+            {
+                model.Custom1 = "Custom_3";
+            }
+            if (string.IsNullOrEmpty(model.Custom1))
+            {
+                model.Custom1 = "Custom_4";
+            }
+            if (string.IsNullOrEmpty(model.Custom1))
+            {
+                model.Custom1 = "Custom_5";
+            }
+
+            return model;
+        }
     }
 }

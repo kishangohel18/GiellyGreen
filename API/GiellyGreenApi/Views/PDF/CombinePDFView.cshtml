@@ -1,7 +1,5 @@
 ﻿@model List<GiellyGreenApi.Models.CombineSupplierInvoice>
-@{
-    Layout = "";
-}
+@{ Layout = ""; }
 
 <!DOCTYPE html>
 <html>
@@ -12,181 +10,177 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <link href="http://fonts.cdnfonts.com/css/dax" rel="stylesheet">   
+    <link href="http://fonts.cdnfonts.com/css/dax" rel="stylesheet">
 
-<link href="~/Content/CombinePDFStyle.css" rel="stylesheet" />
+    <link href="~/Content/CombinePDFStyle.css" rel="stylesheet" />
 
 </head>
 <body>
     @foreach (var item in Model)
     {
-        <div class="container print">
-            @{
-                string strDate = "";
-                if (item.Month_Header.InvoiceDate != null)
+<div class="container print">
+    @{ string strDate = "";
+        if (item.Month_Header.InvoiceDate != null)
+        {
+            var ArrayDate = item.Month_Header.InvoiceDate.ToString().Split('-');
+            string getDay = ArrayDate[0];
+            strDate = String.Format("{0}/{1}/{2}", getDay, item.Month_Header.InvoiceMonth.ToString(), item.Month_Header.InvoiceYear.ToString());
+        }
+
+        string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        } }
+    <table width="100%">
+        <tr>
+            <td width="40%">
+                @if (@item.Supplier.LogoUrl != null && @item.Supplier.LogoUrl != "")
                 {
-                    var ArrayDate = item.Month_Header.InvoiceDate.ToString().Split('-');
-                    string getDay = ArrayDate[0];
-                    strDate = String.Format("{0}/{1}/{2}", getDay, item.Month_Header.InvoiceMonth.ToString(), item.Month_Header.InvoiceYear.ToString());
-                }
+                    string imgPath = Path.Combine(path, path + "\\" + item.Supplier.LogoUrl);
 
-                string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
+                    if (System.IO.File.Exists(imgPath))
+                    {
+                        byte[] imageByte = File.ReadAllBytes(imgPath);
+                        item.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
 
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-            }
-            <table width="100%">
-                <tr>
-                    <td width="40%">
-                        @if (@item.Supplier.LogoUrl != null && @item.Supplier.LogoUrl != "")
-                        {
-                            string imgPath = Path.Combine(path, path + "\\" + item.Supplier.LogoUrl);
-                            byte[] imageByte = File.ReadAllBytes(imgPath);
-                            item.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
-
-                            <div><img src='data:image/jpg;base64,@item.Supplier.LogoUrl' class="logo" /></div>
-                        }
-                        <br>
-                        <p> @item.Supplier.SupplierName </p> <p class="LineBreak"> @item.Supplier.BusinessAddress</p>
-                    </td>
-                    <td width="60%" class="text-right textTop"><div class="text-right fontSize textTop"><h1>Self Billed Invoice</h1></div></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <div>
-                            <div class="text-right">
-                                <p> Invoice Date :  @strDate</p>
-                            </div>
-                            <div class="text-right">
-                                <p> Invoice Ref :  @item.Supplier.SupplierReference _ @item.Month_Header.InvoiceReferance</p>
-                            </div>
-                            <br />
-                            @if (item.Supplier.TaxReference != null)
-                            {
-                                <div class="text-right"><p>Tax Ref :  @item.Supplier.TaxReference</p></div>
-                            }
-                            @if (item.Supplier.VatNumber != null)
-                            {
-                                <div class="text-right"><p>VAT Number :  @item.Supplier.VatNumber</p></div>
-                            }
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="text-left LineBreak">
-                            <p>
-                                To : &nbsp; @item.Profile.CompanyName
-                            </p>
-                            <p>
-                                &emsp;&emsp; @item.Profile.AddressLine
-                            </p>
-                            <p>&emsp;&emsp; @item.Profile.City - @item.Profile.Zipcode</p>
-                            <p>&emsp;&emsp; @item.Profile.Country</p>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-            </table>
-            <br />
-
-            <table width="100%">
-                <thead>
-                    <tr class="AddBorder PaddingTop">
-                        <th width="60%" class="textCenter">Description</th>
-                        <th width="20%"></th>
-                        <th width="20%" class="textRight">Amount(GBP)&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="AddBorder PaddingTop">
-                        <td class="AddBorder">&nbsp; Hair Services</td>
-                        <td class="AddBorder"></td>
-                        <td class="AddBorder textRight">@item.Invoice.HairService&nbsp; </td>
-                    </tr>
-                    <tr class="AddBorder PaddingTop">
-                        <td class="AddBorder">&nbsp; Beauty Services</td>
-                        <td class="AddBorder"></td>
-                        <td class="AddBorder textRight">@item.Invoice.BeautyService&nbsp; </td>
-                    </tr>
-
-                    @if (item.Invoice.Custom1 != null && item.Invoice.Custom1 != 0)
-                    {
-                        <tr class="AddBorder PaddingTop">
-                            <td class="AddBorder">&nbsp; @item.Month_Header.Custom1</td>
-                            <td class="AddBorder"></td>
-                            <td class="AddBorder textRight">@item.Invoice.Custom1&nbsp; </td>
-                        </tr>
-                    }
-                    @if (item.Invoice.Custom2 != null && item.Invoice.Custom2 != 0)
-                    {
-                        <tr class="AddBorder PaddingTop">
-                            <td class="AddBorder">&nbsp; @Html.DisplayFor(model => item.Month_Header.Custom2)</td>
-                            <td class="AddBorder"></td>
-                            <td class="AddBorder textRight">@item.Invoice.Custom2&nbsp; </td>
-                        </tr>
-                    }
-                    @if (item.Invoice.Custom3 != null && item.Invoice.Custom3 != 0)
-                    {
-                        <tr class="AddBorder PaddingTop">
-                            <td class="AddBorder">&nbsp; @item.Month_Header.Custom3</td>
-                            <td class="AddBorder"></td>
-                            <td class="AddBorder textRight">@item.Invoice.Custom3&nbsp; </td>
-                        </tr>
-                    }
-                    @if (item.Invoice.Custom4 != null && item.Invoice.Custom4 != 0)
-                    {
-                        <tr class="AddBorder PaddingTop">
-                            <td class="AddBorder">&nbsp; @item.Month_Header.Custom4</td>
-                            <td class="AddBorder"></td>
-                            <td class="AddBorder textRight">@item.Invoice.Custom4&nbsp; </td>
-                        </tr>
-                    }
-                    @if (item.Invoice.Custom5 != null && item.Invoice.Custom5 != 0)
-                    {
-                        <tr class="AddBorder PaddingTop">
-                            <td class="AddBorder">&nbsp; @item.Month_Header.Custom5</td>
-                            <td class="AddBorder"></td>
-                            <td class="AddBorder textRight">@item.Invoice.Custom5&nbsp; </td>
-                        </tr>
-                    }
-                    <tr class="text-right PaddingTop">
-                        <td></td>
-                        <td>Subtotal (Net)&nbsp; </td>
-                        <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Net).ToString("N2")&nbsp;</td>
-                    </tr>
-                    <tr class="text-right PaddingTop">
-                        <td></td>
-                        <td>Vat&nbsp; </td>
-                        <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Vat).ToString("N2")&nbsp;</td>
-                    </tr>
-                    <tr class="text-right PaddingTop">
-                        <td></td>
-                        <td>Advance paid&nbsp; </td>
-                        <td class="AddBorder textRight"> @Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2")&nbsp;</td>
-                    </tr>
-                    <tr class="text-right PaddingTop">
-                        <td></td>
-                        <td>Balance due&nbsp; </td>
-                        <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Balance).ToString("N2")&nbsp;</td>
-                    </tr>
-                </tbody>
-            </table>
-            @if (item.Supplier.CompanyRegAddress != "")
-            {
-                <div class="footer">                    
-                    <p>Company register number : &nbsp;@item.Supplier.CompanyRegNumber <br> Company register address : &nbsp; @item.Supplier.CompanyRegAddress</p>
-                </div>
-            }
-        </div>
+    <div>
+        <img src='data:image/jpg;base64,@item.Supplier.LogoUrl' class="logo" />
+    </div>
     }
+
+}
+                <br>
+                <p> @item.Supplier.SupplierName </p> <p class="LineBreak"> @item.Supplier.BusinessAddress</p>
+            </td>
+            <td width="60%" class="text-right textTop"><div class="text-right fontSize textTop"><h1>Self Billed Invoice</h1></div></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div>
+                    <div class="text-right">
+                        <p> Invoice Date :  @strDate</p>
+                    </div>
+                    <div class="text-right">
+                        <p> Invoice Ref :  @item.Supplier.SupplierReference _ @item.Month_Header.InvoiceReferance</p>
+                    </div>
+                    <br />
+                    @if (item.Supplier.TaxReference != null)
+                    {
+    <div class="text-right"><p>Tax Ref :  @item.Supplier.TaxReference</p></div>}
+                    @if (item.Supplier.VatNumber != null)
+                    {
+    <div class="text-right"><p>VAT Number :  @item.Supplier.VatNumber</p></div>}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="text-left LineBreak">
+                    <p>
+                        To : &nbsp; @item.Profile.CompanyName
+                    </p>
+                    <p>
+                        &emsp;&emsp; @item.Profile.AddressLine
+                    </p>
+                    <p>&emsp;&emsp; @item.Profile.City - @item.Profile.Zipcode</p>
+                    <p>&emsp;&emsp; @item.Profile.Country</p>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <br />
+
+    <table width="100%">
+        <thead>
+            <tr class="AddBorder PaddingTop">
+                <th width="60%" class="textCenter">Description</th>
+                <th width="20%"></th>
+                <th width="20%" class="textRight">Amount(GBP)&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; Hair Services</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@item.Invoice.HairService&nbsp; </td>
+            </tr>
+            <tr class="AddBorder PaddingTop">
+                <td class="AddBorder">&nbsp; Beauty Services</td>
+                <td class="AddBorder"></td>
+                <td class="AddBorder textRight">@item.Invoice.BeautyService&nbsp; </td>
+            </tr>
+
+            @if (item.Invoice.Custom1 != null && item.Invoice.Custom1 != 0)
+            {
+<tr class="AddBorder PaddingTop">
+    <td class="AddBorder">&nbsp; @item.Month_Header.Custom1</td>
+    <td class="AddBorder"></td>
+    <td class="AddBorder textRight">@item.Invoice.Custom1&nbsp; </td>
+</tr>}
+            @if (item.Invoice.Custom2 != null && item.Invoice.Custom2 != 0)
+            {
+<tr class="AddBorder PaddingTop">
+    <td class="AddBorder">&nbsp; @Html.DisplayFor(model => item.Month_Header.Custom2)</td>
+    <td class="AddBorder"></td>
+    <td class="AddBorder textRight">@item.Invoice.Custom2&nbsp; </td>
+</tr>}
+            @if (item.Invoice.Custom3 != null && item.Invoice.Custom3 != 0)
+            {
+<tr class="AddBorder PaddingTop">
+    <td class="AddBorder">&nbsp; @item.Month_Header.Custom3</td>
+    <td class="AddBorder"></td>
+    <td class="AddBorder textRight">@item.Invoice.Custom3&nbsp; </td>
+</tr>}
+            @if (item.Invoice.Custom4 != null && item.Invoice.Custom4 != 0)
+            {
+<tr class="AddBorder PaddingTop">
+    <td class="AddBorder">&nbsp; @item.Month_Header.Custom4</td>
+    <td class="AddBorder"></td>
+    <td class="AddBorder textRight">@item.Invoice.Custom4&nbsp; </td>
+</tr>}
+            @if (item.Invoice.Custom5 != null && item.Invoice.Custom5 != 0)
+            {
+<tr class="AddBorder PaddingTop">
+    <td class="AddBorder">&nbsp; @item.Month_Header.Custom5</td>
+    <td class="AddBorder"></td>
+    <td class="AddBorder textRight">@item.Invoice.Custom5&nbsp; </td>
+</tr>}
+            <tr class="text-right PaddingTop">
+                <td></td>
+                <td>Subtotal (Net)&nbsp; </td>
+                <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Net).ToString("N2")&nbsp;</td>
+            </tr>
+            <tr class="text-right PaddingTop">
+                <td></td>
+                <td>Vat&nbsp; </td>
+                <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Vat).ToString("N2")&nbsp;</td>
+            </tr>
+            <tr class="text-right PaddingTop">
+                <td></td>
+                <td>Advance paid&nbsp; </td>
+                <td class="AddBorder textRight"> @Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2")&nbsp;</td>
+            </tr>
+            <tr class="text-right PaddingTop">
+                <td></td>
+                <td>Balance due&nbsp; </td>
+                <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Balance).ToString("N2")&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    @if (item.Supplier.CompanyRegAddress != "")
+    {
+<div class="footer">
+    <p>Company register number : &nbsp;@item.Supplier.CompanyRegNumber <br> Company register address : &nbsp; @item.Supplier.CompanyRegAddress</p>
+</div>}
+</div>}
 </body>
 </html>
 
