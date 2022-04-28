@@ -15,6 +15,6 @@ namespace GiellyGreenApi.Models
 
         public Month_Header Month_Header { get; set; }
 
-        public CompanyProfile Profile { get; set; }
+        public GetCompanyProfile_Result Profile { get; set; }
     }
 }

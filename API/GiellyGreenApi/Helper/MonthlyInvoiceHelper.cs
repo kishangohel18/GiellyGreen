@@ -21,13 +21,14 @@ namespace GiellyGreenApi.Helper
             var InvoiceInfo = db.Invoices.Find(CurrentID);
             var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
             var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+            var GetProfileData = db.GetCompanyProfile().FirstOrDefault();
 
             CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
             {
                 Supplier = SupplierInfo,
                 Invoice = InvoiceInfo,
                 Month_Header = MonthInfo,
-                Profile = db.CompanyProfiles.FirstOrDefault()
+                Profile = GetProfileData
             };
 
             string ToEmail = SupplierInfo.Email;
@@ -90,12 +91,14 @@ namespace GiellyGreenApi.Helper
                         {
                             var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
                             var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+                            var GetProfileData = db.GetCompanyProfile().FirstOrDefault();
+                            
                             CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
                             {
                                 Supplier = SupplierInfo,
                                 Invoice = InvoiceInfo,
                                 Month_Header = MonthInfo,
-                                Profile = db.CompanyProfiles.FirstOrDefault()
+                                Profile = GetProfileData
                             };
                             if (InvoiceInfo.Net != null && InvoiceInfo.Net > 0)
                             {
