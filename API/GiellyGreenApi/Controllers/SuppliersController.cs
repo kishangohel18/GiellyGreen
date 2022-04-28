@@ -29,9 +29,9 @@ namespace GiellyGreenApi.Controllers
                 ObjSupplierList.ForEach(supplier =>
                 {
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
-                    string IsExistPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);
+                    string IsExistPath = Path.Combine(path, path + "\\" + supplier.LogoUrl);            
 
-                    if (Directory.Exists(IsExistPath))
+                    if (File.Exists(IsExistPath))
                     {
                         if (!string.IsNullOrEmpty(supplier.LogoUrl) && supplier.LogoUrl != "null")
                         {
@@ -67,7 +67,6 @@ namespace GiellyGreenApi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     string path = HttpContext.Current.Server.MapPath("~/ImageStorage");
 
                     if (!Directory.Exists(path))
@@ -82,7 +81,6 @@ namespace GiellyGreenApi.Controllers
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imageName;
                     }
-
                     model = SupplierHelper.SetValueToNull(model);
 
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
@@ -128,7 +126,6 @@ namespace GiellyGreenApi.Controllers
                         File.WriteAllBytes(imgPath, imageBytes);
                         model.LogoUrl = imageName;
                     }
-
                     model = SupplierHelper.SetValueToNull(model);
 
                     var config = new MapperConfiguration(cfg =>

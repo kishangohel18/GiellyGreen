@@ -51,7 +51,7 @@ namespace GiellyGreenApi.Controllers
                     {
                         foreach (var supplier in ActiveSupplier)
                         {
-                            if(InvoicesList.Where(x=>x.SupplierId== supplier.SupplierId).FirstOrDefault()==null)
+                            if(InvoicesList.Where(x=>x.SupplierId == supplier.SupplierId).FirstOrDefault() == null)
                             {
                                 var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
                                 InvoicesList.Add(ObjInvoiceMapper);
