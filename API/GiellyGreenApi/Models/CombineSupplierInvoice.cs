@@ -5,11 +5,11 @@ namespace GiellyGreenApi.Models
 {
     public class CombineSupplierInvoice
     {
-        public Supplier Supplier { get; set; }
+        public GetSupplierInfoById_Result Supplier { get; set; }
 
-        public Invoice Invoice { get; set; }
+        public GetInvoiceInfoById_Result Invoice { get; set; }
 
-        public Month_Header Month_Header { get; set; }
+        public GetHeaderInfoById_Result Month_Header { get; set; }
 
         public GetCompanyProfile_Result Profile { get; set; }
     }

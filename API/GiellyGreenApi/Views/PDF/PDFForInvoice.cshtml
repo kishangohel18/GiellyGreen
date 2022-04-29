@@ -36,13 +36,11 @@
                     {
                         string imgPath = Path.Combine(path, path + "\\" + Model.Supplier.LogoUrl);
                         if (System.IO.File.Exists(imgPath))
-                        {
-                            byte[] imageByte = File.ReadAllBytes(imgPath);
-                            Model.Supplier.LogoUrl = Convert.ToBase64String(imageByte);
-
+                        {                           
         <div>                    
                     <img src="@imgPath" class="logo" />
-            </div>}
+            </div>            
+            }
 }
                     <br>
                     <p> @Model.Supplier.SupplierName </p> <p>@Model.Supplier.BusinessAddress</p>

@@ -74,10 +74,6 @@
     <Parameter Name="SupplierId" Type="int" Mode="In" />
   </Function>
   <Function Name="GetActiveSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="GetAllInvoiceByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
-    <Parameter Name="InvoiceYear" Type="int" Mode="In" />
-  </Function>
   <Function Name="GetAllSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id" Type="int" Mode="In" />
   </Function>
@@ -86,9 +82,18 @@
     <Parameter Name="CurrentMonth" Type="int" Mode="In" />
     <Parameter Name="CurrentYear" Type="int" Mode="In" />
   </Function>
+  <Function Name="GetHeaderInfoById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="HeaderId" Type="int" Mode="In" />
+  </Function>
   <Function Name="GetInvoiceByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="InvoiceMonth" Type="int" Mode="In" />
     <Parameter Name="InvoiceYear" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetInvoiceInfoById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InvoiceId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetSupplierInfoById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierId" Type="int" Mode="In" />
   </Function>
   <Function Name="InsertUpdateCompanyProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ProfileId" Type="int" Mode="In" />

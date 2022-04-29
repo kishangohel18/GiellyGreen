@@ -74,7 +74,16 @@
     <Compile Include="Model\GetHeaderByDate_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\GetHeaderInfoById_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\GetInvoiceByDate_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GetInvoiceInfoById_Result.cs">
+      <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GetSupplierInfoById_Result.cs">
       <DependentUpon>GiellyGreen_SelfInvoice.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GiellyGreen_SelfInvoice.Context.cs">

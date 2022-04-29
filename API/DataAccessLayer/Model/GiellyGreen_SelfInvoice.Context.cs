@@ -424,6 +424,42 @@ public partial class GiellyGreen_SelfInvoiceEntities : DbContext
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHeaderByDate_Result>("GetHeaderByDate", currentMonthParameter, currentYearParameter);
     }
 
+
+    public virtual ObjectResult<GetInvoiceInfoById_Result> GetInvoiceInfoById(Nullable<int> invoiceId)
+    {
+
+        var invoiceIdParameter = invoiceId.HasValue ?
+            new ObjectParameter("InvoiceId", invoiceId) :
+            new ObjectParameter("InvoiceId", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoiceInfoById_Result>("GetInvoiceInfoById", invoiceIdParameter);
+    }
+
+
+    public virtual ObjectResult<GetHeaderInfoById_Result> GetHeaderInfoById(Nullable<int> headerId)
+    {
+
+        var headerIdParameter = headerId.HasValue ?
+            new ObjectParameter("HeaderId", headerId) :
+            new ObjectParameter("HeaderId", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHeaderInfoById_Result>("GetHeaderInfoById", headerIdParameter);
+    }
+
+
+    public virtual ObjectResult<GetSupplierInfoById_Result> GetSupplierInfoById(Nullable<int> supplierId)
+    {
+
+        var supplierIdParameter = supplierId.HasValue ?
+            new ObjectParameter("SupplierId", supplierId) :
+            new ObjectParameter("SupplierId", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSupplierInfoById_Result>("GetSupplierInfoById", supplierIdParameter);
+    }
+
 }
 
 }

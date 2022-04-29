@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\User42\Documents\GitHub\GiellyGreen\API\DataAccessLayer\Model\GiellyGreen_SelfInvoice.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\A4\28_4_21\GiellyGreen-main\GiellyGreen-main\API\DataAccessLayer\Model\GiellyGreen_SelfInvoice.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

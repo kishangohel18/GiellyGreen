@@ -18,9 +18,9 @@ namespace GiellyGreenApi.Helper
         public static JsonResponse SendMailWithPDF(int CurrentID)
         {
             var ObjResponse = new JsonResponse();
-            var InvoiceInfo = db.Invoices.Find(CurrentID);
-            var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
-            var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+            var InvoiceInfo = db.GetInvoiceInfoById(CurrentID).FirstOrDefault();
+            var SupplierInfo = db.GetSupplierInfoById(InvoiceInfo.SupplierId).FirstOrDefault();
+            var MonthInfo = db.GetHeaderInfoById(InvoiceInfo.MonthHeaderId).FirstOrDefault();
             var GetProfileData = db.GetCompanyProfile().FirstOrDefault();
 
             CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
@@ -86,13 +86,14 @@ namespace GiellyGreenApi.Helper
                     if (ListOfId[i] > 0)
                     {
                         int CurrentId = ListOfId[i];
-                        var InvoiceInfo = db.Invoices.Where(I => I.Id == CurrentId).FirstOrDefault();
+                        var InvoiceInfo = db.GetInvoiceInfoById(CurrentId).FirstOrDefault();
+
                         if (InvoiceInfo != null)
                         {
-                            var SupplierInfo = db.Suppliers.Where(s => s.SupplierId == InvoiceInfo.SupplierId).FirstOrDefault();
-                            var MonthInfo = db.Month_Header.Where(s => s.Id == InvoiceInfo.MonthHeaderId).FirstOrDefault();
+                            var SupplierInfo = db.GetSupplierInfoById(InvoiceInfo.SupplierId).FirstOrDefault();
+                            var MonthInfo = db.GetHeaderInfoById(InvoiceInfo.MonthHeaderId).FirstOrDefault();
                             var GetProfileData = db.GetCompanyProfile().FirstOrDefault();
-                            
+
                             CombineSupplierInvoice combineSupplierInvoice = new CombineSupplierInvoice
                             {
                                 Supplier = SupplierInfo,
