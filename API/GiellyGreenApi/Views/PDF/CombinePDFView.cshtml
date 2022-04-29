@@ -50,9 +50,10 @@
 
                     if (System.IO.File.Exists(imgPath))
                     {
-<div>
-    <img src="@imgPath" class="logo" />
-</div>}
+                    <div>
+                            <img src="@imgPath" class="logo" />
+                    </div>
+                    }
 }
                 <br>
                 <p> <b>@item.Supplier.SupplierName</b> </p> <p class="LineBreak"> @item.Supplier.BusinessAddress</p>
@@ -87,17 +88,28 @@
         <tr>
             <td>
                 <div class="text-left LineBreak">
-                    @if(item.Profile.CompanyName != null)
-                {
-                    <p>
-                        To : &nbsp; @item.Profile.CompanyName
-                    </p>
-                }
+                    @if (!string.IsNullOrEmpty(item.Profile.CompanyName))
+                    {
+
+                        <p>
+                            To : &nbsp; @item.Profile.CompanyName
+                        </p>   
+                        
+                     }
+                    @if (!string.IsNullOrEmpty(item.Profile.AddressLine))
+                    {
                     <p>
                         &emsp;&emsp; @item.Profile.AddressLine
                     </p>
+                    }
+                     @if (!string.IsNullOrEmpty(item.Profile.City) || !string.IsNullOrEmpty(item.Profile.Zipcode))
+                     {
                     <p>&emsp;&emsp; @item.Profile.City - @item.Profile.Zipcode</p>
+                     }
+                     @if (!string.IsNullOrEmpty(item.Profile.Country))
+                     {
                     <p>&emsp;&emsp; @item.Profile.Country</p>
+                     }
                 </div>
             </td>
             <td></td>
@@ -120,16 +132,14 @@
     <td class="AddBorder">&nbsp; <b>Hair Services</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.HairService&nbsp; </td>
-</tr>
-}
+</tr>}
             @if (item.Invoice.BeautyService != null && item.Invoice.BeautyService != 0)
             {
 <tr class="AddBorder PaddingTop">
     <td class="AddBorder">&nbsp; <b>Beauty Services</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.BeautyService&nbsp; </td>
-</tr>
-}
+</tr>}
 
             @if (item.Invoice.Custom1 != null && item.Invoice.Custom1 != 0)
             {
@@ -137,40 +147,35 @@
     <td class="AddBorder">&nbsp; <b>@item.Month_Header.Custom1</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.Custom1&nbsp; </td>
-</tr>
-}
+</tr>}
             @if (item.Invoice.Custom2 != null && item.Invoice.Custom2 != 0)
             {
 <tr class="AddBorder PaddingTop">
     <td class="AddBorder">&nbsp; <b>@item.Month_Header.Custom2</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.Custom2&nbsp; </td>
-</tr>
-}
+</tr>}
             @if (item.Invoice.Custom3 != null && item.Invoice.Custom3 != 0)
             {
 <tr class="AddBorder PaddingTop">
     <td class="AddBorder">&nbsp; <b>@item.Month_Header.Custom3</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.Custom3&nbsp; </td>
-</tr>
-}
+</tr>}
             @if (item.Invoice.Custom4 != null && item.Invoice.Custom4 != 0)
             {
 <tr class="AddBorder PaddingTop">
     <td class="AddBorder">&nbsp; <b>@item.Month_Header.Custom4</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.Custom4&nbsp; </td>
-</tr>
-}
+</tr>}
             @if (item.Invoice.Custom5 != null && item.Invoice.Custom5 != 0)
             {
 <tr class="AddBorder PaddingTop">
     <td class="AddBorder">&nbsp; <b>@item.Month_Header.Custom5</b></td>
     <td class="AddBorder"></td>
     <td class="AddBorder textRight">@item.Invoice.Custom5&nbsp; </td>
-</tr>
-}
+</tr>}
             <tr class="text-right PaddingTop">
                 <td></td>
                 <th>Subtotal (Net)&nbsp; </th>
@@ -183,15 +188,8 @@
             </tr>
             <tr class="text-right PaddingTop">
                 <td></td>
-                <th>Advance paid&nbsp; </th>
-                @if (item.Invoice.AdvancePaid > 0)
-                {
-            <td class="AddBorder textRight"> @Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2")&nbsp;</td> 
-            }
-                            else
-                            {
-            <td class="AddBorder textRight"> (@Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2"))&nbsp;</td>         
-            }
+                <th>Advance paid&nbsp; </th>               
+<td class="AddBorder textRight"> (@Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2"))&nbsp;</td>
             </tr>
             <tr class="text-right PaddingTop">
                 <td></td>
@@ -200,14 +198,12 @@
                 {
 <td class="AddBorder textRight">
     @Convert.ToDecimal(item.Invoice.Balance).ToString("N2")&nbsp;
-</td>
- }
-else
-{
+</td> }
+                else
+                {
 <td class="AddBorder textRight">
     (@Convert.ToDecimal((-1) * (item.Invoice.Balance)).ToString("N2"))&nbsp;
-</td>
-}
+</td>}
                 &nbsp;
 
             </tr>
@@ -221,4 +217,3 @@ else
 </div>}
 </body>
 </html>
-
