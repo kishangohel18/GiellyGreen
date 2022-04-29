@@ -27,7 +27,7 @@ namespace GiellyGreenApi.Models
         public string BusinessAddress { get; set; }
 
         [Required]
-        [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessage = "Email not valid")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [RegularExpression(@"[ 0-9 ]{0,15}", ErrorMessage = "Phone Number must be digits and upto 15")]       
