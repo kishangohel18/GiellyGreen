@@ -82,7 +82,7 @@ namespace GiellyGreenApi.Controllers
                 {
                     foreach (var Item in ListOfSupplierInvoice)
                     {
-                        Item.MonthHeaderId = MonthHeaderId;
+                        Item.MonthHeaderId = MonthHeaderId;                        
                         var config = new MapperConfiguration(cfg =>
                                   cfg.CreateMap<InvoiceViewModel, Invoice>());
 

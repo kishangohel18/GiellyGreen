@@ -49,7 +49,7 @@
         </div>}
 }
                     <br>
-                    <p> <b> @Model.Supplier.SupplierName </b> </p> <p>@Model.Supplier.BusinessAddress</p>
+                    <p> <b> @Model.Supplier.SupplierName </b> </p> @*<p>@Model.Supplier.BusinessAddress</p>*@
                 </td>
                 <td width="60%" class="text-right textTop"><div class="text-right h1 textTop">Self Billed Invoice</div></td>
             </tr>
@@ -58,7 +58,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td> </td>
+                <td><p>@Model.Supplier.BusinessAddress</p></td>
                 <td>
                     <div>
                         <div class="text-right h4">
@@ -166,12 +166,12 @@
     </tr>}
                 <tr class="text-right PaddingTop">
                     <td></td>
-                    <th>Subtotal (Net)&nbsp; </th>
+                    <td><b>Subtotal (Net)&nbsp;</b></td>
                     <td class="AddBorder textRight">@Convert.ToDecimal(Model.Invoice.Net).ToString("N2")&nbsp; </td>
                 </tr>
                 <tr class="text-right PaddingTop">
                     <td></td>
-                    <th>Vat&nbsp;</th>
+                    <td><b>Vat&nbsp;</b></td>
                     <td class="AddBorder textRight">@Convert.ToDecimal(Model.Invoice.Vat).ToString("N2")&nbsp; </td>
                 </tr>
                 <tr class="text-right PaddingTop">
@@ -184,7 +184,7 @@
                 </tr>
                 <tr class="text-right PaddingTop">
                     <td></td>
-                    <th>Balance due&nbsp; </th>
+                    <td><b>Balance due&nbsp; </b></td>
                     @if (Model.Invoice.Balance > 0)
                     {
         <td class="AddBorder textRight"> @Convert.ToDecimal(Model.Invoice.Balance).ToString("N2")&nbsp; </td> }

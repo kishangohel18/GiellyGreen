@@ -56,7 +56,7 @@
                     }
 }
                 <br>
-                <p> <b>@item.Supplier.SupplierName</b> </p> <p class="LineBreak"> @item.Supplier.BusinessAddress</p>
+                <p> <b>@item.Supplier.SupplierName</b> </p> @*<p class="LineBreak"> @item.Supplier.BusinessAddress</p>*@
             </td>
             <td width="60%" class="text-right textTop"><div class="text-right fontSize textTop"><h1>Self Billed Invoice</h1></div></td>
         </tr>
@@ -64,9 +64,8 @@
             <td></td>
             <td></td>
         </tr>
-
         <tr>
-            <td></td>
+            <td><p class="LineBreak"> @item.Supplier.BusinessAddress</p></td>
             <td>
                 <div>
                     <div class="text-right">
@@ -90,11 +89,9 @@
                 <div class="text-left LineBreak">
                     @if (!string.IsNullOrEmpty(item.Profile.CompanyName))
                     {
-
                         <p>
                             To : &nbsp; @item.Profile.CompanyName
-                        </p>   
-                        
+                        </p>                           
                      }
                     @if (!string.IsNullOrEmpty(item.Profile.AddressLine))
                     {
@@ -178,22 +175,22 @@
 </tr>}
             <tr class="text-right PaddingTop">
                 <td></td>
-                <th>Subtotal (Net)&nbsp; </th>
+                <td><b>Subtotal (Net)</b>&nbsp; </td>
                 <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Net).ToString("N2")&nbsp;</td>
             </tr>
             <tr class="text-right PaddingTop">
                 <td></td>
-                <th>Vat&nbsp; </th>
+                <td><b>Vat&nbsp; </b></td>
                 <td class="AddBorder textRight">@Convert.ToDecimal(item.Invoice.Vat).ToString("N2")&nbsp;</td>
             </tr>
             <tr class="text-right PaddingTop">
                 <td></td>
-                <th>Advance paid&nbsp; </th>               
+                <td><b>Advance paid</b>&nbsp; </td>               
 <td class="AddBorder textRight"> (@Convert.ToDecimal(item.Invoice.AdvancePaid).ToString("N2"))&nbsp;</td>
             </tr>
             <tr class="text-right PaddingTop">
                 <td></td>
-                <th>Balance due&nbsp; </th>
+                <td><b>Balance due</b>&nbsp; </td>
                 @if (item.Invoice.Balance > 0)
                 {
 <td class="AddBorder textRight">
