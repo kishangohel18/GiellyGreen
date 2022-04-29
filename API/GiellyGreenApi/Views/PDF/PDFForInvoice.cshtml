@@ -172,7 +172,15 @@
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td>Advance paid&nbsp; </td>
-                    <td class="AddBorder textRight">@Convert.ToDecimal(Model.Invoice.AdvancePaid).ToString("N2")&nbsp; </td>
+                    @if (Model.Invoice.AdvancePaid > 0)
+                    {
+                <td class="AddBorder textRight">@Convert.ToDecimal(Model.Invoice.AdvancePaid).ToString("N2")&nbsp; </td>
+            }
+            else
+            {
+                <td class="AddBorder textRight">(@Convert.ToDecimal(Model.Invoice.AdvancePaid).ToString("N2"))&nbsp; </td>
+            }
+
                 </tr>
                 <tr class="text-right PaddingTop">
                     <td></td>
@@ -183,7 +191,7 @@
  }
     else
     {
-<td class="AddBorder textRight"> (@Convert.ToDecimal(Model.Invoice.Balance).ToString("N2"))&nbsp; </td>
+<td class="AddBorder textRight"> (@Convert.ToDecimal((-1)*(Model.Invoice.Balance)).ToString("N2"))&nbsp; </td>
 }
                 </tr>
             </tbody>
