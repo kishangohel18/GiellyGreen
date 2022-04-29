@@ -1,8 +1,10 @@
 ﻿using DataAccessLayer.Model;
 using GiellyGreenApi.Controllers;
 using GiellyGreenApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -32,7 +34,9 @@ namespace GiellyGreenApi.Helper
             };
 
             string ToEmail = SupplierInfo.Email;
-            string Subj = "Your invoice for the " + MonthInfo.InvoiceMonth + "," + MonthInfo.InvoiceYear;
+            string MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Convert.ToInt32(MonthInfo.InvoiceMonth));
+
+            string Subj = "Your invoice for the " + MonthName + " " + MonthInfo.InvoiceYear;
             string Message = "Please find attached a self-billed invoice to Gielly Green Limited, prepared on your behalf, as per the agreement.Regard Gielly Green Limited";
             var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
             var FromEmailid = ConfigurationManager.AppSettings["FromEmail"].ToString();
@@ -58,6 +62,7 @@ namespace GiellyGreenApi.Helper
             {
                 mailMessage.To.Add(new MailAddress(Multiemailid));
             }
+
             SmtpClient smtp = new SmtpClient();
             smtp.Host = HostAdd;
             smtp.EnableSsl = true;

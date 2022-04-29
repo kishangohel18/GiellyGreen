@@ -16,9 +16,10 @@ namespace GiellyGreenApi.Controllers
 
         public dynamic ViewAsPdf(CombineSupplierInvoice combineSupplierInvoice)
         {
+            var InvoiceName = combineSupplierInvoice.Month_Header.InvoiceReferance + "_invoice.pdf";
             var actionPDF = new Rotativa.ViewAsPdf("PDFForInvoice", combineSupplierInvoice);
             byte[] applicationPDFData = actionPDF.BuildFile(ControllerContext);
-            Attachment att = new Attachment(new MemoryStream(applicationPDFData), "Invoice.pdf");
+            Attachment att = new Attachment(new MemoryStream(applicationPDFData), InvoiceName);
 
             return att;
         }
