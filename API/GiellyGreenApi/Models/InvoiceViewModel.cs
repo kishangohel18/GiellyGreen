@@ -13,6 +13,7 @@ namespace GiellyGreenApi.Models
         public int Id { get; set; }
         public Nullable<int> SupplierId { get; set; }
         public string SupplierName { get; set; }
+        public string VatNumber { get; set; }
 
         [Range(0,1000000,ErrorMessage = "Range between 0 to 1000000 in Hair service.")]
         public Nullable<decimal> HairService { get; set; }

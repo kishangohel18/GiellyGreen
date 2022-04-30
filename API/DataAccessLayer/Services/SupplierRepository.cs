@@ -42,6 +42,9 @@ namespace DataAccessLayer.Services
         {
             return db.GetActiveSupplier().ToList();
         }
-
+        public dynamic ActiveSupplierInfo()
+        {
+            return db.GetActiveSupplierInfo().ToList();
+        }
     }
 }

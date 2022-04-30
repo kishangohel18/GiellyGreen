@@ -87,10 +87,6 @@ namespace GiellyGreenApi.Controllers
                     ObjResponse = SupplierHelper.CheckDuplicate(model.SupplierId, model);
                     if (ObjResponse.ResponseStatus != 0)
                     {
-                        //if (!model.Email.Contains('.'))
-                        //{
-                        //    model.Email =  model.Email + ".com";
-                        //}
                         var config = new MapperConfiguration(cfg =>
                     cfg.CreateMap<SupplierViewModel, Supplier>());
                         var mapper = config.CreateMapper();

@@ -75,10 +75,10 @@
                         <p> Invoice Ref :  @item.Supplier.SupplierReference-@item.Month_Header.InvoiceReferance</p>
                     </div>
                     <br />
-                    @if (item.Supplier.TaxReference != null)
+                    @if (!string.IsNullOrEmpty(item.Supplier.TaxReference))
                     {
     <div class="text-right"><p>Tax Ref :  @item.Supplier.TaxReference</p></div>}
-                    @if (item.Supplier.VatNumber != null)
+                    @if (!string.IsNullOrEmpty(item.Supplier.VatNumber))
                     {
     <div class="text-right"><p>VAT Number :  @item.Supplier.VatNumber</p></div>}
                 </div>
@@ -209,7 +209,17 @@
     @if (item.Supplier.CompanyRegAddress != "")
     {
 <div class="footer">
-    <p><b>Company register number :</b> &nbsp;@item.Supplier.CompanyRegNumber <br> <b>Company register address :</b> &nbsp; @item.Supplier.CompanyRegAddress</p>
+    <p>
+        @if (!string.IsNullOrEmpty(@item.Supplier.CompanyRegNumber))
+        {
+            <b>Company register number :</b> @item.Supplier.CompanyRegNumber
+        }
+        <br>
+        @if (!string.IsNullOrEmpty(@item.Supplier.CompanyRegAddress))
+        {
+            <b>Company register address :</b> @item.Supplier.CompanyRegAddress
+        }
+        </p>
 </div>}
 </div>}
 </body>

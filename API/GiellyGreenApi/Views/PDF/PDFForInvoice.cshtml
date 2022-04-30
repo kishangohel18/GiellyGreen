@@ -68,10 +68,10 @@
                             Invoice Ref :  @Model.Supplier.SupplierReference-@Model.Month_Header.InvoiceReferance
                         </div>
                         <br />
-                        @if (Model.Supplier.TaxReference != null)
+                        @if (!string.IsNullOrEmpty(Model.Supplier.TaxReference))
                         {
             <div class="text-right h4">Tax Ref :  @Model.Supplier.TaxReference</div>}
-                        @if (Model.Supplier.VatNumber != null)
+                        @if (!string.IsNullOrEmpty(Model.Supplier.VatNumber))
                         {
             <div class="text-right h4">VAT Number :  @Model.Supplier.VatNumber</div>}
                     </div>
@@ -118,16 +118,14 @@
         <td class="AddBorder">&nbsp; <b>Hair Services</b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.HairService&nbsp; </td>
-    </tr>
-}
+    </tr>}
                 @if (Model.Invoice.BeautyService != null && Model.Invoice.BeautyService != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; <b>Beauty Services</b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.BeautyService&nbsp; </td>
-    </tr>
-}
+    </tr>}
 
                 @if (Model.Invoice.Custom1 != null && Model.Invoice.Custom1 != 0)
                 {
@@ -135,35 +133,40 @@
         <td class="AddBorder">&nbsp; <b>@Model.Month_Header.Custom1</b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom1&nbsp; </td>
-    </tr>}
+    </tr>
+}
                 @if (Model.Invoice.Custom2 != null && Model.Invoice.Custom2 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; <b>@Model.Month_Header.Custom2</b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom2&nbsp; </td>
-    </tr>}
+    </tr>
+}
                 @if (Model.Invoice.Custom3 != null && Model.Invoice.Custom3 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp; <b>@Model.Month_Header.Custom3</b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom3&nbsp; </td>
-    </tr>}
+    </tr>
+}
                 @if (Model.Invoice.Custom4 != null && Model.Invoice.Custom4 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp;<b> @Model.Month_Header.Custom4 </b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom4&nbsp; </td>
-    </tr>}
+    </tr>
+}
                 @if (Model.Invoice.Custom5 != null && Model.Invoice.Custom5 != 0)
                 {
     <tr class="AddBorder PaddingTop">
         <td class="AddBorder">&nbsp;<b> @Model.Month_Header.Custom5 </b></td>
         <td class="AddBorder"></td>
         <td class="AddBorder textRight">@Model.Invoice.Custom5&nbsp; </td>
-    </tr>}
+    </tr>
+}
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td><b>Subtotal (Net)&nbsp;</b></td>
@@ -177,9 +180,9 @@
                 <tr class="text-right PaddingTop">
                     <td></td>
                     <td><b>Advance paid&nbsp;</b> </td>
-                 
-        <td class="AddBorder textRight">(@Convert.ToDecimal(Model.Invoice.AdvancePaid).ToString("N2"))&nbsp; </td> 
-               
+
+                    <td class="AddBorder textRight">(@Convert.ToDecimal(Model.Invoice.AdvancePaid).ToString("N2"))&nbsp; </td>
+
 
                 </tr>
                 <tr class="text-right PaddingTop">
@@ -187,17 +190,28 @@
                     <td><b>Balance due&nbsp; </b></td>
                     @if (Model.Invoice.Balance > 0)
                     {
-        <td class="AddBorder textRight"> @Convert.ToDecimal(Model.Invoice.Balance).ToString("N2")&nbsp; </td> }
-                    else
-                    {
-        <td class="AddBorder textRight"> (@Convert.ToDecimal((-1) * (Model.Invoice.Balance)).ToString("N2"))&nbsp; </td>}
+        <td class="AddBorder textRight"> @Convert.ToDecimal(Model.Invoice.Balance).ToString("N2")&nbsp; </td>
+ }
+    else
+    {
+<td class="AddBorder textRight"> (@Convert.ToDecimal((-1) * (Model.Invoice.Balance)).ToString("N2"))&nbsp; </td>
+}
                 </tr>
             </tbody>
         </table>
         @if (@Model.Supplier.CompanyRegAddress != "")
         {
 <div class="footer">
-    <p><b>Company register number :</b> &nbsp;@Model.Supplier.CompanyRegNumber <br> <b>Company register address :</b> &nbsp; @Model.Supplier.CompanyRegAddress</p>
+    <p>
+        @if (!string.IsNullOrEmpty(Model.Supplier.CompanyRegNumber))
+        {
+<b>Company register number :</b> @Model.Supplier.CompanyRegNumber}
+        }
+        <br>
+        @if (!string.IsNullOrEmpty(Model.Supplier.CompanyRegAddress))
+        {
+<b>Company register address :</b> @Model.Supplier.CompanyRegAddress}
+    </p>
 </div>}
     </div>
 

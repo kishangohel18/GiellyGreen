@@ -96,6 +96,11 @@
     <FunctionImport Name="GetSupplierInfoById" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetSupplierInfoById_Result)">
       <Parameter Name="SupplierId" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="GetActiveSupplierInfo" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetActiveSupplierInfo_Result)" />
+    <FunctionImport Name="GetInvoicesByMonth" ReturnType="Collection(GiellyGreen_SelfInvoiceModel.GetInvoicesByMonth_Result)">
+      <Parameter Name="InvoiceMonth" Mode="In" Type="Int32" />
+      <Parameter Name="InvoiceYear" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Invoice">
     <Key>
@@ -310,5 +315,30 @@
     <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
     <Property Type="String" Name="LogoUrl" Nullable="true" />
     <Property Type="Boolean" Name="IsActive" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetActiveSupplierInfo_Result">
+    <Property Type="Int32" Name="SupplierId" Nullable="false" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="GetInvoicesByMonth_Result">
+    <Property Type="Int32" Name="Id" Nullable="true" />
+    <Property Type="Int32" Name="SupplierId" Nullable="false" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VatNumber" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="HairService" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BeautyService" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Custom5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Net" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Vat" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Gross" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="AdvancePaid" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Balance" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Boolean" Name="IsApproved" Nullable="true" />
+    <Property Type="Int32" Name="MonthHeaderId" Nullable="true" />
   </ComplexType>
 </Schema>

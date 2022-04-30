@@ -22,5 +22,6 @@ namespace DataAccessLayer.Interface
         dynamic DeleteSupplierById(int id);
 
         dynamic ActiveSupplier();
+        dynamic ActiveSupplierInfo();
     }
 }

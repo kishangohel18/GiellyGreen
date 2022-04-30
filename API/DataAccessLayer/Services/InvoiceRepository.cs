@@ -82,5 +82,9 @@ namespace DataAccessLayer.Services
             return ResponseApprove;
         }
 
+        public List<GetInvoicesByMonth_Result> GetInvoicesByMonth(int month, int year)
+        {
+            return db.GetInvoicesByMonth(month, year).ToList();
+        }
     }
 }

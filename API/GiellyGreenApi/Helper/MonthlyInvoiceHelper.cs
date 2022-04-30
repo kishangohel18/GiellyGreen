@@ -37,7 +37,7 @@ namespace GiellyGreenApi.Helper
             string MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Convert.ToInt32(MonthInfo.InvoiceMonth));
 
             string Subj = "Your invoice for the " + MonthName + " " + MonthInfo.InvoiceYear;
-            string Message = "Please find attached a self-billed invoice to Gielly Green Limited, prepared on your behalf, as per the agreement.Regard Gielly Green Limited";
+            string Message = " Please find attached a self-billed invoice to <b> Gielly Green Limited </b>,<br /> prepared on your behalf, as per the agreement.<br /> <br />Regard Gielly Green Limited";
             var HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
             var FromEmailid = ConfigurationManager.AppSettings["FromEmail"].ToString();
             var Pass = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
@@ -77,7 +77,6 @@ namespace GiellyGreenApi.Helper
 
             return ObjResponse;
         }
-
 
         public static JsonResponse CombinePDF(int[] ListOfId)
         {

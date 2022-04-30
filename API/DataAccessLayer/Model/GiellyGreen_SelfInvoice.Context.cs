@@ -460,6 +460,30 @@ public partial class GiellyGreen_SelfInvoiceEntities : DbContext
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSupplierInfoById_Result>("GetSupplierInfoById", supplierIdParameter);
     }
 
+
+    public virtual ObjectResult<GetActiveSupplierInfo_Result> GetActiveSupplierInfo()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetActiveSupplierInfo_Result>("GetActiveSupplierInfo");
+    }
+
+
+    public virtual ObjectResult<GetInvoicesByMonth_Result> GetInvoicesByMonth(Nullable<int> invoiceMonth, Nullable<int> invoiceYear)
+    {
+
+        var invoiceMonthParameter = invoiceMonth.HasValue ?
+            new ObjectParameter("InvoiceMonth", invoiceMonth) :
+            new ObjectParameter("InvoiceMonth", typeof(int));
+
+
+        var invoiceYearParameter = invoiceYear.HasValue ?
+            new ObjectParameter("InvoiceYear", invoiceYear) :
+            new ObjectParameter("InvoiceYear", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInvoicesByMonth_Result>("GetInvoicesByMonth", invoiceMonthParameter, invoiceYearParameter);
+    }
+
 }
 
 }

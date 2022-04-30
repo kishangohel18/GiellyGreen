@@ -28,11 +28,15 @@ namespace GiellyGreenApi.Controllers
         {
             try
             {
+                //var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
+                //var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
+                //var ActiveSupplier = SupplierRepository.ActiveSupplier();
                 var HeaderList = InvoiceRepository.GetHeaderByDate(month, year);
-                var InvoicesList = InvoiceRepository.GetInvoiceByDate(month, year);
-                var ActiveSupplier = SupplierRepository.ActiveSupplier();
+                var InvoicesList = InvoiceRepository.GetInvoicesByMonth(month, year);
+                var ActiveSupplier = SupplierRepository.ActiveSupplierInfo();
+
                 var config = new MapperConfiguration(cfg =>
-                                 cfg.CreateMap<GetActiveSupplier_Result, GetInvoiceByDate_Result>());
+                                 cfg.CreateMap<GetActiveSupplierInfo_Result, GetInvoicesByMonth_Result>());
 
                 var mapper = config.CreateMapper();
                 if (HeaderList.Count == 0)
@@ -40,7 +44,7 @@ namespace GiellyGreenApi.Controllers
                     InvoicesList.Clear();
                     foreach (var supplier in ActiveSupplier)
                     { 
-                        var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
+                        var ObjInvoiceMapper = mapper.Map<GetInvoicesByMonth_Result>(supplier);
                         InvoicesList.Add(ObjInvoiceMapper);
                     }
                     ObjResponse = JsonResponseHelper.JsonResponseMessage(1, "Total " + InvoicesList.Count + " records found.", new { HeaderList, InvoicesList });
@@ -53,7 +57,7 @@ namespace GiellyGreenApi.Controllers
                         {
                             if(InvoicesList.Where(x=>x.SupplierId == supplier.SupplierId).FirstOrDefault() == null)
                             {
-                                var ObjInvoiceMapper = mapper.Map<GetInvoiceByDate_Result>(supplier);
+                                var ObjInvoiceMapper = mapper.Map<GetInvoicesByMonth_Result>(supplier);
                                 InvoicesList.Add(ObjInvoiceMapper);
                             }
                         }
@@ -82,7 +86,7 @@ namespace GiellyGreenApi.Controllers
                 {
                     foreach (var Item in ListOfSupplierInvoice)
                     {
-                        Item.MonthHeaderId = MonthHeaderId;                        
+                        Item.MonthHeaderId = MonthHeaderId;
                         var config = new MapperConfiguration(cfg =>
                                   cfg.CreateMap<InvoiceViewModel, Invoice>());
 
